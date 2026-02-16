@@ -2,11 +2,22 @@ from sqlalchemy import create_engine, MetaData
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from app.core.config import settings
+import os
 
-# Create engine
+# Create engine with appropriate config for serverless
+connect_args = {"check_same_thread": False} if "sqlite" in settings.DATABASE_URL else {}
+
+# For Vercel serverless, ensure database directory exists
+if "sqlite" in settings.DATABASE_URL and os.getenv("VERCEL"):
+    db_path = settings.DATABASE_URL.replace("sqlite:///", "")
+    db_dir = os.path.dirname(db_path) if "/" in db_path else "/tmp"
+    if db_dir and not os.path.exists(db_dir):
+        os.makedirs(db_dir, exist_ok=True)
+
 engine = create_engine(
     settings.DATABASE_URL,
-    connect_args={"check_same_thread": False} if "sqlite" in settings.DATABASE_URL else {}
+    connect_args=connect_args,
+    pool_pre_ping=True  # Ensure connections are valid
 )
 
 # Create session
