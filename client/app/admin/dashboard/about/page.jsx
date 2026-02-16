@@ -14,7 +14,7 @@ const AboutManagement = () => {
     description: '',
     mission: '',
     vision: '',
-    values: '',
+    values: [],
     team_title: '',
     team_description: '',
     images: []
@@ -39,7 +39,7 @@ const AboutManagement = () => {
           description: about.description || '',
           mission: about.mission || '',
           vision: about.vision || '',
-          values: about.values || '',
+          values: Array.isArray(about.values) ? about.values : [],
           team_title: about.team_title || '',
           team_description: about.team_description || '',
           images: about.images || []
@@ -76,7 +76,7 @@ const AboutManagement = () => {
       formDataToSend.append('description', formData.description)
       formDataToSend.append('mission', formData.mission || '')
       formDataToSend.append('vision', formData.vision || '')
-      formDataToSend.append('values', formData.values || '')
+      formDataToSend.append('values', JSON.stringify(formData.values))
       formDataToSend.append('team_title', formData.team_title || '')
       formDataToSend.append('team_description', formData.team_description || '')
       
@@ -195,14 +195,65 @@ const AboutManagement = () => {
 
             {/* Values */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Our Values (comma-separated)</label>
-              <textarea
-                value={formData.values}
-                onChange={(e) => setFormData({ ...formData, values: e.target.value })}
-                rows="2"
-                placeholder="Innovation, Quality, Integrity, Customer Focus"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-              />
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Our Values</label>
+              <div className="space-y-4">
+                {formData.values.map((value, index) => (
+                  <div key={index} className="border border-gray-300 rounded-lg p-4 relative">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newValues = formData.values.filter((_, i) => i !== index)
+                        setFormData({ ...formData, values: newValues })
+                      }}
+                      className="absolute top-2 right-2 text-red-600 hover:text-red-800 font-bold"
+                    >
+                      ✕
+                    </button>
+                    <div className="space-y-3">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1">Value Title</label>
+                        <input
+                          type="text"
+                          value={value.title || ''}
+                          onChange={(e) => {
+                            const newValues = [...formData.values]
+                            newValues[index] = { ...newValues[index], title: e.target.value }
+                            setFormData({ ...formData, values: newValues })
+                          }}
+                          placeholder="e.g., Innovation"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1">Value Description</label>
+                        <textarea
+                          value={value.description || ''}
+                          onChange={(e) => {
+                            const newValues = [...formData.values]
+                            newValues[index] = { ...newValues[index], description: e.target.value }
+                            setFormData({ ...formData, values: newValues })
+                          }}
+                          rows="2"
+                          placeholder="Describe this value..."
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFormData({ 
+                      ...formData, 
+                      values: [...formData.values, { title: '', description: '' }] 
+                    })
+                  }}
+                  className="w-full px-4 py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors"
+                >
+                  + Add Value
+                </button>
+              </div>
             </div>
 
             {/* Team Section */}

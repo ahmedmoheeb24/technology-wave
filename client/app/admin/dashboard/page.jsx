@@ -246,6 +246,14 @@ const AdminDashboard = () => {
             </div>
           </Link>
 
+          <Link href="/admin/dashboard/about">
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all cursor-pointer border-2 border-transparent hover:border-indigo-500">
+              <div className="text-5xl mb-4">ℹ️</div>
+              <h2 className="text-2xl font-bold mb-2">About Page</h2>
+              <p className="text-gray-600">Manage about us content</p>
+            </div>
+          </Link>
+
           <Link href="/admin/dashboard/orders">
             <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all cursor-pointer border-2 border-transparent hover:border-orange-500">
               <div className="text-5xl mb-4">🛒</div>

@@ -3,7 +3,7 @@
 import { workData, assets } from "@/assets/assets";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 const WorkPage = () => {
   return (

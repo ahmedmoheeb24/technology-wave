@@ -3,7 +3,7 @@ import { serviceData, assets } from '@/assets/assets'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useParams, notFound } from 'next/navigation'
-import { motion } from "motion/react"
+import { motion } from "framer-motion"
 import { useState, useEffect } from 'react'
 
 const ServiceDetailPage = () => {

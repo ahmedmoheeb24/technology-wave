@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React, { use } from 'react'
-import { motion } from 'motion/react'
+import { motion } from 'framer-motion'
 
 export default function ProjectDetail({ params }) {
     // Unwrapping params for Next.js 15

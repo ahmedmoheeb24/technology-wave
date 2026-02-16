@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings
 from typing import Optional
+import os
 
 class Settings(BaseSettings):
     # App Settings
@@ -18,11 +19,11 @@ class Settings(BaseSettings):
     ADMIN_USERNAME: str = "admin"
     ADMIN_PASSWORD: str = "admin123"
     
-    # CORS
-    ALLOWED_ORIGINS: str = "http://localhost:3000"
+    # CORS - Support multiple origins for production and development
+    ALLOWED_ORIGINS: str = "http://localhost:3000,http://localhost:3001"
     
-    # File Upload
-    UPLOAD_DIR: str = "./uploads"
+    # File Upload - Use /tmp for Vercel serverless
+    UPLOAD_DIR: str = os.getenv("UPLOAD_DIR", "/tmp/uploads" if os.getenv("VERCEL") else "./uploads")
     MAX_FILE_SIZE: int = 5242880  # 5MB
     
     class Config:
