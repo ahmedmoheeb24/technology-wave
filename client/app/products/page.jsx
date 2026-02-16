@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Navbar from '../Components/Navbar'
 import Footer from '../Components/Footer'
 import { motion } from 'framer-motion'
+import api from '@/lib/api'
 import Image from 'next/image'
 
 const ProductsPage = () => {
@@ -12,12 +13,27 @@ const ProductsPage = () => {
   const categories = ['All', 'Electronics', 'Fashion', 'Home', 'Sports', 'Accessories', 'Travel', 'Wearables']
 
   useEffect(() => {
-    // Load products from admin panel or use default products
-    const adminProducts = localStorage.getItem('adminProducts')
-    if (adminProducts) {
-      setAllProducts(JSON.parse(adminProducts))
-    } else {
-      // Default products if no admin products exist
+    const loadProducts = async () => {
+      try {
+        const data = await api.getProducts()
+        if (data && data.length > 0) {
+          setAllProducts(data)
+          console.log('✅ Products loaded from API:', data.length)
+        } else {
+          setAllProducts([])
+          console.log('⚠️ No products found in database')
+        }
+      } catch (error) {
+        console.log('⚠️ API not available, showing empty list')
+        setAllProducts([])
+      }
+    }
+    loadProducts()
+  }, [])
+
+  // Old default products code removed
+  const oldDefaultProducts = () => {
+    if (false) {
       setAllProducts([
         {
           id: 1,
@@ -77,7 +93,7 @@ const ProductsPage = () => {
         },
       ])
     }
-  }, [])
+  }
 
   const filteredProducts = selectedCategory === 'All' 
     ? allProducts 

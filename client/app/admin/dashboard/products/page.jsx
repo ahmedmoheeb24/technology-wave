@@ -2,17 +2,22 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import api from '@/lib/api'
 
 const ProductsManagement = () => {
   const router = useRouter()
   const [products, setProducts] = useState([])
   const [showForm, setShowForm] = useState(false)
   const [editingProduct, setEditingProduct] = useState(null)
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     title: '',
     category: '',
     price: '',
-    image: ''
+    description: '',
+    features: '',
+    details: '',
+    image: null
   })
 
   useEffect(() => {
@@ -24,61 +29,98 @@ const ProductsManagement = () => {
     loadProducts()
   }, [router])
 
-  const loadProducts = () => {
-    const savedProducts = localStorage.getItem('adminProducts')
-    if (savedProducts) {
-      setProducts(JSON.parse(savedProducts))
+  const loadProducts = async () => {
+    try {
+      setLoading(true)
+      const data = await api.getProducts()
+      setProducts(data || [])
+      console.log('✅ Loaded products from API:', data?.length || 0)
+    } catch (error) {
+      console.error('❌ Error loading products:', error)
+      console.log('⚠️ Using empty product list (backend may not be running)')
+    } finally {
+      setLoading(false)
     }
   }
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0]
     if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setFormData({ ...formData, image: reader.result })
-      }
-      reader.readAsDataURL(file)
+      setFormData({ ...formData, image: file })
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     
-    let updatedProducts
-    if (editingProduct) {
-      updatedProducts = products.map(p => 
-        p.id === editingProduct.id ? { ...formData, id: p.id } : p
-      )
-    } else {
-      const newProduct = {
-        ...formData,
-        id: Date.now()
+    try {
+      setLoading(true)
+      const formDataToSend = new FormData()
+      
+      formDataToSend.append('title', formData.title)
+      formDataToSend.append('category', formData.category)
+      formDataToSend.append('price', parseFloat(formData.price))
+      formDataToSend.append('description', formData.description || '')
+      formDataToSend.append('features', formData.features || '')
+      formDataToSend.append('details', formData.details || '')
+      
+      if (formData.image) {
+        formDataToSend.append('image', formData.image)
       }
-      updatedProducts = [...products, newProduct]
+      
+      if (editingProduct) {
+        await api.updateProduct(editingProduct.id, formDataToSend)
+        console.log('✅ Product updated')
+      } else {
+        await api.createProduct(formDataToSend)
+        console.log('✅ Product created')
+      }
+      
+      await loadProducts()
+      resetForm()
+      alert(editingProduct ? 'Product updated successfully!' : 'Product created successfully!')
+    } catch (error) {
+      console.error('❌ Error saving product:', error)
+      console.error('Error details:', error.message, error.stack)
+      alert(`Error saving product: ${error.message || 'Unknown error'}. Make sure the backend is running and you are logged in.`)
+    } finally {
+      setLoading(false)
     }
-
-    localStorage.setItem('adminProducts', JSON.stringify(updatedProducts))
-    setProducts(updatedProducts)
-    resetForm()
   }
 
   const handleEdit = (product) => {
     setEditingProduct(product)
-    setFormData(product)
+    setFormData({
+      title: product.title,
+      category: product.category,
+      price: product.price,
+      description: product.description || '',
+      features: product.features || '',
+      details: product.details || '',
+      image: null
+    })
     setShowForm(true)
   }
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (confirm('Are you sure you want to delete this product?')) {
-      const updatedProducts = products.filter(p => p.id !== id)
-      localStorage.setItem('adminProducts', JSON.stringify(updatedProducts))
-      setProducts(updatedProducts)
+      try {
+        setLoading(true)
+        await api.deleteProduct(id)
+        console.log('✅ Product deleted')
+        await loadProducts()
+        alert('Product deleted successfully!')
+      } catch (error) {
+        console.error('❌ Error deleting product:', error)
+        alert('Error deleting product. Make sure the backend is running and you are logged in.')
+      } finally {
+        setLoading(false)
+      }
     }
   }
 
   const resetForm = () => {
-    setFormData({ title: '', category: '', price: '', image: '' })
+    setFormData({ title: '', category: '', price: '', description: '', features: '', details: '', image: null })
     setEditingProduct(null)
     setShowForm(false)
   }
@@ -87,22 +129,23 @@ const ProductsManagement = () => {
     <div className="min-h-screen bg-gray-100">
       <header className="bg-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/admin/dashboard" className="text-blue-600 hover:text-blue-700">
-              ← Back to Dashboard
-            </Link>
-            <h1 className="text-2xl font-bold text-gray-900">Manage Products</h1>
-          </div>
-          <button
-            onClick={() => setShowForm(!showForm)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            {showForm ? 'Cancel' : '+ Add Product'}
-          </button>
+          <h1 className="text-2xl font-bold text-gray-900">Products Management</h1>
+          <Link href="/admin/dashboard" className="text-blue-600 hover:text-blue-700 font-semibold">
+            ← Back to Dashboard
+          </Link>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-6">
+          <button
+            onClick={() => setShowForm(!showForm)}
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+          >
+            {showForm ? 'Cancel' : '+ Add Product'}
+          </button>
+        </div>
+
         {showForm && (
           <div className="bg-white rounded-lg shadow-md p-6 mb-8">
             <h2 className="text-xl font-bold mb-4">{editingProduct ? 'Edit Product' : 'Add New Product'}</h2>
@@ -128,23 +171,21 @@ const ProductsManagement = () => {
                     required
                   >
                     <option value="">Select Category</option>
-                    <option value="Electronics">Electronics</option>
-                    <option value="Fashion">Fashion</option>
-                    <option value="Home">Home</option>
-                    <option value="Sports">Sports</option>
-                    <option value="Accessories">Accessories</option>
-                    <option value="Travel">Travel</option>
-                    <option value="Wearables">Wearables</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="fashion">Fashion</option>
+                    <option value="accessories">Accessories</option>
+                    <option value="home">Home & Living</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Price</label>
                   <input
-                    type="text"
+                    type="number"
+                    step="0.01"
                     value={formData.price}
                     onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                    placeholder="$99"
+                    placeholder="99.99"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                     required
                   />
@@ -161,19 +202,53 @@ const ProductsManagement = () => {
                 </div>
               </div>
 
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Description (Short Summary)</label>
+                <textarea
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  placeholder="Brief product description..."
+                  rows="3"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Features (Comma-separated)</label>
+                <textarea
+                  value={formData.features}
+                  onChange={(e) => setFormData({ ...formData, features: e.target.value })}
+                  placeholder="Feature 1, Feature 2, Feature 3"
+                  rows="2"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Detailed Description</label>
+                <textarea
+                  value={formData.details}
+                  onChange={(e) => setFormData({ ...formData, details: e.target.value })}
+                  placeholder="Full product specifications and details..."
+                  rows="5"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+              </div>
+
               {formData.image && (
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Image Preview</label>
-                  <img src={formData.image} alt="Preview" className="w-32 h-32 object-cover rounded-lg" />
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Image Selected</label>
+                  <p className="text-sm text-gray-600">📷 {formData.image.name}</p>
                 </div>
               )}
 
               <div className="flex gap-4">
                 <button
                   type="submit"
-                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  disabled={loading}
+                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400"
                 >
-                  {editingProduct ? 'Update Product' : 'Add Product'}
+                  {loading ? 'Saving...' : (editingProduct ? 'Update Product' : 'Add Product')}
                 </button>
                 <button
                   type="button"
@@ -190,7 +265,9 @@ const ProductsManagement = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-bold mb-4">All Products ({products.length})</h2>
           
-          {products.length === 0 ? (
+          {loading ? (
+            <p className="text-center py-8 text-gray-500">Loading products...</p>
+          ) : products.length === 0 ? (
             <p className="text-gray-500 text-center py-8">No products yet. Add your first product!</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -198,13 +275,18 @@ const ProductsManagement = () => {
                 <div key={product.id} className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
                   <div className="h-48 bg-gray-200">
                     {product.image && (
-                      <img src={product.image} alt={product.title} className="w-full h-full object-cover" />
+                      <img 
+                        src={product.image.startsWith('http') ? product.image : `http://localhost:8000/uploads${product.image}`}
+                        alt={product.title} 
+                        className="w-full h-full object-cover" 
+                      />
                     )}
                   </div>
                   <div className="p-4">
                     <p className="text-xs text-blue-600 font-semibold mb-1">{product.category}</p>
                     <h3 className="font-bold text-lg mb-2">{product.title}</h3>
-                    <p className="text-2xl font-bold text-blue-600 mb-3">{product.price}</p>
+                    <p className="text-2xl font-bold text-blue-600 mb-3">${product.price}</p>
+                    {product.slug && <p className="text-xs text-gray-500 mb-2">Slug: {product.slug}</p>}
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleEdit(product)}

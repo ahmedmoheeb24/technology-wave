@@ -6,7 +6,7 @@ import os
 
 from app.core.config import settings
 from app.core.database import init_db
-from app.api import auth, products, services, hero_banners, about
+from app.api import auth, products, services, hero_banners, about, orders
 
 # Create uploads directory if it doesn't exist
 os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
@@ -43,6 +43,7 @@ app.include_router(products.router, prefix="/api/products", tags=["Products"])
 app.include_router(services.router, prefix="/api/services", tags=["Services"])
 app.include_router(hero_banners.router, prefix="/api/hero-banners", tags=["Hero Banners"])
 app.include_router(about.router, prefix="/api/about", tags=["About"])
+app.include_router(orders.router, prefix="/api/orders", tags=["Orders"])
 
 @app.get("/")
 async def root():

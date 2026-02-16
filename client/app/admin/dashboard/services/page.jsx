@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import api from '@/lib/api'
 
 const ServicesManagement = () => {
   const router = useRouter()
@@ -11,8 +12,10 @@ const ServicesManagement = () => {
   const [formData, setFormData] = useState({
     icon: '',
     title: '',
-    description: ''
+    description: '',
+    features: ''
   })
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem('adminLoggedIn')
@@ -23,32 +26,44 @@ const ServicesManagement = () => {
     loadServices()
   }, [router])
 
-  const loadServices = () => {
-    const savedServices = localStorage.getItem('adminServices')
-    if (savedServices) {
-      setServices(JSON.parse(savedServices))
+  const loadServices = async () => {
+    try {
+      setLoading(true)
+      const data = await api.getServices()
+      setServices(data || [])
+      console.log('✅ Loaded services from API:', data?.length || 0)
+    } catch (error) {
+      console.error('❌ Error loading services:', error)
+      alert('Error loading services. Make sure the backend is running.')
+    } finally {
+      setLoading(false)
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     
-    let updatedServices
-    if (editingService) {
-      updatedServices = services.map(s => 
-        s.id === editingService.id ? { ...formData, id: s.id } : s
-      )
-    } else {
-      const newService = {
-        ...formData,
-        id: Date.now()
+    try {
+      setLoading(true)
+      if (editingService) {
+        // Update existing service
+        await api.updateService(editingService.id, formData)
+        console.log('✅ Service updated')
+      } else {
+        // Create new service
+        await api.createService(formData)
+        console.log('✅ Service created')
       }
-      updatedServices = [...services, newService]
+      
+      await loadServices() // Reload services from API
+      resetForm()
+      alert(editingService ? 'Service updated successfully!' : 'Service created successfully!')
+    } catch (error) {
+      console.error('❌ Error saving service:', error)
+      alert('Error saving service. Make sure the backend is running and you are logged in.')
+    } finally {
+      setLoading(false)
     }
-
-    localStorage.setItem('adminServices', JSON.stringify(updatedServices))
-    setServices(updatedServices)
-    resetForm()
   }
 
   const handleEdit = (service) => {
@@ -57,16 +72,25 @@ const ServicesManagement = () => {
     setShowForm(true)
   }
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (confirm('Are you sure you want to delete this service?')) {
-      const updatedServices = services.filter(s => s.id !== id)
-      localStorage.setItem('adminServices', JSON.stringify(updatedServices))
-      setServices(updatedServices)
+      try {
+        setLoading(true)
+        await api.deleteService(id)
+        console.log('✅ Service deleted')
+        await loadServices() // Reload services from API
+        alert('Service deleted successfully!')
+      } catch (error) {
+        console.error('❌ Error deleting service:', error)
+        alert('Error deleting service. Make sure the backend is running and you are logged in.')
+      } finally {
+        setLoading(false)
+      }
     }
   }
 
   const resetForm = () => {
-    setFormData({ icon: '', title: '', description: '' })
+    setFormData({ icon: '', title: '', description: '', features: '' })
     setEditingService(null)
     setShowForm(false)
   }
@@ -134,12 +158,25 @@ const ServicesManagement = () => {
                 />
               </div>
 
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Features (comma-separated)</label>
+                <textarea
+                  value={formData.features}
+                  onChange={(e) => setFormData({ ...formData, features: e.target.value })}
+                  rows="3"
+                  placeholder="Feature 1, Feature 2, Feature 3, Feature 4"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+                <p className="text-xs text-gray-500 mt-1">Enter features separated by commas (e.g., "User Research, Wireframing, Prototyping")</p>
+              </div>
+
               <div className="flex gap-4">
                 <button
                   type="submit"
-                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  disabled={loading}
+                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
-                  {editingService ? 'Update Service' : 'Add Service'}
+                  {loading ? 'Saving...' : (editingService ? 'Update Service' : 'Add Service')}
                 </button>
                 <button
                   type="button"
@@ -156,7 +193,9 @@ const ServicesManagement = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-bold mb-4">All Services ({services.length})</h2>
           
-          {services.length === 0 ? (
+          {loading ? (
+            <p className="text-blue-600 text-center py-8">Loading services...</p>
+          ) : services.length === 0 ? (
             <p className="text-gray-500 text-center py-8">No services yet. Add your first service!</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -164,7 +203,13 @@ const ServicesManagement = () => {
                 <div key={service.id} className="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
                   <div className="text-5xl mb-4">{service.icon}</div>
                   <h3 className="text-xl font-bold mb-2">{service.title}</h3>
-                  <p className="text-gray-600 text-sm mb-4">{service.description}</p>
+                  <p className="text-gray-600 text-sm mb-2">{service.description}</p>
+                  {service.features && (
+                    <div className="mb-4">
+                      <p className="text-xs font-semibold text-gray-700 mb-1">Features:</p>
+                      <p className="text-xs text-blue-600">{service.features}</p>
+                    </div>
+                  )}
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleEdit(service)}

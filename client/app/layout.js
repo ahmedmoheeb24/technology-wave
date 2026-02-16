@@ -23,9 +23,11 @@ export const viewport = {
   initialScale: 1,
 };
 
+import { Providers } from './providers'
+
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" data-scroll-behavior="smooth">
       <head>
         <link rel="icon" href="/next.svg" />
       </head>
@@ -33,7 +35,9 @@ export default function RootLayout({ children }) {
         className={`${outfit.variable} ${ovo.variable} font-outfit antialiased 
         leading-8 overflow-x-hidden bg-white text-black`}
       >
-        {children}
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );

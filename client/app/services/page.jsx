@@ -3,18 +3,37 @@ import React, { useState, useEffect } from 'react'
 import Navbar from '../Components/Navbar'
 import Footer from '../Components/Footer'
 import { motion } from 'framer-motion'
+import api from '@/lib/api'
 
 const ServicesPage = () => {
   const [servicesData, setServicesData] = useState([])
 
   useEffect(() => {
-    // Load services from admin or use default
-    const adminServices = localStorage.getItem('adminServices')
-    if (adminServices) {
-      setServicesData(JSON.parse(adminServices))
-    } else {
-      setServicesData(defaultServices)
+    const loadServices = async () => {
+      try {
+        const data = await api.getServices()
+        if (data && data.length > 0) {
+          // Map API services to component format
+          const mappedServices = data.map(service => ({
+            id: service.id,
+            icon: service.icon || '⚡',
+            title: service.title || service.name,
+            description: service.description || '',
+            details: service.details || service.description || ''
+          }))
+          setServicesData(mappedServices)
+          console.log('✅ Services loaded from API:', mappedServices.length)
+        } else {
+          // Don't show defaults if API returns empty array
+          setServicesData([])
+          console.log('⚠️ No services found in database')
+        }
+      } catch (error) {
+        console.log('⚠️ API not available, using default services')
+        setServicesData(defaultServices)
+      }
     }
+    loadServices()
   }, [])
 
   const defaultServices = [

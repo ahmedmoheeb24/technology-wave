@@ -31,15 +31,38 @@ async def get_product(product_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Product not found")
     return product
 
+@router.get("/slug/{slug}", response_model=ProductResponse)
+async def get_product_by_slug(slug: str, db: Session = Depends(get_db)):
+    product = db.query(Product).filter(Product.slug == slug).first()
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    return product
+
 @router.post("/", response_model=ProductResponse)
 async def create_product(
     title: str = Form(...),
     category: str = Form(...),
-    price: str = Form(...),
+    price: float = Form(...),
+    description: Optional[str] = Form(None),
+    features: Optional[str] = Form(None),
+    details: Optional[str] = Form(None),
+    in_stock: bool = Form(True),
+    featured: bool = Form(False),
     image: Optional[UploadFile] = File(None),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_admin_user)
 ):
+    # Generate slug from title
+    import re
+    slug = re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
+    
+    # Ensure slug is unique
+    base_slug = slug
+    counter = 1
+    while db.query(Product).filter(Product.slug == slug).first():
+        slug = f"{base_slug}-{counter}"
+        counter += 1
+    
     # Save image if provided
     image_path = None
     if image:
@@ -47,8 +70,14 @@ async def create_product(
     
     product = Product(
         title=title,
+        slug=slug,
         category=category,
         price=price,
+        description=description,
+        features=features,
+        details=details,
+        in_stock=in_stock,
+        featured=featured,
         image=image_path
     )
     db.add(product)

@@ -2,136 +2,299 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import api from '@/lib/api'
 
 const AboutManagement = () => {
   const router = useRouter()
-  const [aboutImage, setAboutImage] = useState('')
-  const [previewImage, setPreviewImage] = useState('')
+  const [aboutData, setAboutData] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [formData, setFormData] = useState({
+    title: '',
+    subtitle: '',
+    description: '',
+    mission: '',
+    vision: '',
+    values: '',
+    team_title: '',
+    team_description: '',
+    images: []
+  })
+  const [imageFiles, setImageFiles] = useState([])
+  const [previewImages, setPreviewImages] = useState([])
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem('adminLoggedIn')
-    if (isLoggedIn !== 'true') {
-      router.push('/admin')
-      return
-    }
-    loadAboutImage()
-  }, [router])
+    loadAboutData()
+  }, [])
 
-  const loadAboutImage = () => {
-    const savedImage = localStorage.getItem('adminAboutImage')
-    if (savedImage) {
-      setAboutImage(savedImage)
-      setPreviewImage(savedImage)
-    }
-  }
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setPreviewImage(reader.result)
+  const loadAboutData = async () => {
+    try {
+      setLoading(true)
+      const data = await api.getAbout()
+      if (data && data.length > 0) {
+        const about = data[0] // Get first about entry
+        setAboutData(about)
+        setFormData({
+          title: about.title || '',
+          subtitle: about.subtitle || '',
+          description: about.description || '',
+          mission: about.mission || '',
+          vision: about.vision || '',
+          values: about.values || '',
+          team_title: about.team_title || '',
+          team_description: about.team_description || '',
+          images: about.images || []
+        })
       }
-      reader.readAsDataURL(file)
+      console.log('✅ About data loaded')
+    } catch (error) {
+      console.error('❌ Error loading about data:', error)
+      console.log('⚠️ Using empty form (backend may not be running)')
+    } finally {
+      setLoading(false)
     }
   }
 
-  const handleSave = () => {
-    localStorage.setItem('adminAboutImage', previewImage)
-    setAboutImage(previewImage)
-    alert('About section image updated successfully!')
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files)
+    setImageFiles(files)
+    
+    // Create preview URLs
+    const previews = files.map(file => URL.createObjectURL(file))
+    setPreviewImages(previews)
   }
 
-  const handleRemove = () => {
-    if (confirm('Are you sure you want to remove the about image?')) {
-      localStorage.removeItem('adminAboutImage')
-      setAboutImage('')
-      setPreviewImage('')
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    
+    try {
+      setLoading(true)
+      const formDataToSend = new FormData()
+      
+      // Append text fields
+      formDataToSend.append('title', formData.title)
+      formDataToSend.append('subtitle', formData.subtitle || '')
+      formDataToSend.append('description', formData.description)
+      formDataToSend.append('mission', formData.mission || '')
+      formDataToSend.append('vision', formData.vision || '')
+      formDataToSend.append('values', formData.values || '')
+      formDataToSend.append('team_title', formData.team_title || '')
+      formDataToSend.append('team_description', formData.team_description || '')
+      
+      // Append image files
+      imageFiles.forEach((file) => {
+        formDataToSend.append('images', file)
+      })
+      
+      if (aboutData) {
+        await api.updateAbout(aboutData.id, formDataToSend)
+        console.log('✅ About data updated')
+        alert('About section updated successfully!')
+      } else {
+        await api.createAbout(formDataToSend)
+        console.log('✅ About data created')
+        alert('About section created successfully!')
+      }
+      
+      await loadAboutData()
+      setImageFiles([])
+      setPreviewImages([])
+    } catch (error) {
+      console.error('❌ Error saving about data:', error)
+      alert(`Error saving: ${error.message}. Make sure backend is running and you are logged in.`)
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-white shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/admin/dashboard" className="text-blue-600 hover:text-blue-700">
-              ← Back to Dashboard
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-black text-gray-900">About Page Management</h1>
+              <p className="text-gray-600 mt-1">Manage your About Us page content and images</p>
+            </div>
+            <Link href="/admin/dashboard">
+              <button className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
+                ← Back to Dashboard
+              </button>
             </Link>
-            <h1 className="text-2xl font-bold text-gray-900">About Section Image</h1>
           </div>
         </div>
-      </header>
+      </div>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Form */}
+      <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-bold mb-6">Upload About Section Image</h2>
+          <h2 className="text-xl font-bold mb-6">About Us Content</h2>
           
-          <div className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Title */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Choose Image
-              </label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Main Title</label>
               <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
+                type="text"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                placeholder="About Technology Wave"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                required
               />
-              <p className="text-sm text-gray-500 mt-2">
-                This image will be displayed on the About page. Recommended size: 800x600px
-              </p>
             </div>
 
-            {previewImage && (
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Preview
-                </label>
-                <div className="border border-gray-300 rounded-lg overflow-hidden">
-                  <img 
-                    src={previewImage} 
-                    alt="About section preview" 
-                    className="w-full h-96 object-cover"
+            {/* Subtitle */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Subtitle</label>
+              <input
+                type="text"
+                value={formData.subtitle}
+                onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
+                placeholder="Your Trusted Technology Partner"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+            </div>
+
+            {/* Description */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+              <textarea
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                rows="4"
+                placeholder="Tell your story..."
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                required
+              />
+            </div>
+
+            {/* Mission */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Our Mission</label>
+              <textarea
+                value={formData.mission}
+                onChange={(e) => setFormData({ ...formData, mission: e.target.value })}
+                rows="3"
+                placeholder="Our mission is to..."
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+            </div>
+
+            {/* Vision */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Our Vision</label>
+              <textarea
+                value={formData.vision}
+                onChange={(e) => setFormData({ ...formData, vision: e.target.value })}
+                rows="3"
+                placeholder="Our vision is to..."
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+            </div>
+
+            {/* Values */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Our Values (comma-separated)</label>
+              <textarea
+                value={formData.values}
+                onChange={(e) => setFormData({ ...formData, values: e.target.value })}
+                rows="2"
+                placeholder="Innovation, Quality, Integrity, Customer Focus"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+            </div>
+
+            {/* Team Section */}
+            <div className="border-t pt-6">
+              <h3 className="text-lg font-bold mb-4">Team Section</h3>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Team Title</label>
+                  <input
+                    type="text"
+                    value={formData.team_title}
+                    onChange={(e) => setFormData({ ...formData, team_title: e.target.value })}
+                    placeholder="Meet Our Team"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Team Description</label>
+                  <textarea
+                    value={formData.team_description}
+                    onChange={(e) => setFormData({ ...formData, team_description: e.target.value })}
+                    rows="3"
+                    placeholder="Our talented team of professionals..."
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                   />
                 </div>
               </div>
-            )}
+            </div>
 
-            <div className="flex gap-4">
-              <button
-                onClick={handleSave}
-                disabled={!previewImage}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
-              >
-                Save Image
-              </button>
+            {/* Images */}
+            <div className="border-t pt-6">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">About Page Images</label>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleImageChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+              <p className="text-xs text-gray-500 mt-1">Upload multiple images for your About page (team photos, office, etc.)</p>
               
-              {aboutImage && (
-                <button
-                  onClick={handleRemove}
-                  className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-                >
-                  Remove Image
-                </button>
+              {/* Image Previews */}
+              {previewImages.length > 0 && (
+                <div className="mt-4">
+                  <p className="text-sm font-semibold text-gray-700 mb-2">New Images to Upload:</p>
+                  <div className="grid grid-cols-3 gap-4">
+                    {previewImages.map((preview, index) => (
+                      <img
+                        key={index}
+                        src={preview}
+                        alt={`Preview ${index + 1}`}
+                        className="w-full h-32 object-cover rounded-lg border"
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Existing Images */}
+              {formData.images && formData.images.length > 0 && (
+                <div className="mt-4">
+                  <p className="text-sm font-semibold text-gray-700 mb-2">Current Images:</p>
+                  <div className="grid grid-cols-3 gap-4">
+                    {formData.images.map((image, index) => (
+                      <div key={index} className="relative">
+                        <img
+                          src={api.getImageUrl(image)}
+                          alt={`About ${index + 1}`}
+                          className="w-full h-32 object-cover rounded-lg border"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
-          </div>
-        </div>
 
-        {aboutImage && (
-          <div className="bg-white rounded-lg shadow-md p-6 mt-6">
-            <h2 className="text-xl font-bold mb-4">Current About Image</h2>
-            <div className="border border-gray-300 rounded-lg overflow-hidden">
-              <img 
-                src={aboutImage} 
-                alt="Current about section" 
-                className="w-full h-96 object-cover"
-              />
+            {/* Submit Button */}
+            <div className="flex gap-4 pt-4">
+              <button
+                type="submit"
+                disabled={loading}
+                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+              >
+                {loading ? 'Saving...' : (aboutData ? 'Update About Page' : 'Create About Page')}
+              </button>
             </div>
-          </div>
-        )}
-      </main>
+          </form>
+        </div>
+      </div>
     </div>
   )
 }

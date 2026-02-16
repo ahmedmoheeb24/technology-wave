@@ -62,21 +62,21 @@ const Contact = () => {
               viewport={{ once: true }}
               className='space-y-6'
             >
-              <div className='bg-white dark:bg-darkHover p-6 rounded-2xl border border-gray-200 dark:border-gray-600 hover:shadow-lg transition-all duration-300'>
+              <div className='bg-white/90 backdrop-blur-sm p-6 rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl hover:bg-white transition-all duration-300 hover:border-blue-300'>
                 <div className='flex items-start gap-4'>
-                  <div className='bg-purple-100 dark:bg-purple-900/30 p-3 rounded-full'>
-                    <svg className='w-6 h-6 text-purple-600 dark:text-purple-400' fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className='bg-blue-100 p-3 rounded-full'>
+                    <svg className='w-6 h-6 text-blue-600' fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                   </div>
                   <div>
                     <h3 className='font-bold text-lg mb-1'>Email Us</h3>
-                    <p className='text-gray-600'>support@yourstore.com</p>
+                    <a href="mailto:info@technology-wave.com" className='text-gray-600 hover:text-blue-600'>info@technology-wave.com</a>
                   </div>
                 </div>
               </div>
 
-              <div className='bg-white p-6 rounded-2xl border border-gray-200 hover:shadow-lg transition-all duration-300 hover:border-blue-300'>
+              <div className='bg-white/90 backdrop-blur-sm p-6 rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl hover:bg-white transition-all duration-300 hover:border-blue-300'>
                 <div className='flex items-start gap-4'>
                   <div className='bg-blue-100 p-3 rounded-full'>
                     <svg className='w-6 h-6 text-blue-600' fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -85,21 +85,22 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className='font-bold text-lg mb-1'>Call Us</h3>
-                    <p className='text-gray-600'>+1 (555) 123-4567</p>
+                    <a href="tel:+447488321411" className='text-gray-600 hover:text-blue-600'>+44 7488 321411</a>
                   </div>
                 </div>
               </div>
 
-              <div className='bg-white p-6 rounded-2xl border border-gray-200 hover:shadow-lg transition-all duration-300 hover:border-blue-300'>
+              <div className='bg-white/90 backdrop-blur-sm p-6 rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl hover:bg-white transition-all duration-300 hover:border-blue-300'>
                 <div className='flex items-start gap-4'>
                   <div className='bg-blue-100 p-3 rounded-full'>
                     <svg className='w-6 h-6 text-blue-600' fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                   </div>
                   <div>
-                    <h3 className='font-bold text-lg mb-1'>Business Hours</h3>
-                    <p className='text-gray-600'>Mon - Fri: 9AM - 6PM</p>
+                    <h3 className='font-bold text-lg mb-1'>Visit Us</h3>
+                    <p className='text-gray-600'>53 Northfield Park<br/>UB3 4NU, London</p>
                   </div>
                 </div>
               </div>
@@ -112,7 +113,7 @@ const Contact = () => {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
-              className='bg-white p-8 rounded-2xl border border-gray-200 shadow-lg'
+              className='bg-white/90 backdrop-blur-sm p-8 rounded-2xl border border-gray-200 shadow-lg hover:bg-white transition-all duration-300'
             >  
               <div className='space-y-5'>
                 <div>

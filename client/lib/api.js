@@ -68,7 +68,12 @@ class APIClient {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.detail || 'API request failed');
+        // Better error handling for validation errors
+        const errorMsg = typeof data.detail === 'string' 
+          ? data.detail 
+          : JSON.stringify(data.detail || data);
+        console.error('API Error Response:', data);
+        throw new Error(errorMsg);
       }
 
       return data;
@@ -105,6 +110,10 @@ class APIClient {
 
   async getProduct(id) {
     return this.request(`/api/products/${id}`);
+  }
+
+  async getProductBySlug(slug) {
+    return this.request(`/api/products/slug/${slug}`);
   }
 
   async createProduct(formData) {
@@ -208,6 +217,61 @@ class APIClient {
     if (!path) return null;
     if (path.startsWith('http')) return path;
     return `${this.baseURL}/uploads${path}`;
+  }
+
+  // About endpoints
+  async getAbout() {
+    return this.request('/api/about/');
+  }
+
+  async createAbout(formData) {
+    return this.request('/api/about/', {
+      method: 'POST',
+      body: formData,
+      headers: {}, // Let browser set Content-Type for FormData
+    });
+  }
+
+  async updateAbout(id, formData) {
+    return this.request(`/api/about/${id}`, {
+      method: 'PUT',
+      body: formData,
+      headers: {}, // Let browser set Content-Type for FormData
+    });
+  }
+
+  // Orders endpoints
+  async createOrder(orderData) {
+    return this.request('/api/orders/', {
+      method: 'POST',
+      body: JSON.stringify(orderData),
+    });
+  }
+
+  async getOrders(status = null) {
+    const params = status ? `?status=${status}` : '';
+    return this.request(`/api/orders/${params}`);
+  }
+
+  async getOrder(orderId) {
+    return this.request(`/api/orders/${orderId}`);
+  }
+
+  async trackOrder(orderNumber) {
+    return this.request(`/api/orders/track/${orderNumber}`);
+  }
+
+  async updateOrder(orderId, updateData) {
+    return this.request(`/api/orders/${orderId}`, {
+      method: 'PUT',
+      body: JSON.stringify(updateData),
+    });
+  }
+
+  async deleteOrder(orderId) {
+    return this.request(`/api/orders/${orderId}`, {
+      method: 'DELETE',
+    });
   }
 }
 

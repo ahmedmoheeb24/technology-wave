@@ -4,8 +4,14 @@ from typing import Optional
 
 class ProductBase(BaseModel):
     title: str
+    slug: Optional[str] = None
     category: str
-    price: str
+    price: float
+    description: Optional[str] = None
+    features: Optional[str] = None
+    details: Optional[str] = None
+    in_stock: Optional[bool] = True
+    featured: Optional[bool] = False
 
 class ProductCreate(ProductBase):
     pass
