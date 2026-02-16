@@ -64,9 +64,20 @@ def create_app():
     
     return app
 
-# Create app instance and wrap with Mangum
-app = create_app()
+# Lazy-load app and handler to avoid import-time issues
+_app = None
+_handler = None
 
-# Import Mangum only after app is created
-from mangum import Mangum
-handler = Mangum(app, lifespan="off")
+def get_handler():
+    """Lazy initialization of the handler"""
+    global _app, _handler
+    if _handler is None:
+        _app = create_app()
+        from mangum import Mangum
+        _handler = Mangum(_app, lifespan="off")
+    return _handler
+
+# For Vercel, we need a callable or the handler instance
+# Try exposing both approaches
+app = lambda: get_handler()
+handler = lambda *args, **kwargs: get_handler()(*args, **kwargs)
