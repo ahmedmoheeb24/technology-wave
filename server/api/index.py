@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from contextlib import asynccontextmanager
+from mangum import Mangum
 import os
 
 from app.core.config import settings
@@ -8,21 +8,20 @@ from app.core.database import init_db
 from app.api import auth, products, services, hero_banners, about, orders
 
 # Create uploads directory if it doesn't exist
-os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Startup
-    await init_db()
-    yield
-    # Shutdown
-    pass
+try:
+    os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+except Exception:
+    pass  # Ignore errors in serverless environment
 
 app = FastAPI(
     title=settings.APP_NAME,
-    version="1.0.0",
-    lifespan=lifespan
+    version="1.0.0"
 )
+
+@app.on_event("startup")
+async def startup_event():
+    """Initialize database on startup"""
+    await init_db()
 
 # CORS Configuration
 app.add_middleware(
@@ -56,5 +55,5 @@ async def root():
 async def health_check():
     return {"status": "healthy"}
 
-# Vercel serverless function handler
-handler = app
+# Vercel serverless function handler using Mangum
+handler = Mangum(app, lifespan="off")
