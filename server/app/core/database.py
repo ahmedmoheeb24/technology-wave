@@ -4,20 +4,26 @@ from sqlalchemy.orm import sessionmaker
 from app.core.config import settings
 import os
 
-# Create engine with appropriate config for serverless
-connect_args = {"check_same_thread": False} if "sqlite" in settings.DATABASE_URL else {}
+# Create engine with appropriate config
+# SQLite needs check_same_thread=False, PostgreSQL doesn't need it
+connect_args = {}
+if "sqlite" in settings.DATABASE_URL:
+    connect_args = {"check_same_thread": False}
+    # For Vercel serverless with SQLite, ensure database directory exists
+    if os.getenv("VERCEL"):
+        db_path = settings.DATABASE_URL.replace("sqlite:///", "")
+        db_dir = os.path.dirname(db_path) if "/" in db_path else "/tmp"
+        if db_dir and not os.path.exists(db_dir):
+            os.makedirs(db_dir, exist_ok=True)
 
-# For Vercel serverless, ensure database directory exists
-if "sqlite" in settings.DATABASE_URL and os.getenv("VERCEL"):
-    db_path = settings.DATABASE_URL.replace("sqlite:///", "")
-    db_dir = os.path.dirname(db_path) if "/" in db_path else "/tmp"
-    if db_dir and not os.path.exists(db_dir):
-        os.makedirs(db_dir, exist_ok=True)
-
+# Create engine
 engine = create_engine(
     settings.DATABASE_URL,
     connect_args=connect_args,
-    pool_pre_ping=True  # Ensure connections are valid
+    pool_pre_ping=True,  # Ensure connections are valid
+    pool_recycle=300,  # Recycle connections every 5 minutes
+    pool_size=5,  # Connection pool size
+    max_overflow=10  # Max overflow connections
 )
 
 # Create session

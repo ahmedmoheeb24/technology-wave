@@ -12,12 +12,16 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
-    # Database - Use /tmp for Vercel serverless (ephemeral)
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "/tmp/store.db" if os.getenv("VERCEL") else "sqlite:///./store.db")
+    # Database - PostgreSQL (Neon) for production, SQLite for local development
+    DATABASE_URL: str = os.getenv(
+        "DATABASE_URL", 
+        "sqlite:///./store.db"  # Local development default
+    )
     
-    # Format DATABASE_URL for SQLite if needed
+    # Format DATABASE_URL if needed
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        # Handle various DATABASE_URL formats
         if not self.DATABASE_URL.startswith(("sqlite://", "postgresql://", "mysql://")):
             # If it's just a file path, add sqlite:/// prefix
             self.DATABASE_URL = f"sqlite:///{self.DATABASE_URL}"
