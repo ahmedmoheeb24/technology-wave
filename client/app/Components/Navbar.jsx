@@ -52,7 +52,8 @@ const Navbar = () => {
                         alt='Technology Wave Logo'
                         width={120}
                         height={40}
-                        className='h-10 w-auto'
+                        className='h-10'
+                        style={{ width: 'auto' }}
                         priority
                     />
                     <span className={`text-xl font-bold transition-colors ${isScroll ? 'text-gray-900' : 'text-white'}`}>
