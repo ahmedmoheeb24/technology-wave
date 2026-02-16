@@ -7,11 +7,10 @@ import { getHeroBanners, getAboutSection, getServices, getShopSection, getLatest
 
 export const metadata = {
   title: "Home - Technology Wave",
-  description: "Technology Wave offers premium aerospace services and parts. Your trusted partner for aircraft maintenance, repairs, and high-quality aviation components.",
+  description: "Technology Wave offers premium airplane parts and aviation services. Your trusted partner for aircraft maintenance, repairs, and certified aerospace components.",
 };
 
 export default async function Home() {
-  // Fetch all data in parallel
   const [heroBanners, about, services, shop, news] = await Promise.all([
     getHeroBanners(),
     getAboutSection(),
@@ -23,18 +22,18 @@ export default async function Home() {
   return (
     <main className="min-h-screen">
       <HeroBanner banners={heroBanners} />
-      <div className="bg-mesh-gradient">
+      <section className="bg-white">
         <AboutPreview about={about} />
-      </div>
-      <div className="bg-white">
+      </section>
+      <section className="bg-section-alt">
         <ServicesPreview services={services} />
-      </div>
-      <div className="bg-gradient-blue">
+      </section>
+      <section className="bg-gradient-blue">
         <ShopPreview shop={shop} />
-      </div>
-      <div className="bg-white bg-pattern-dots">
+      </section>
+      <section className="bg-section-blue-subtle">
         <LatestNews initialNews={news} />
-      </div>
+      </section>
     </main>
   );
 }

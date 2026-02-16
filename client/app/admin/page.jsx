@@ -12,24 +12,20 @@ export default function AdminLogin() {
   const router = useRouter();
 
   useEffect(() => {
-    // Check if already logged in
     const token = localStorage.getItem('admin_token');
-    if (token) {
-      router.push('/admin/dashboard');
-    }
+    if (token) router.push('/admin/dashboard');
   }, [router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
-
     try {
       const api = new AdminAPI('');
       const data = await api.login(username, password);
       localStorage.setItem('admin_token', data.access_token);
       router.push('/admin/dashboard');
-    } catch (err) {
+    } catch {
       setError('Invalid username or password');
     } finally {
       setLoading(false);
@@ -37,16 +33,17 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-slate-100">
+      <div className="absolute inset-0 bg-gradient-to-br from-[#1E40AF]/10 via-transparent to-[#2563EB]/10" />
+      <div className="relative w-full max-w-md bg-white rounded-3xl shadow-xl border border-slate-200 p-8">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Login</h1>
-          <p className="text-gray-600">Technology Wave Dashboard</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-1">Admin Login</h1>
+          <p className="text-slate-600 text-sm">Technology Wave Dashboard</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="username" className="block text-sm font-semibold text-gray-700 mb-2">
+            <label htmlFor="username" className="block text-sm font-semibold text-slate-700 mb-1.5">
               Username
             </label>
             <input
@@ -55,13 +52,12 @@ export default function AdminLogin() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0066CC] focus:border-transparent transition-all"
-              placeholder="Enter your username"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#2563EB]/30 focus:border-[#2563EB] outline-none transition-all"
+              placeholder="Enter username"
             />
           </div>
-
           <div>
-            <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
+            <label htmlFor="password" className="block text-sm font-semibold text-slate-700 mb-1.5">
               Password
             </label>
             <input
@@ -70,33 +66,27 @@ export default function AdminLogin() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0066CC] focus:border-transparent transition-all"
-              placeholder="Enter your password"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#2563EB]/30 focus:border-[#2563EB] outline-none transition-all"
+              placeholder="Enter password"
             />
           </div>
-
           {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg">
+            <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
               {error}
             </div>
           )}
-
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#0066CC] text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:bg-[#0052A3] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white py-3.5 rounded-xl font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-gray-600">
-          <p>Default credentials:</p>
-          <p className="font-mono bg-gray-100 px-3 py-2 rounded mt-2">
-            Username: admin<br />
-            Password: admin123
-          </p>
-        </div>
+        <p className="mt-6 text-center text-xs text-slate-500">
+          Default: admin / admin123
+        </p>
       </div>
     </div>
   );

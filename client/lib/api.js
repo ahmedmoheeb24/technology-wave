@@ -47,6 +47,41 @@ export async function getLatestNews(limit = 6, offset = 0) {
   return res.json();
 }
 
+// Auth utility for client-side auth operations
+export const authAPI = {
+  logout: () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.dispatchEvent(new Event('storage'));
+    }
+  },
+  getToken: () => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('token');
+    }
+    return null;
+  },
+  getUser: () => {
+    if (typeof window !== 'undefined') {
+      const userData = localStorage.getItem('user');
+      try {
+        return userData ? JSON.parse(userData) : null;
+      } catch {
+        return null;
+      }
+    }
+    return null;
+  },
+  setAuth: (token, user) => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      window.dispatchEvent(new Event('storage'));
+    }
+  }
+};
+
 // Admin API functions (client-side only)
 export class AdminAPI {
   constructor(token) {

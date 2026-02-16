@@ -1,97 +1,79 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { AdminAPI } from '@/lib/api';
 
+const inputClass = 'w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#2563EB]/30 focus:border-[#2563EB] outline-none transition-all';
+const btnPrimary = 'px-6 py-3 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold shadow-lg shadow-blue-500/25 transition-all hover:-translate-y-0.5 disabled:opacity-50';
+
 export default function ShopManager() {
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    image: null,
-  });
+  const [formData, setFormData] = useState({ title: '', description: '', image: null });
+  const [initialLoad, setInitialLoad] = useState(true);
   const router = useRouter();
+
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/shop`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data) setFormData((prev) => ({ ...prev, title: data.title || '', description: data.description || '' }));
+      })
+      .catch(() => {})
+      .finally(() => setInitialLoad(false));
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     const token = localStorage.getItem('admin_token');
     const api = new AdminAPI(token);
-
     try {
       await api.updateShop(formData);
-      alert('Shop section updated successfully!');
+      alert('Shop section updated.');
     } catch (err) {
-      alert('Error updating shop section: ' + err.message);
+      alert('Error: ' + err.message);
     } finally {
       setLoading(false);
     }
   };
 
+  if (initialLoad) {
+    return (
+      <div className="p-8 flex justify-center">
+        <div className="w-10 h-10 rounded-xl border-2 border-[#2563EB] border-t-transparent animate-spin" />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <div className="bg-white shadow-lg border-b-4 border-orange-600">
-        <div className="container-custom py-6">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Shop Section Manager</h1>
-              <p className="text-gray-600 mt-1">Update shop preview content</p>
-            </div>
-            <button
-              onClick={() => router.push('/admin/dashboard')}
-              className="bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-all duration-200 border-2 border-gray-300 hover:border-gray-400"
-            >
-              ← Back to Dashboard
-            </button>
-          </div>
-        </div>
+    <>
+      <div className="sticky top-0 z-10 bg-white/90 backdrop-blur-md border-b border-slate-200/80 px-8 py-6">
+        <h1 className="text-2xl font-bold text-slate-900">Shop Section</h1>
+        <p className="text-slate-500 text-sm mt-0.5">Update shop preview content</p>
       </div>
 
-      <div className="container-custom py-8">
-        <div className="bg-white rounded-2xl shadow-lg p-8 border-2 border-orange-200">
+      <div className="p-8">
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 max-w-3xl">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Title *</label>
-              <input
-                type="text"
-                required
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0066CC] focus:border-transparent"
-                placeholder="Premium Aerospace Parts"
-              />
+              <label className="block text-sm font-semibold text-slate-700 mb-1.5">Title *</label>
+              <input type="text" required value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className={inputClass} placeholder="Premium Aerospace Parts" />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Description *</label>
-              <textarea
-                required
-                rows="6"
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0066CC] focus:border-transparent resize-none"
-                placeholder="Describe your shop and products..."
-              ></textarea>
+              <label className="block text-sm font-semibold text-slate-700 mb-1.5">Description *</label>
+              <textarea required rows={6} value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className={`${inputClass} resize-none`} placeholder="Describe your shop..." />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Shop Image</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setFormData({ ...formData, image: e.target.files[0] })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0066CC] focus:border-transparent"
-              />
+              <label className="block text-sm font-semibold text-slate-700 mb-1.5">Image</label>
+              <input type="file" accept="image/*" onChange={(e) => setFormData({ ...formData, image: e.target.files[0] })} className={inputClass} />
             </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="bg-orange-600 text-white px-10 py-4 rounded-lg font-bold hover:bg-orange-700 transition-all duration-200 shadow-md hover:shadow-lg text-lg disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? '⏳ Saving...' : '💾 Update Shop Section'}
+            <button type="submit" disabled={loading} className={btnPrimary}>
+              {loading ? 'Saving...' : 'Update Shop'}
             </button>
           </form>
         </div>
       </div>
-    </div>
+    </>
   );
 }

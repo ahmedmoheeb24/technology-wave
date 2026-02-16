@@ -3,20 +3,19 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { AdminAPI } from '@/lib/api';
-import Image from 'next/image';
+import ApiImage from '@/components/ApiImage';
+
+const inputClass = 'w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 outline-none transition-all bg-white';
+const btnPrimary = 'inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm shadow-lg shadow-blue-500/25 transition-all hover:-translate-y-0.5';
+const btnSecondary = 'inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-white border border-slate-200 text-slate-700 font-semibold text-sm hover:bg-slate-50 transition-all';
+const btnDanger = 'inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm transition-all';
 
 export default function ServicesManager() {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    order: 0,
-    active: true,
-    image: null,
-  });
+  const [formData, setFormData] = useState({ title: '', description: '', order: 0, active: true, image: null });
   const router = useRouter();
 
   useEffect(() => {
@@ -25,216 +24,126 @@ export default function ServicesManager() {
 
   const loadServices = async () => {
     const token = localStorage.getItem('admin_token');
-    if (!token) {
-      router.push('/admin');
-      return;
-    }
-
+    if (!token) { router.push('/admin'); return; }
     try {
       const api = new AdminAPI(token);
       const data = await api.getServices();
-      setServices(data);
-    } catch (err) {
-      console.error('Error loading services:', err);
-    } finally {
-      setLoading(false);
-    }
+      setServices(Array.isArray(data) ? data : []);
+    } catch (e) { console.error(e); }
+    finally { setLoading(false); }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('admin_token');
     const api = new AdminAPI(token);
-
     try {
-      if (editingId) {
-        await api.updateService(editingId, formData);
-      } else {
-        await api.createService(formData);
-      }
+      if (editingId) await api.updateService(editingId, formData);
+      else await api.createService(formData);
       setShowForm(false);
       setEditingId(null);
       setFormData({ title: '', description: '', order: 0, active: true, image: null });
       loadServices();
-    } catch (err) {
-      alert('Error saving service: ' + err.message);
-    }
+    } catch (err) { alert('Error: ' + err.message); }
   };
 
-  const handleEdit = (service) => {
-    setEditingId(service.id);
-    setFormData({
-      title: service.title,
-      description: service.description,
-      order: service.order,
-      active: service.active,
-      image: null,
-    });
+  const handleEdit = (s) => {
+    setEditingId(s.id);
+    setFormData({ title: s.title, description: s.description, order: s.order ?? 0, active: s.active, image: null });
     setShowForm(true);
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this service?')) return;
-    
+    if (!confirm('Delete this service?')) return;
     const token = localStorage.getItem('admin_token');
     const api = new AdminAPI(token);
-    
     try {
       await api.deleteService(id);
       loadServices();
-    } catch (err) {
-      alert('Error deleting service: ' + err.message);
-    }
+    } catch (err) { alert('Error: ' + err.message); }
   };
 
   if (loading) {
-    return <div className="min-h-screen bg-gray-50 flex items-center justify-center">Loading...</div>;
+    return (
+      <div className="p-8 flex justify-center">
+        <div className="w-10 h-10 rounded-xl border-2 border-[#2563EB] border-t-transparent animate-spin" />
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <div className="bg-white shadow-lg border-b-4 border-purple-600">
-        <div className="container-custom py-6">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Services Manager</h1>
-              <p className="text-gray-600 mt-1">Add, edit, or remove services</p>
-            </div>
-            <div className="flex gap-3">
-              <button
-                onClick={() => router.push('/admin/dashboard')}
-                className="bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-all duration-200 border-2 border-gray-300 hover:border-gray-400"
-              >
-                ← Back to Dashboard
-              </button>
-              <button
-                onClick={() => {
-                  setShowForm(!showForm);
-                  setEditingId(null);
-                  setFormData({ title: '', description: '', order: 0, active: true, image: null });
-                }}
-                className="bg-purple-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-purple-700 transition-all duration-200 shadow-md hover:shadow-lg"
-              >
-                {showForm ? '✖ Cancel' : '➕ Add New Service'}
-              </button>
-            </div>
-          </div>
+    <>
+      <div className="sticky top-0 z-10 bg-white/90 backdrop-blur-md border-b border-slate-200/80 px-8 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">Services</h1>
+          <p className="text-slate-500 text-sm mt-0.5">Add, edit, or remove services</p>
         </div>
+        <button onClick={() => { setShowForm(!showForm); setEditingId(null); setFormData({ title: '', description: '', order: 0, active: true, image: null }); }} className={showForm ? btnSecondary : btnPrimary}>
+          {showForm ? 'Cancel' : 'Add Service'}
+        </button>
       </div>
 
-      <div className="container-custom py-8">
+      <div className="p-8">
         {showForm && (
-          <div className="bg-white rounded-2xl shadow-lg p-8 mb-8 border-2 border-purple-200">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">
-              {editingId ? 'Edit Service' : 'Add New Service'}
-            </h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 mb-8">
+            <h2 className="text-lg font-bold text-slate-900 mb-6">{editingId ? 'Edit Service' : 'New Service'}</h2>
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Title *</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0066CC] focus:border-transparent"
-                />
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Title *</label>
+                <input type="text" required value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className={inputClass} />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Description *</label>
-                <textarea
-                  required
-                  rows="4"
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0066CC] focus:border-transparent resize-none"
-                ></textarea>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Description *</label>
+                <textarea required rows={4} value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className={`${inputClass} resize-none`} />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Order</label>
-                  <input
-                    type="number"
-                    value={formData.order}
-                    onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0066CC] focus:border-transparent"
-                  />
+                  <label className="block text-sm font-semibold text-slate-700 mb-1.5">Order</label>
+                  <input type="number" value={formData.order} onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })} className={inputClass} />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Service Image</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setFormData({ ...formData, image: e.target.files[0] })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0066CC] focus:border-transparent"
-                  />
+                  <label className="block text-sm font-semibold text-slate-700 mb-1.5">Image</label>
+                  <input type="file" accept="image/*" onChange={(e) => setFormData({ ...formData, image: e.target.files[0] })} className={inputClass} />
                 </div>
               </div>
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  id="active"
-                  checked={formData.active}
-                  onChange={(e) => setFormData({ ...formData, active: e.target.checked })}
-                  className="w-4 h-4 text-[#0066CC] border-gray-300 rounded focus:ring-[#0066CC]"
-                />
-                <label htmlFor="active" className="ml-2 text-sm font-semibold text-gray-700">Active</label>
-              </div>
-              <button
-                type="submit"
-                className="bg-purple-600 text-white px-10 py-4 rounded-lg font-bold hover:bg-purple-700 transition-all duration-200 shadow-md hover:shadow-lg text-lg"
-              >
-                {editingId ? '💾 Update Service' : '✨ Create Service'}
-              </button>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" checked={formData.active} onChange={(e) => setFormData({ ...formData, active: e.target.checked })} className="w-4 h-4 rounded border-slate-300 text-[#2563EB] focus:ring-[#2563EB]" />
+                <span className="text-sm font-medium text-slate-700">Active</span>
+              </label>
+              <button type="submit" className={btnPrimary}>{editingId ? 'Update' : 'Create'} Service</button>
             </form>
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {services.map((service) => (
-            <div key={service.id} className="bg-white rounded-xl shadow-md overflow-hidden">
-              {service.image && (
-                <div className="relative h-48">
-                  <Image
-                    src={`${process.env.NEXT_PUBLIC_API_URL}${service.image}`}
-                    alt={service.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              )}
+            <div key={service.id} className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-shadow">
+              <div className="relative h-52 bg-slate-100">
+                {service.image ? (
+                  <ApiImage src={service.image} alt={service.title} fill className="object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-slate-200">
+                    <svg className="w-16 h-16 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16" /></svg>
+                  </div>
+                )}
+              </div>
               <div className="p-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{service.title}</h3>
-                <p className="text-gray-600 text-sm mb-4">{service.description.substring(0, 100)}...</p>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm text-gray-500">Order: {service.order}</span>
-                  <span className={`text-sm px-2 py-1 rounded ${service.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                    {service.active ? 'Active' : 'Inactive'}
-                  </span>
-                </div>
+                <h3 className="font-bold text-slate-900 mb-2">{service.title}</h3>
+                <p className="text-slate-500 text-sm line-clamp-2 mb-4">{service.description}</p>
                 <div className="flex gap-2">
-                  <button
-                    onClick={() => handleEdit(service)}
-                    className="flex-1 bg-purple-600 text-white px-4 py-3 rounded-lg font-bold hover:bg-purple-700 transition-all duration-200 shadow-md hover:shadow-lg"
-                  >
-                    ✏️ Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(service.id)}
-                    className="flex-1 bg-red-600 text-white px-4 py-3 rounded-lg font-bold hover:bg-red-700 transition-all duration-200 shadow-md hover:shadow-lg"
-                  >
-                    🗑️ Delete
-                  </button>
+                  <button onClick={() => handleEdit(service)} className={`flex-1 ${btnPrimary}`}>Edit</button>
+                  <button onClick={() => handleDelete(service.id)} className={btnDanger}>Delete</button>
                 </div>
               </div>
             </div>
           ))}
-          {services.length === 0 && (
-            <div className="col-span-full text-center py-16 bg-white rounded-2xl shadow-lg border-2 border-dashed border-gray-300">
-              <p className="text-gray-600 text-lg">📋 No services yet. Click "Add New Service" to create one.</p>
+          {services.length === 0 && !showForm && (
+            <div className="col-span-full bg-white rounded-2xl border border-dashed border-slate-200 p-12 text-center text-slate-500">
+              No services yet. Click &quot;Add Service&quot; to create one.
             </div>
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 }
