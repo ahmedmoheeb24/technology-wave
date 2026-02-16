@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 import os
 
@@ -34,8 +33,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount static files for uploads
-app.mount("/uploads", StaticFiles(directory=settings.UPLOAD_DIR), name="uploads")
+# Note: StaticFiles mounting is removed for Vercel serverless compatibility
+# For production file uploads, consider using external storage (S3, Cloudinary, etc.)
 
 # Include routers
 app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
@@ -57,6 +56,5 @@ async def root():
 async def health_check():
     return {"status": "healthy"}
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+# Vercel serverless function handler
+handler = app
