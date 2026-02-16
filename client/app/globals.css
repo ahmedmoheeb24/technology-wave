@@ -1,219 +1,55 @@
 @import "tailwindcss";
 
-/* ===== TECHNOLOGY WAVE – WHITE & BLUE DESIGN SYSTEM ===== */
-:root {
-  /* Primary palette */
-  --tw-white: #FFFFFF;
-  --tw-off-white: #F8FAFC;
-  --tw-slate-50: #F1F5F9;
-  --tw-slate-100: #E2E8F0;
-  --tw-slate-200: #CBD5E1;
-  --tw-slate-600: #475569;
-  --tw-slate-700: #334155;
-  --tw-slate-800: #1E293B;
-  --tw-slate-900: #0F172A;
-
-  /* Blue palette */
-  --blue-50: #EFF6FF;
-  --blue-100: #DBEAFE;
-  --blue-200: #BFDBFE;
-  --blue-400: #60A5FA;
-  --blue-500: #3B82F6;
-  --blue-primary: #2563EB;
-  --blue-600: #2563EB;
-  --blue-700: #1D4ED8;
-  --blue-800: #1E40AF;
-  --blue-900: #1E3A8A;
-  --blue-dark: #1E40AF;
-
-  --navbar-height: 80px;
+/* Theme Configuration */
+@theme {
+  --color-lightHover: #eff6ff;
+  
+  --font-family-outfit: var(--font-outfit), Outfit, sans-serif;
+  --font-family-ovo: var(--font-ovo), Ovo, serif;
+  
+  --shadow-black: 4px 4px 0 #000;
 }
 
-/* ===== RESET & BASE ===== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* 3. Base Layer - Fixing the "Fitting" Issues */
+@layer base { 
+  html { 
+    scroll-behavior: smooth !important;
+    /* Prevents the root from ever growing wider than the screen */
+    overflow-x: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  } 
 
-html {
-  scroll-behavior: smooth;
-}
+  body {
+    /* Critical for Mobile View: Sets a hard limit on width */
+    max-width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    @apply bg-white text-black;
+  }
 
-body {
-  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-  line-height: 1.6;
-  color: var(--tw-slate-900);
-  background: var(--tw-white);
-  overflow-x: hidden;
-}
+  /* Ensure all elements use border-box so padding doesn't add to width */
+  * {
+    box-sizing: border-box;
+  }
 
-/* ===== LAYOUT ===== */
-main {
-  padding-top: 0;
-  min-height: 100vh;
-}
-
-main > *:first-child {
-  margin-top: 0;
-}
-
-.container-custom {
-  width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .container-custom {
-    padding: 0 2rem;
+  /* Auto-responsive images: They will never "poke out" of their containers */
+  img, video, canvas, svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
   }
 }
 
-@media (min-width: 1024px) {
-  .container-custom {
-    padding: 0 2.5rem;
+/* 4. Utility Classes (Optional but helpful) */
+@layer utilities {
+  .section-padding {
+    @apply px-6 sm:px-10 lg:px-[12%] py-10;
   }
-}
-
-/* ===== ANIMATIONS ===== */
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slide-up {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slide-down {
-  from {
-    opacity: 0;
-    transform: translateY(-16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in {
-  animation: fade-in 0.6s ease-out;
-}
-
-.animate-slide-up {
-  animation: slide-up 0.5s ease-out;
-}
-
-.animation-delay-200 { animation-delay: 200ms; }
-.animation-delay-400 { animation-delay: 400ms; }
-
-/* ===== HOVER & CARDS ===== */
-.hover-lift {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(37, 99, 235, 0.12);
-}
-
-/* ===== SCROLLBAR ===== */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--tw-slate-100);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--blue-primary);
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--blue-700);
-}
-
-/* ===== UTILITY CLASSES ===== */
-.text-gradient {
-  background: linear-gradient(135deg, var(--blue-primary), var(--blue-800));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.bg-gradient-blue {
-  background: linear-gradient(135deg, var(--blue-600) 0%, var(--blue-800) 100%);
-}
-
-.bg-section-alt {
-  background: var(--tw-off-white);
-}
-
-.bg-section-blue-subtle {
-  background: linear-gradient(180deg, var(--blue-50) 0%, var(--tw-white) 100%);
-}
-
-/* Subtle grid pattern for sections */
-.bg-pattern-grid {
-  background-image:
-    linear-gradient(var(--tw-slate-200) 1px, transparent 1px),
-    linear-gradient(90deg, var(--tw-slate-200) 1px, transparent 1px);
-  background-size: 48px 48px;
-  background-color: var(--tw-white);
-}
-
-/* Soft dot pattern */
-.bg-pattern-dots {
-  background-image: radial-gradient(circle, var(--tw-slate-200) 1px, transparent 1px);
-  background-size: 24px 24px;
-  background-color: var(--tw-white);
-}
-
-/* ===== LINE CLAMP ===== */
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* ===== BUTTONS & INPUTS ===== */
-.btn-primary {
-  background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
-  color: var(--tw-white);
-  font-weight: 600;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.75rem;
-  transition: box-shadow 0.2s, transform 0.2s;
-}
-
-.btn-primary:hover {
-  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.35);
-  transform: translateY(-1px);
-}
-
-.input-focus:focus {
-  outline: none;
-  border-color: var(--blue-primary);
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
 }

@@ -1,316 +1,216 @@
-// API utility functions for fetching data from FastAPI backend
-
+// API Configuration
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
-// Hero Banners
-export async function getHeroBanners() {
-  const res = await fetch(`${API_BASE_URL}/api/hero-banners`, { 
-    next: { revalidate: 1 }
-  });
-  if (!res.ok) return [];
-  return res.json();
-}
+class APIClient {
+  constructor() {
+    this.baseURL = API_BASE_URL;
+  }
 
-// About Section
-export async function getAboutSection() {
-  const res = await fetch(`${API_BASE_URL}/api/about`, { 
-    next: { revalidate: 60 }
-  });
-  if (!res.ok) return null;
-  return res.json();
-}
-
-// Services
-export async function getServices() {
-  const res = await fetch(`${API_BASE_URL}/api/services`, { 
-    next: { revalidate: 60 }
-  });
-  if (!res.ok) return [];
-  return res.json();
-}
-
-// Shop Section
-export async function getShopSection() {
-  const res = await fetch(`${API_BASE_URL}/api/shop`, { 
-    next: { revalidate: 60 }
-  });
-  if (!res.ok) return null;
-  return res.json();
-}
-
-// News
-export async function getLatestNews(limit = 6, offset = 0) {
-  const res = await fetch(`${API_BASE_URL}/api/news/latest?limit=${limit}&offset=${offset}`, { 
-    next: { revalidate: 60 }
-  });
-  if (!res.ok) return [];
-  return res.json();
-}
-
-// Auth utility for client-side auth operations
-export const authAPI = {
-  logout: () => {
+  // Get auth token from localStorage
+  getToken() {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.dispatchEvent(new Event('storage'));
-    }
-  },
-  getToken: () => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('token');
+      return localStorage.getItem('authToken');
     }
     return null;
-  },
-  getUser: () => {
+  }
+
+  // Set auth token
+  setToken(token) {
     if (typeof window !== 'undefined') {
-      const userData = localStorage.getItem('user');
-      try {
-        return userData ? JSON.parse(userData) : null;
-      } catch {
-        return null;
-      }
-    }
-    return null;
-  },
-  setAuth: (token, user) => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
-      window.dispatchEvent(new Event('storage'));
+      localStorage.setItem('authToken', token);
     }
   }
-};
 
-// Admin API functions (client-side only)
-export class AdminAPI {
-  constructor(token) {
-    this.token = token;
-    this.headers = {
-      'Authorization': `Bearer ${token}`,
+  // Remove auth token
+  removeToken() {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('authToken');
+    }
+  }
+
+  // Make API request
+  async request(endpoint, options = {}) {
+    const url = `${this.baseURL}${endpoint}`;
+    const token = this.getToken();
+
+    const headers = {
+      ...options.headers,
     };
+
+    // Add auth token if available
+    if (token && !options.skipAuth) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    // Don't set Content-Type for FormData
+    if (!(options.body instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+    }
+
+    const config = {
+      ...options,
+      headers,
+    };
+
+    try {
+      const response = await fetch(url, config);
+
+      // Handle 401 Unauthorized
+      if (response.status === 401) {
+        this.removeToken();
+        if (typeof window !== 'undefined' && !window.location.pathname.includes('/admin/login')) {
+          window.location.href = '/admin';
+        }
+        throw new Error('Unauthorized');
+      }
+
+      // Parse response
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.detail || 'API request failed');
+      }
+
+      return data;
+    } catch (error) {
+      console.error('API Error:', error);
+      throw error;
+    }
   }
 
+  // Auth endpoints
   async login(username, password) {
-    const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
+    const data = await this.request('/api/auth/login', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
+      skipAuth: true,
     });
-    if (!res.ok) throw new Error('Login failed');
-    return res.json();
+    this.setToken(data.access_token);
+    return data;
   }
 
-  async verifyAuth() {
-    const res = await fetch(`${API_BASE_URL}/api/auth/verify`, {
-      headers: this.headers,
-    });
-    return res.ok;
+  async getCurrentUser() {
+    return this.request('/api/auth/me');
   }
 
-  // Hero Banners
-  async getHeroBanners() {
-    const res = await fetch(`${API_BASE_URL}/api/admin/hero-banners`, {
-      headers: this.headers,
-      cache: 'no-store'
-    });
-    if (!res.ok) throw new Error('Failed to fetch hero banners');
-    return res.json();
+  logout() {
+    this.removeToken();
   }
 
-  async createHeroBanner(data) {
-    const formData = new FormData();
-    Object.keys(data).forEach(key => {
-      if (data[key] !== null && data[key] !== undefined) {
-        formData.append(key, data[key]);
-      }
-    });
+  // Products endpoints
+  async getProducts(category = null) {
+    const params = category && category !== 'All' ? `?category=${category}` : '';
+    return this.request(`/api/products/${params}`);
+  }
 
-    const res = await fetch(`${API_BASE_URL}/api/admin/hero-banners`, {
+  async getProduct(id) {
+    return this.request(`/api/products/${id}`);
+  }
+
+  async createProduct(formData) {
+    return this.request('/api/products/', {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${this.token}` },
-      body: formData,
-      cache: 'no-store'
+      body: formData, // FormData object
     });
-    if (!res.ok) throw new Error('Failed to create hero banner');
-    return res.json();
   }
 
-  async updateHeroBanner(id, data) {
-    const formData = new FormData();
-    Object.keys(data).forEach(key => {
-      if (data[key] !== null && data[key] !== undefined) {
-        formData.append(key, data[key]);
-      }
-    });
-
-    const res = await fetch(`${API_BASE_URL}/api/admin/hero-banners/${id}`, {
+  async updateProduct(id, formData) {
+    return this.request(`/api/products/${id}`, {
       method: 'PUT',
-      headers: { 'Authorization': `Bearer ${this.token}` },
-      body: formData,
-      cache: 'no-store'
+      body: formData, // FormData object
     });
-    if (!res.ok) throw new Error('Failed to update hero banner');
-    return res.json();
   }
 
-  async deleteHeroBanner(id) {
-    const res = await fetch(`${API_BASE_URL}/api/admin/hero-banners/${id}`, {
+  async deleteProduct(id) {
+    return this.request(`/api/products/${id}`, {
       method: 'DELETE',
-      headers: this.headers,
-      cache: 'no-store'
     });
-    if (!res.ok) throw new Error('Failed to delete hero banner');
-    return res.json();
   }
 
-  // Services
+  // Services endpoints
   async getServices() {
-    const res = await fetch(`${API_BASE_URL}/api/admin/services`, {
-      headers: this.headers,
-      cache: 'no-store'
-    });
-    if (!res.ok) throw new Error('Failed to fetch services');
-    return res.json();
+    return this.request('/api/services/');
+  }
+
+  async getService(id) {
+    return this.request(`/api/services/${id}`);
   }
 
   async createService(data) {
-    const formData = new FormData();
-    Object.keys(data).forEach(key => {
-      if (data[key] !== null && data[key] !== undefined) {
-        formData.append(key, data[key]);
-      }
-    });
-
-    const res = await fetch(`${API_BASE_URL}/api/admin/services`, {
+    return this.request('/api/services/', {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${this.token}` },
-      body: formData,
-      cache: 'no-store'
+      body: JSON.stringify(data),
     });
-    if (!res.ok) throw new Error('Failed to create service');
-    return res.json();
   }
 
   async updateService(id, data) {
-    const formData = new FormData();
-    Object.keys(data).forEach(key => {
-      if (data[key] !== null && data[key] !== undefined) {
-        formData.append(key, data[key]);
-      }
-    });
-
-    const res = await fetch(`${API_BASE_URL}/api/admin/services/${id}`, {
+    return this.request(`/api/services/${id}`, {
       method: 'PUT',
-      headers: { 'Authorization': `Bearer ${this.token}` },
-      body: formData,
-      cache: 'no-store'
+      body: JSON.stringify(data),
     });
-    if (!res.ok) throw new Error('Failed to update service');
-    return res.json();
   }
 
   async deleteService(id) {
-    const res = await fetch(`${API_BASE_URL}/api/admin/services/${id}`, {
+    return this.request(`/api/services/${id}`, {
       method: 'DELETE',
-      headers: this.headers,
-      cache: 'no-store'
     });
-    if (!res.ok) throw new Error('Failed to delete service');
-    return res.json();
   }
 
-  // News
-  async getNews() {
-    const res = await fetch(`${API_BASE_URL}/api/admin/news`, {
-      headers: this.headers,
-      cache: 'no-store'
-    });
-    if (!res.ok) throw new Error('Failed to fetch news');
-    return res.json();
+  // Hero Banners endpoints
+  async getHeroBanners() {
+    return this.request('/api/hero-banners/');
   }
 
-  async createNews(data) {
-    const formData = new FormData();
-    Object.keys(data).forEach(key => {
-      if (data[key] !== null && data[key] !== undefined) {
-        formData.append(key, data[key]);
-      }
-    });
+  async getHeroBanner(id) {
+    return this.request(`/api/hero-banners/${id}`);
+  }
 
-    const res = await fetch(`${API_BASE_URL}/api/admin/news`, {
+  async createHeroBanner(formData) {
+    return this.request('/api/hero-banners/', {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${this.token}` },
-      body: formData,
-      cache: 'no-store'
+      body: formData, // FormData object
     });
-    if (!res.ok) throw new Error('Failed to create news');
-    return res.json();
   }
 
-  async updateNews(id, data) {
-    const formData = new FormData();
-    Object.keys(data).forEach(key => {
-      if (data[key] !== null && data[key] !== undefined) {
-        formData.append(key, data[key]);
-      }
-    });
-
-    const res = await fetch(`${API_BASE_URL}/api/admin/news/${id}`, {
+  async updateHeroBanner(id, formData) {
+    return this.request(`/api/hero-banners/${id}`, {
       method: 'PUT',
-      headers: { 'Authorization': `Bearer ${this.token}` },
-      body: formData,
-      cache: 'no-store'
+      body: formData, // FormData object
     });
-    if (!res.ok) throw new Error('Failed to update news');
-    return res.json();
   }
 
-  async deleteNews(id) {
-    const res = await fetch(`${API_BASE_URL}/api/admin/news/${id}`, {
+  async deleteHeroBanner(id) {
+    return this.request(`/api/hero-banners/${id}`, {
       method: 'DELETE',
-      headers: this.headers,
-      cache: 'no-store'
     });
-    if (!res.ok) throw new Error('Failed to delete news');
-    return res.json();
   }
 
-  // About Section
-  async updateAbout(data) {
-    const formData = new FormData();
-    Object.keys(data).forEach(key => {
-      if (data[key] !== null && data[key] !== undefined) {
-        formData.append(key, data[key]);
-      }
-    });
-
-    const res = await fetch(`${API_BASE_URL}/api/admin/about`, {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${this.token}` },
-      body: formData,
-      cache: 'no-store'
-    });
-    if (!res.ok) throw new Error('Failed to update about section');
-    return res.json();
+  // About endpoints
+  async getAboutImage() {
+    return this.request('/api/about/');
   }
 
-  // Shop Section
-  async updateShop(data) {
-    const formData = new FormData();
-    Object.keys(data).forEach(key => {
-      if (data[key] !== null && data[key] !== undefined) {
-        formData.append(key, data[key]);
-      }
-    });
-
-    const res = await fetch(`${API_BASE_URL}/api/admin/shop`, {
+  async uploadAboutImage(formData) {
+    return this.request('/api/about/', {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${this.token}` },
-      body: formData,
-      cache: 'no-store'
+      body: formData, // FormData object
     });
-    if (!res.ok) throw new Error('Failed to update shop section');
-    return res.json();
+  }
+
+  async deleteAboutImage() {
+    return this.request('/api/about/', {
+      method: 'DELETE',
+    });
+  }
+
+  // Helper to build image URL
+  getImageUrl(path) {
+    if (!path) return null;
+    if (path.startsWith('http')) return path;
+    return `${this.baseURL}/uploads${path}`;
   }
 }
+
+// Export singleton instance
+const api = new APIClient();
+export default api;

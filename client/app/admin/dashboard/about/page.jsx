@@ -1,82 +1,139 @@
-'use client';
+"use client"
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { AdminAPI } from '@/lib/api';
-
-const inputClass = 'w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#2563EB]/30 focus:border-[#2563EB] outline-none transition-all';
-const btnPrimary = 'px-6 py-3 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold shadow-lg shadow-blue-500/25 transition-all hover:-translate-y-0.5 disabled:opacity-50';
-
-export default function AboutManager() {
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({ title: '', content: '', image: null });
-  const [initialLoad, setInitialLoad] = useState(true);
-  const router = useRouter();
+const AboutManagement = () => {
+  const router = useRouter()
+  const [aboutImage, setAboutImage] = useState('')
+  const [previewImage, setPreviewImage] = useState('')
 
   useEffect(() => {
-    const token = localStorage.getItem('admin_token');
-    if (!token) { router.push('/admin'); return; }
-    const api = new AdminAPI(token);
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/about`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (data) setFormData((prev) => ({ ...prev, title: data.title || '', content: data.content || '' }));
-      })
-      .catch(() => {})
-      .finally(() => setInitialLoad(false));
-  }, [router]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    const token = localStorage.getItem('admin_token');
-    const api = new AdminAPI(token);
-    try {
-      await api.updateAbout(formData);
-      alert('About section updated.');
-    } catch (err) {
-      alert('Error: ' + err.message);
-    } finally {
-      setLoading(false);
+    const isLoggedIn = localStorage.getItem('adminLoggedIn')
+    if (isLoggedIn !== 'true') {
+      router.push('/admin')
+      return
     }
-  };
+    loadAboutImage()
+  }, [router])
 
-  if (initialLoad) {
-    return (
-      <div className="p-8 flex justify-center">
-        <div className="w-10 h-10 rounded-xl border-2 border-[#2563EB] border-t-transparent animate-spin" />
-      </div>
-    );
+  const loadAboutImage = () => {
+    const savedImage = localStorage.getItem('adminAboutImage')
+    if (savedImage) {
+      setAboutImage(savedImage)
+      setPreviewImage(savedImage)
+    }
+  }
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setPreviewImage(reader.result)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const handleSave = () => {
+    localStorage.setItem('adminAboutImage', previewImage)
+    setAboutImage(previewImage)
+    alert('About section image updated successfully!')
+  }
+
+  const handleRemove = () => {
+    if (confirm('Are you sure you want to remove the about image?')) {
+      localStorage.removeItem('adminAboutImage')
+      setAboutImage('')
+      setPreviewImage('')
+    }
   }
 
   return (
-    <>
-      <div className="sticky top-0 z-10 bg-white/90 backdrop-blur-md border-b border-slate-200/80 px-8 py-6">
-        <h1 className="text-2xl font-bold text-slate-900">About Section</h1>
-        <p className="text-slate-500 text-sm mt-0.5">Edit about us content and image</p>
-      </div>
-
-      <div className="p-8">
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 max-w-3xl">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">Title *</label>
-              <input type="text" required value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className={inputClass} placeholder="About Technology Wave" />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">Content *</label>
-              <textarea required rows={10} value={formData.content} onChange={(e) => setFormData({ ...formData, content: e.target.value })} className={`${inputClass} resize-none`} placeholder="Tell visitors about your company..." />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">Image</label>
-              <input type="file" accept="image/*" onChange={(e) => setFormData({ ...formData, image: e.target.files[0] })} className={inputClass} />
-            </div>
-            <button type="submit" disabled={loading} className={btnPrimary}>
-              {loading ? 'Saving...' : 'Update About'}
-            </button>
-          </form>
+    <div className="min-h-screen bg-gray-100">
+      <header className="bg-white shadow-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link href="/admin/dashboard" className="text-blue-600 hover:text-blue-700">
+              ← Back to Dashboard
+            </Link>
+            <h1 className="text-2xl font-bold text-gray-900">About Section Image</h1>
+          </div>
         </div>
-      </div>
-    </>
-  );
+      </header>
+
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-bold mb-6">Upload About Section Image</h2>
+          
+          <div className="space-y-6">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Choose Image
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+              <p className="text-sm text-gray-500 mt-2">
+                This image will be displayed on the About page. Recommended size: 800x600px
+              </p>
+            </div>
+
+            {previewImage && (
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Preview
+                </label>
+                <div className="border border-gray-300 rounded-lg overflow-hidden">
+                  <img 
+                    src={previewImage} 
+                    alt="About section preview" 
+                    className="w-full h-96 object-cover"
+                  />
+                </div>
+              </div>
+            )}
+
+            <div className="flex gap-4">
+              <button
+                onClick={handleSave}
+                disabled={!previewImage}
+                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+              >
+                Save Image
+              </button>
+              
+              {aboutImage && (
+                <button
+                  onClick={handleRemove}
+                  className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  Remove Image
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {aboutImage && (
+          <div className="bg-white rounded-lg shadow-md p-6 mt-6">
+            <h2 className="text-xl font-bold mb-4">Current About Image</h2>
+            <div className="border border-gray-300 rounded-lg overflow-hidden">
+              <img 
+                src={aboutImage} 
+                alt="Current about section" 
+                className="w-full h-96 object-cover"
+              />
+            </div>
+          </div>
+        )}
+      </main>
+    </div>
+  )
 }
+
+export default AboutManagement

@@ -1,68 +1,137 @@
-# Technology Wave - FastAPI Backend
+# FastAPI Backend for Store Admin
+
+## Features
+
+- ✅ JWT Authentication
+- ✅ SQLite Database with SQLAlchemy ORM
+- ✅ Image Upload & Optimization
+- ✅ CORS Enabled
+- ✅ Secure Password Hashing
+- ✅ RESTful API Endpoints
+- ✅ Automatic API Documentation (Swagger)
 
 ## Setup
 
-1. Create a virtual environment:
-```bash
-python -m venv venv
-```
+### 1. Install Python Dependencies
 
-2. Activate the virtual environment:
-- Windows: `venv\Scripts\activate`
-- Linux/Mac: `source venv/bin/activate`
-
-3. Install dependencies:
 ```bash
+cd server
 pip install -r requirements.txt
 ```
 
-4. Configure environment variables:
-- Copy `.env.example` to `.env`
-- Update the values in `.env` (especially SECRET_KEY and admin credentials)
+### 2. Configure Environment
 
-## Running the Server
+Copy `.env.example` to `.env` and update values:
 
-Development mode:
 ```bash
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+cp .env.example .env
 ```
 
-Production mode:
+**Important**: Change `SECRET_KEY` in production!
+
+### 3. Run the Server
+
 ```bash
-uvicorn main:app --host 0.0.0.0 --port 8000
+python main.py
 ```
 
-## API Documentation
+The API will be available at:
+- **API**: http://localhost:8000
+- **Swagger Docs**: http://localhost:8000/docs
+- **ReDoc**: http://localhost:8000/redoc
 
-Once the server is running, visit:
-- Swagger UI: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
+## API Endpoints
 
-## Default Admin Credentials
+### Authentication
+- `POST /api/auth/login` - Login and get JWT token
+- `GET /api/auth/me` - Get current user info
 
-Username: `admin`
-Password: `admin123`
+### Products
+- `GET /api/products/` - Get all products
+- `GET /api/products/{id}` - Get product by ID
+- `POST /api/products/` - Create product (Admin only)
+- `PUT /api/products/{id}` - Update product (Admin only)
+- `DELETE /api/products/{id}` - Delete product (Admin only)
 
-**IMPORTANT:** Change these in production via the `.env` file!
+### Services
+- `GET /api/services/` - Get all services
+- `GET /api/services/{id}` - Get service by ID
+- `POST /api/services/` - Create service (Admin only)
+- `PUT /api/services/{id}` - Update service (Admin only)
+- `DELETE /api/services/{id}` - Delete service (Admin only)
 
-## File Upload Storage
+### Hero Banners
+- `GET /api/hero-banners/` - Get all hero banners
+- `GET /api/hero-banners/{id}` - Get banner by ID
+- `POST /api/hero-banners/` - Create banner (Admin only)
+- `PUT /api/hero-banners/{id}` - Update banner (Admin only)
+- `DELETE /api/hero-banners/{id}` - Delete banner (Admin only)
 
-Uploaded files are stored in the `uploads/` directory with the following structure:
-- `uploads/hero/` - Hero banner images
-- `uploads/about/` - About section images
-- `uploads/services/` - Service images
-- `uploads/shop/` - Shop section images
-- `uploads/news/` - News images
+### About
+- `GET /api/about/` - Get about image
+- `POST /api/about/` - Upload about image (Admin only)
+- `DELETE /api/about/` - Delete about image (Admin only)
+
+## Authentication
+
+All admin endpoints require authentication. Include the JWT token in the Authorization header:
+
+```
+Authorization: Bearer <your-token>
+```
+
+### Default Credentials
+- Username: `admin`
+- Password: `admin123`
+
+**⚠️ Change these in production!**
 
 ## Database
 
-The application uses SQLite by default (`technologywave.db`). The database is created automatically when the server starts.
+The application uses SQLite by default. The database file `store.db` will be created automatically on first run.
 
-## Deployment to VPS
+### Models
+- **User** - Admin users
+- **Product** - Product catalog
+- **Service** - Service offerings
+- **HeroBanner** - Hero slider banners
+- **About** - About section image
 
-1. Install Python 3.8+ on your VPS
-2. Clone the repository
-3. Follow the setup steps above
-4. Configure `.env` with production values
-5. Run with a process manager like systemd or supervisor
-6. Use nginx as a reverse proxy
+## File Uploads
+
+Images are uploaded to the `uploads/` directory with automatic:
+- Validation (file type, size)
+- Optimization (compression, resizing)
+- Unique naming (UUID)
+
+Maximum file size: 5MB
+
+## Security Features
+
+- ✅ Password hashing with bcrypt
+- ✅ JWT token authentication
+- ✅ Protected admin endpoints
+- ✅ File upload validation
+- ✅ CORS configuration
+- ✅ SQL injection protection (SQLAlchemy ORM)
+
+## Production Deployment
+
+1. Change `SECRET_KEY` in `.env`
+2. Change admin credentials
+3. Use PostgreSQL instead of SQLite
+4. Set `DEBUG=False`
+5. Use proper file storage (S3, etc.)
+6. Add rate limiting
+7. Enable HTTPS
+8. Use production ASGI server (Gunicorn + Uvicorn)
+
+## Tech Stack
+
+- **FastAPI** - Modern Python web framework
+- **SQLAlchemy** - SQL ORM
+- **Pydantic** - Data validation
+- **python-jose** - JWT handling
+- **Passlib** - Password hashing
+- **Pillow** - Image processing
+- **Uvicorn** - ASGI server

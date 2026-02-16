@@ -1,87 +1,182 @@
-'use client';
+"use client"
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { AdminAPI } from '@/lib/api';
-import Link from 'next/link';
-
-const sections = [
-  { title: 'Hero Banners', href: '/admin/dashboard/hero-banners', icon: 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14', color: 'blue' },
-  { title: 'About Section', href: '/admin/dashboard/about', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4', color: 'emerald' },
-  { title: 'Services', href: '/admin/dashboard/services', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', color: 'violet' },
-  { title: 'Shop Section', href: '/admin/dashboard/shop', icon: 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z', color: 'amber' },
-  { title: 'Latest News', href: '/admin/dashboard/news', icon: 'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z', color: 'rose' },
-];
-
-const colorMap = {
-  blue: { bg: 'bg-blue-50', icon: 'text-blue-600', badge: 'bg-blue-100 text-blue-700' },
-  emerald: { bg: 'bg-emerald-50', icon: 'text-emerald-600', badge: 'bg-emerald-100 text-emerald-700' },
-  violet: { bg: 'bg-violet-50', icon: 'text-violet-600', badge: 'bg-violet-100 text-violet-700' },
-  amber: { bg: 'bg-amber-50', icon: 'text-amber-600', badge: 'bg-amber-100 text-amber-700' },
-  rose: { bg: 'bg-rose-50', icon: 'text-rose-600', badge: 'bg-rose-100 text-rose-700' },
-};
-
-export default function AdminDashboard() {
-  const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState({ heroBanners: 0, services: 0, news: 0 });
-  const router = useRouter();
+const AdminDashboard = () => {
+  const router = useRouter()
+  const [stats, setStats] = useState({
+    products: 0,
+    services: 0,
+    heroSlides: 0
+  })
 
   useEffect(() => {
-    const token = localStorage.getItem('admin_token');
-    if (!token) return;
-    const api = new AdminAPI(token);
-    Promise.all([api.getHeroBanners(), api.getServices(), api.getNews()])
-      .then(([banners, services, news]) => {
-        setStats({ heroBanners: banners.length, services: services.length, news: news.length });
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, []);
+    // Check authentication
+    const isLoggedIn = localStorage.getItem('adminLoggedIn')
+    if (isLoggedIn !== 'true') {
+      router.push('/admin')
+      return
+    }
 
-  const getCount = (s) => {
-    if (s.title === 'Hero Banners') return stats.heroBanners;
-    if (s.title === 'Services') return stats.services;
-    if (s.title === 'Latest News') return stats.news;
-    return 1;
-  };
+    // Load stats
+    const products = JSON.parse(localStorage.getItem('adminProducts') || '[]')
+    const services = JSON.parse(localStorage.getItem('adminServices') || '[]')
+    const heroSlides = JSON.parse(localStorage.getItem('adminHeroSlides') || '[]')
+
+    setStats({
+      products: products.length,
+      services: services.length,
+      heroSlides: heroSlides.length
+    })
+  }, [router])
+
+  const handleLogout = () => {
+    localStorage.removeItem('adminLoggedIn')
+    router.push('/admin')
+  }
 
   return (
-    <>
-      <div className="sticky top-0 z-10 bg-white/95 backdrop-blur border-b border-slate-200 px-10 py-8">
-        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Dashboard</h1>
-        <p className="text-slate-500 text-sm mt-1">Content management overview</p>
-      </div>
+    <div className="min-h-screen bg-gray-100">
+      {/* Header */}
+      <header className="bg-white shadow-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+          <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
+          <div className="flex items-center gap-4">
+            <Link 
+              href="/"
+              className="text-blue-600 hover:text-blue-700 font-semibold"
+            >
+              View Site
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      </header>
 
-      <div className="flex-1 p-10">
-        {loading ? (
-          <div className="flex justify-center py-24">
-            <div className="w-12 h-12 rounded-2xl border-2 border-blue-600 border-t-transparent animate-spin" />
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Welcome Section */}
+        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome to Admin Panel</h2>
+          <p className="text-gray-600">Manage your website content from here</p>
+        </div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-600 text-sm mb-1">Total Products</p>
+                <h3 className="text-3xl font-bold text-blue-600">{stats.products}</h3>
+              </div>
+              <div className="bg-blue-100 p-3 rounded-full">
+                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
+              </div>
+            </div>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-            {sections.map((s) => {
-              const colors = colorMap[s.color];
-              const count = getCount(s);
-              return (
-                <Link
-                  key={s.href}
-                  href={s.href}
-                  className="block bg-white rounded-3xl border border-slate-200 p-8 shadow-sm hover:shadow-[0_24px_48px_-12px_rgba(0,0,0,0.12)] hover:border-blue-200 transition-all group"
-                >
-                  <div className={`w-16 h-16 rounded-2xl ${colors.bg} ${colors.icon} flex items-center justify-center mb-6 group-hover:scale-105 transition-transform`}>
-                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={s.icon} /></svg>
-                  </div>
-                  <h2 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">{s.title}</h2>
-                  <p className="text-slate-500 text-sm mb-6">Manage this section from the admin.</p>
-                  <span className={`inline-flex items-center px-4 py-2 rounded-xl text-sm font-semibold ${colors.badge}`}>
-                    {count} {count === 1 ? 'item' : 'items'}
-                  </span>
-                </Link>
-              );
-            })}
+
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-600 text-sm mb-1">Total Services</p>
+                <h3 className="text-3xl font-bold text-green-600">{stats.services}</h3>
+              </div>
+              <div className="bg-green-100 p-3 rounded-full">
+                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+            </div>
           </div>
-        )}
-      </div>
-    </>
-  );
+
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-600 text-sm mb-1">Hero Slides</p>
+                <h3 className="text-3xl font-bold text-purple-600">{stats.heroSlides}</h3>
+              </div>
+              <div className="bg-purple-100 p-3 rounded-full">
+                <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Management Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Link 
+            href="/admin/dashboard/products"
+            className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition-shadow group"
+          >
+            <div className="flex flex-col items-center text-center">
+              <div className="bg-blue-100 p-4 rounded-full mb-4 group-hover:bg-blue-200 transition-colors">
+                <svg className="w-12 h-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Manage Products</h3>
+              <p className="text-gray-600 text-sm">Add, edit, or delete products</p>
+            </div>
+          </Link>
+
+          <Link 
+            href="/admin/dashboard/services"
+            className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition-shadow group"
+          >
+            <div className="flex flex-col items-center text-center">
+              <div className="bg-green-100 p-4 rounded-full mb-4 group-hover:bg-green-200 transition-colors">
+                <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Manage Services</h3>
+              <p className="text-gray-600 text-sm">Add, edit, or delete services</p>
+            </div>
+          </Link>
+
+          <Link 
+            href="/admin/dashboard/hero"
+            className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition-shadow group"
+          >
+            <div className="flex flex-col items-center text-center">
+              <div className="bg-purple-100 p-4 rounded-full mb-4 group-hover:bg-purple-200 transition-colors">
+                <svg className="w-12 h-12 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Hero Banners</h3>
+              <p className="text-gray-600 text-sm">Manage hero slider images</p>
+            </div>
+          </Link>
+
+          <Link 
+            href="/admin/dashboard/about"
+            className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition-shadow group"
+          >
+            <div className="flex flex-col items-center text-center">
+              <div className="bg-orange-100 p-4 rounded-full mb-4 group-hover:bg-orange-200 transition-colors">
+                <svg className="w-12 h-12 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">About Section</h3>
+              <p className="text-gray-600 text-sm">Update about section image</p>
+            </div>
+          </Link>
+        </div>
+      </main>
+    </div>
+  )
 }
+
+export default AdminDashboard
