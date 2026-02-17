@@ -10,7 +10,6 @@ from app.core.config import settings
 from app.core.database import init_db
 from app.api import auth, products, services, hero_banners, about, orders
 from fastapi.middleware.cors import CORSMiddleware
-from contextlib import asynccontextmanager
 
 # Create uploads directory if it doesn't exist (only if not in serverless)
 try:
@@ -18,19 +17,14 @@ try:
 except Exception:
     pass  # Ignore errors in serverless environment
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Startup
-    await init_db()
-    yield
-    # Shutdown
-    pass
-
 app = FastAPI(
     title=settings.APP_NAME,
-    version="1.0.0",
-    lifespan=lifespan
+    version="1.0.0"
 )
+
+@app.on_event("startup")
+async def startup_event():
+    await init_db()
 
 # CORS Configuration
 app.add_middleware(
@@ -62,4 +56,5 @@ async def health_check():
     return {"status": "healthy"}
 
 # Mangum handler for Vercel
-handler = Mangum(app)
+# lifespan="off" prevents Vercel serverless issues with async context managers
+handler = Mangum(app, lifespan="off")
