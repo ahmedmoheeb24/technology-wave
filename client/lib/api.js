@@ -1,5 +1,9 @@
 // API Configuration
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+// In production on Vercel, use the backend URL; in development use localhost
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 
+  (typeof window !== 'undefined' && window.location.hostname !== 'localhost' 
+    ? 'https://technologywave-kgyc.vercel.app' 
+    : 'http://localhost:8000');
 
 class APIClient {
   constructor() {
