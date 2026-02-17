@@ -15,16 +15,20 @@ class Settings(BaseSettings):
     # Database - PostgreSQL (Neon) for production, SQLite for local development
     DATABASE_URL: str = os.getenv(
         "DATABASE_URL", 
-        "sqlite:///./store.db"  # Local development default
+        "sqlite:////tmp/store.db" if os.getenv("VERCEL") else "sqlite:///./store.db"
     )
     
     # Format DATABASE_URL if needed
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # Handle various DATABASE_URL formats
-        if not self.DATABASE_URL.startswith(("sqlite://", "postgresql://", "mysql://")):
+        if self.DATABASE_URL and not self.DATABASE_URL.startswith(("sqlite://", "postgresql://", "mysql://", "postgres://")):
             # If it's just a file path, add sqlite:/// prefix
             self.DATABASE_URL = f"sqlite:///{self.DATABASE_URL}"
+        
+        # Convert postgres:// to postgresql:// for SQLAlchemy compatibility
+        if self.DATABASE_URL and self.DATABASE_URL.startswith("postgres://"):
+            self.DATABASE_URL = self.DATABASE_URL.replace("postgres://", "postgresql://", 1)
     
     # Admin User
     ADMIN_USERNAME: str = "admin"
