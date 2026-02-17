@@ -90,7 +90,7 @@ export default function ProductDetail() {
           >
             {product.image ? (
               <img
-                src={product.image.startsWith('http') ? product.image : `http://localhost:8000/uploads${product.image}`}
+                src={api.getImageUrl(product.image)}
                 alt={product.title}
                 className="w-full h-[500px] object-cover"
               />

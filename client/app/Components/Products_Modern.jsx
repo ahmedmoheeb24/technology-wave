@@ -22,7 +22,7 @@ export default function ProductsModern() {
             slug: product.slug,
             category: product.category || 'all',
             price: typeof product.price === 'string' ? parseFloat(product.price) : (product.price || 99.99),
-            image: product.image ? (product.image.startsWith('http') ? product.image : `http://localhost:8000/uploads${product.image}`) : '📦',
+            image: product.image ? api.getImageUrl(product.image) : '📦',
             description: product.description || 'High-quality product',
             inStock: product.in_stock !== false,
             featured: product.featured || false

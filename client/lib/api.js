@@ -219,7 +219,11 @@ class APIClient {
   // Helper to build image URL
   getImageUrl(path) {
     if (!path) return null;
+    // Handle base64 data URLs (new format)
+    if (path.startsWith('data:')) return path;
+    // Handle full URLs
     if (path.startsWith('http')) return path;
+    // Handle old file paths (legacy support)
     return `${this.baseURL}/uploads${path}`;
   }
 

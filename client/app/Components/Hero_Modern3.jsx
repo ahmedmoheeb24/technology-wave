@@ -43,18 +43,8 @@ export default function HeroModern3() {
           console.log('🔍 Raw API data:', data)
           // Map API data to component format
           const mappedSlides = data.map(banner => {
-            // Build proper image URL
-            // Backend returns: "/hero/filename.jpg"
-            // We need: "http://localhost:8000/uploads/hero/filename.jpg"
-            let imageUrl = null
-            if (banner.image) {
-              if (banner.image.startsWith('http')) {
-                imageUrl = banner.image
-              } else {
-                // Add /uploads prefix to the path returned by backend
-                imageUrl = `http://localhost:8000/uploads${banner.image}`
-              }
-            }
+            // Build proper image URL - handles base64 data URLs and file paths
+            let imageUrl = banner.image ? api.getImageUrl(banner.image) : null
             console.log('🖼️ Banner image from API:', banner.image)
             console.log('🌐 Full image URL:', imageUrl)
             
