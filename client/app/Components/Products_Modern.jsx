@@ -127,7 +127,7 @@ export default function ProductsModern() {
                   )}
 
                   <div className="relative h-64 bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center cursor-pointer overflow-hidden">
-                    {typeof product.image === 'string' && product.image.startsWith('http') ? (
+                    {typeof product.image === 'string' && (product.image.startsWith('http') || product.image.startsWith('data:')) ? (
                       <motion.img
                         src={product.image}
                         alt={product.name}
