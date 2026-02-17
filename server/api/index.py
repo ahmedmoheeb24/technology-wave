@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from mangum import Mangum
 import sys
 import os
 import traceback
@@ -116,6 +115,6 @@ if config_loaded:
             # Don't crash the app, let it start anyway
             pass
 
-# Mangum handler for Vercel
-# lifespan="off" prevents Vercel serverless issues with async context managers
-handler = Mangum(app, lifespan="off")
+# Export app directly for Vercel
+# Vercel's Python runtime can handle ASGI apps directly
+# No need for Mangum wrapper
