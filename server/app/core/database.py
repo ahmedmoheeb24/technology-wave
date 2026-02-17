@@ -63,6 +63,15 @@ async def init_db():
         from app.core.security import get_password_hash
         
         existing_user = db.query(User).filter(User.username == settings.ADMIN_USERNAME).first()
+        if existing_user:
+            # Check if password hash is old bcrypt format (starts with $2)
+            # If so, delete and recreate with new PBKDF2 format
+            if existing_user.hashed_password.startswith('$2'):
+                print(f"🔄 Migrating admin user from bcrypt to PBKDF2...")
+                db.delete(existing_user)
+                db.commit()
+                existing_user = None
+        
         if not existing_user:
             admin_user = User(
                 username=settings.ADMIN_USERNAME,
@@ -76,5 +85,7 @@ async def init_db():
             print(f"ℹ️  Admin user already exists: {settings.ADMIN_USERNAME}")
     except Exception as e:
         print(f"❌ Error creating admin user: {e}")
+        import traceback
+        traceback.print_exc()
     finally:
         db.close()
