@@ -69,6 +69,10 @@ export function CartProvider({ children }) {
     return cart.reduce((count, item) => count + item.quantity, 0)
   }
 
+  const toggleCart = () => {
+    setIsCartOpen(prev => !prev)
+  }
+
   const value = {
     cart,
     addToCart,
@@ -78,7 +82,8 @@ export function CartProvider({ children }) {
     getCartTotal,
     getCartCount,
     isCartOpen,
-    setIsCartOpen
+    setIsCartOpen,
+    toggleCart
   }
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
