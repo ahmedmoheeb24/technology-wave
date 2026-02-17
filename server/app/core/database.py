@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import NullPool
 from app.core.config import settings
 import os
 
@@ -17,14 +18,24 @@ if "sqlite" in settings.DATABASE_URL:
             os.makedirs(db_dir, exist_ok=True)
 
 # Create engine
-engine = create_engine(
-    settings.DATABASE_URL,
-    connect_args=connect_args,
-    pool_pre_ping=True,  # Ensure connections are valid
-    pool_recycle=300,  # Recycle connections every 5 minutes
-    pool_size=5,  # Connection pool size
-    max_overflow=10  # Max overflow connections
-)
+# For serverless, use NullPool to avoid connection pooling issues
+if os.getenv("VERCEL"):
+    # Serverless environment - no connection pooling
+    engine = create_engine(
+        settings.DATABASE_URL,
+        connect_args=connect_args,
+        poolclass=NullPool  # No pooling for serverless
+    )
+else:
+    # Traditional environment - use connection pooling
+    engine = create_engine(
+        settings.DATABASE_URL,
+        connect_args=connect_args,
+        pool_pre_ping=True,
+        pool_recycle=300,
+        pool_size=5,
+        max_overflow=10
+    )
 
 # Create session
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

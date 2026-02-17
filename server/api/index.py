@@ -24,7 +24,12 @@ app = FastAPI(
 
 @app.on_event("startup")
 async def startup_event():
-    await init_db()
+    try:
+        await init_db()
+    except Exception as e:
+        print(f"⚠️  Database initialization error: {e}")
+        # Don't crash the app, let it start anyway
+        pass
 
 # CORS Configuration
 app.add_middleware(
