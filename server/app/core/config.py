@@ -31,8 +31,8 @@ class Settings(BaseSettings):
             self.DATABASE_URL = self.DATABASE_URL.replace("postgres://", "postgresql://", 1)
     
     # Admin User
-    ADMIN_USERNAME: str = "admin"
-    ADMIN_PASSWORD: str = "admin123"
+    ADMIN_USERNAME: str = os.getenv("ADMIN_USERNAME", "admin")
+    ADMIN_PASSWORD: str = os.getenv("ADMIN_PASSWORD", "admin123")
     
     # CORS - Support multiple origins for production and development
     ALLOWED_ORIGINS: str = os.getenv(
