@@ -1,27 +1,51 @@
 from datetime import datetime, timedelta
 from typing import Optional
 from jose import JWTError, jwt
-from passlib.context import CryptContext
+import hashlib
+import secrets
 from app.core.config import settings
 
-# Password hashing with bcrypt compatibility settings for Vercel
-# Truncate passwords to 72 bytes as per bcrypt spec
-pwd_context = CryptContext(
-    schemes=["bcrypt"], 
-    deprecated="auto",
-    bcrypt__ident="2b",  # Use bcrypt 2b format
-    bcrypt__rounds=12     # Secure rounds
-)
+# Use PBKDF2 (built-in, no external deps) instead of bcrypt for Vercel compatibility
+# This is secure and works reliably on serverless platforms
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    # Truncate password to 72 bytes for bcrypt compatibility
-    truncated = plain_password[:72] if len(plain_password.encode('utf-8')) > 72 else plain_password
-    return pwd_context.verify(truncated, hashed_password)
+    """Verify a password against a hash using PBKDF2"""
+    try:
+        # Hash format: algorithm$salt$hash
+        parts = hashed_password.split('$')
+        if len(parts) != 3:
+            return False
+        
+        algorithm, salt, stored_hash = parts
+        
+        # Compute hash of provided password with stored salt
+        computed_hash = hashlib.pbkdf2_hmac(
+            'sha256',
+            plain_password.encode('utf-8'),
+            salt.encode('utf-8'),
+            100000  # iterations
+        ).hex()
+        
+        # Constant-time comparison
+        return secrets.compare_digest(computed_hash, stored_hash)
+    except Exception:
+        return False
 
 def get_password_hash(password: str) -> str:
-    # Truncate password to 72 bytes for bcrypt compatibility
-    truncated = password[:72] if len(password.encode('utf-8')) > 72 else password
-    return pwd_context.hash(truncated)
+    """Hash a password using PBKDF2"""
+    # Generate random salt
+    salt = secrets.token_hex(16)
+    
+    # Compute hash
+    pwd_hash = hashlib.pbkdf2_hmac(
+        'sha256',
+        password.encode('utf-8'),
+        salt.encode('utf-8'),
+        100000  # iterations
+    ).hex()
+    
+    # Return in format: algorithm$salt$hash
+    return f"pbkdf2_sha256${salt}${pwd_hash}"
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
