@@ -31,7 +31,10 @@ class Settings(BaseSettings):
     ADMIN_PASSWORD: str = "admin123"
     
     # CORS - Support multiple origins for production and development
-    ALLOWED_ORIGINS: str = "http://localhost:3000,http://localhost:3001"
+    ALLOWED_ORIGINS: str = os.getenv(
+        "ALLOWED_ORIGINS",
+        "http://localhost:3000,http://localhost:3001,https://technologywave.vercel.app"
+    )
     
     # File Upload - Use /tmp for Vercel serverless
     UPLOAD_DIR: str = os.getenv("UPLOAD_DIR", "/tmp/uploads" if os.getenv("VERCEL") else "./uploads")
