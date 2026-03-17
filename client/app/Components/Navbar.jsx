@@ -16,6 +16,9 @@ const Navbar = () => {
     const isHomePage = pathname === '/';
     const useWhiteText = isHomePage && !isScroll;
 
+    // White background with shadow on sub-pages when scrolled
+    const useWhiteBg = !isHomePage && isScroll;
+
     function openMenu() {
         sideMenuRef.current.style.transform = "translateX(-16rem)";
     }
@@ -44,7 +47,7 @@ const Navbar = () => {
 
     return (
         <>
-            <nav className="w-full fixed px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between z-50 bg-transparent transition-all duration-300">
+            <nav className={`w-full fixed px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between z-50 transition-all duration-300 ${useWhiteBg ? 'bg-white shadow-md' : 'bg-transparent'}`}>
                 
                 {/* Logo Section */}
                 <a href="/" className='flex items-center gap-3'>
