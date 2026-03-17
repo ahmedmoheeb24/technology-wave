@@ -5,7 +5,6 @@ import About_Modern3 from "./Components/About_Modern3";
 import Services_Modern1 from "./Components/Services_Modern1";
 import Products_Modern from "./Components/Products_Modern";
 import Contact from "./Components/Contact";
-import Footer from "./Components/Footer";
 import CartDrawer from "./Components/CartDrawer";
 
 export default function Home() {
@@ -29,7 +28,6 @@ export default function Home() {
         <Contact />
       </main>
 
-      <Footer />
       <CartDrawer />
     </div>
   );

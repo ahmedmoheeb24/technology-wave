@@ -160,7 +160,7 @@ export default function AboutPage() {
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Our Platform Specialties</h3>
               <div className="grid grid-cols-2 gap-4">
                 {specialties.map((item, index) => (
-                  <div key={index} className="bg-white rounded-xl p-5 shadow-md border-l-4 border-blue-500 hover:shadow-lg transition-shadow">
+                  <div key={index} className="bg-white rounded-xl p-5 shadow-md border-l-4 border-blue-500 hover:shadow-xl hover:scale-105 hover:border-blue-600 transition-all duration-300 cursor-pointer">
                     <div className="font-bold text-gray-900">{item.label}</div>
                     <div className="text-sm text-gray-500 mt-1">{item.sub}</div>
                   </div>
@@ -180,9 +180,9 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-3xl p-12 shadow-xl"
+              className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-3xl p-12 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer"
             >
-              <div className="inline-flex p-4 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-500 mb-6">
+              <div className="inline-flex p-4 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-500 mb-6 group-hover:scale-110 transition-transform">
                 <FiTarget className="w-10 h-10 text-white" />
               </div>
               <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Mission</h2>
@@ -196,9 +196,9 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="bg-gradient-to-br from-blue-50 to-sky-50 rounded-3xl p-12 shadow-xl"
+              className="bg-gradient-to-br from-blue-50 to-sky-50 rounded-3xl p-12 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer"
             >
-              <div className="inline-flex p-4 rounded-2xl bg-gradient-to-r from-blue-500 to-sky-500 mb-6">
+              <div className="inline-flex p-4 rounded-2xl bg-gradient-to-r from-blue-500 to-sky-500 mb-6 group-hover:scale-110 transition-transform">
                 <FiEye className="w-10 h-10 text-white" />
               </div>
               <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Vision</h2>
