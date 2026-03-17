@@ -36,36 +36,32 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS Configuration
-if config_loaded:
+# CORS Configuration - Hardcoded for production reliability
+allowed_origins = [
+    "https://technologywave.vercel.app",
+    "https://technologywave-kgyc.vercel.app",
+    "http://localhost:3000",
+    "http://localhost:3001",
+]
+
+# Try to get from environment variable, fallback to hardcoded list
+if config_loaded and hasattr(settings, 'ALLOWED_ORIGINS'):
     try:
-        origins = settings.ALLOWED_ORIGINS.split(",") if hasattr(settings, 'ALLOWED_ORIGINS') else ["*"]
-        app.add_middleware(
-            CORSMiddleware,
-            allow_origins=origins,
-            allow_credentials=True,
-            allow_methods=["*"],
-            allow_headers=["*"],
-        )
+        env_origins = settings.ALLOWED_ORIGINS.split(",")
+        allowed_origins = [origin.strip() for origin in env_origins if origin.strip()]
+        print(f"✅ Using CORS origins from environment: {allowed_origins}")
     except Exception as e:
-        print(f"⚠️  CORS configuration error: {e}")
-        # Add permissive CORS as fallback
-        app.add_middleware(
-            CORSMiddleware,
-            allow_origins=["*"],
-            allow_credentials=True,
-            allow_methods=["*"],
-            allow_headers=["*"],
-        )
-else:
-    # Minimal CORS if config failed
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["*"],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+        print(f"⚠️  CORS configuration error, using hardcoded origins: {e}")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allowed_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+print(f"🔧 CORS configured with origins: {allowed_origins}")
 
 # Include routers only if config loaded successfully
 if config_loaded:
