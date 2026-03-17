@@ -10,8 +10,8 @@ const services = [
     slug: 'commercial-aviation',
     icon: FiTrendingUp,
     title: 'Commercial Aviation',
-    description: 'Comprehensive solutions for commercial aircraft operations and management',
-    longDescription: 'We provide end-to-end solutions for commercial aviation, including fleet management, aircraft leasing, and operational support to ensure maximum efficiency and safety.',
+    subheading: 'Keeping your fleet in the air',
+    description: 'Fully accredited aviation parts supplier with ASA-100, ISO 9001:2015 and AS9120B certifications. AOG 7/24/365 service ensuring parts are delivered to the right location, at the right price, at the right time.',
     features: [
       'Fleet Management Solutions',
       'Aircraft Leasing & Sales',
@@ -28,8 +28,8 @@ const services = [
     slug: 'military-division',
     icon: FiShield,
     title: 'Military Division',
-    description: 'Specialized aviation solutions for defense and military operations',
-    longDescription: 'Our military division offers specialized services including aircraft modifications, defense systems integration, and tactical aviation support for military applications.',
+    subheading: 'Proud to serve those who serve',
+    description: 'Specialized military aviation parts and MRO support since 2010. 24/7/365 AOG/MICAP grounding support with an approved supplier network qualified to ASA-100 and AS9100 standards.',
     features: [
       'Military Aircraft Modifications',
       'Defense Systems Integration',
@@ -46,8 +46,8 @@ const services = [
     slug: 'helicopters',
     icon: FiCloud,
     title: 'Helicopters',
-    description: 'Complete helicopter services from acquisition to maintenance',
-    longDescription: 'Specialized in rotary-wing aircraft, we offer comprehensive helicopter services including sales, maintenance, modifications, and operational support for all helicopter types.',
+    subheading: 'The parts you need where you need them',
+    description: 'Rotary-wing aircraft spare parts and component repair management for domestic and international operators. Hardware, airframe, engine, rotables, consumables, tools, and fasteners — all condition codes.',
     features: [
       'Helicopter Sales & Leasing',
       'Maintenance Programs',
@@ -64,8 +64,8 @@ const services = [
     slug: 'maintenance-repair-overhaul',
     icon: FiCode,
     title: 'Maintenance, Repair and Overhaul',
-    description: 'Expert MRO services to keep your aircraft in peak condition',
-    longDescription: 'Our state-of-the-art MRO facilities provide comprehensive maintenance, repair, and overhaul services for all aircraft types, ensuring airworthiness and optimal performance.',
+    subheading: 'Component repair and overhaul',
+    description: 'Full ATA chapter coverage through FAA 145 and EASA 145 approved repair stations. Quality workmanship, competitive turnaround times, and full warranty on all managed components.',
     features: [
       'Scheduled Maintenance',
       'Major Repairs & Modifications',
@@ -82,8 +82,8 @@ const services = [
     slug: 'end-of-life-aircraft-solutions',
     icon: FiLayout,
     title: 'End-of-Life Aircraft Solutions',
-    description: 'Sustainable aircraft retirement and recycling services',
-    longDescription: 'We provide environmentally responsible end-of-life aircraft solutions including dismantling, parts harvesting, and material recycling to maximize asset value.',
+    subheading: 'New revenue opportunity for retired or end-of-life aircraft',
+    description: 'Full-service aircraft teardown from acquisition planning to hull recycling. We tailor partnership programs for owners, hedge fund managers, private equity funds, and institutional investors.',
     features: [
       'Aircraft Dismantling',
       'Parts Harvesting & Certification',
@@ -100,8 +100,8 @@ const services = [
     slug: 'tagged-parts-available',
     icon: FiShoppingCart,
     title: 'Tagged Parts Available',
-    description: 'Certified aircraft parts inventory with full traceability',
-    longDescription: 'Access our extensive inventory of certified, tagged aircraft parts with complete documentation and traceability. Quality parts at competitive prices with fast delivery.',
+    subheading: 'Material and Recycling',
+    description: 'Large inventory across all engine types, acquired through whole engine teardowns to piece part level. Helping the aviation industry maximize sunset fleets via the USM market — sustainably.',
     features: [
       'Certified Parts Inventory',
       'Full Traceability & Documentation',
@@ -119,7 +119,7 @@ export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       {/* Hero Section */}
-      <section className="relative py-20 px-4 overflow-hidden">
+      <section className="relative py-24 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-10"></div>
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
@@ -132,14 +132,14 @@ export default function ServicesPage() {
               Our <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Services</span>
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Comprehensive digital solutions to transform your business and accelerate growth
+              World-class aviation solutions — from commercial fleet support to military operations, MRO, and sustainable end-of-life programs.
             </p>
           </motion.div>
         </div>
       </section>
 
       {/* Services Grid */}
-      <section className="py-20 px-4">
+      <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => {
@@ -153,28 +153,33 @@ export default function ServicesPage() {
                   className="group"
                 >
                   <Link href={`/services/${service.slug}`}>
-                    <div className="h-full bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-500 cursor-pointer">
-                      {/* Gradient Header */}
-                      <div className={`h-2 bg-gradient-to-r ${service.color}`}></div>
-                      
-                      <div className="p-8">
+                    <div className="h-full bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-300 cursor-pointer flex flex-col">
+                      {/* Gradient top bar */}
+                      <div className={`h-1.5 bg-gradient-to-r ${service.color}`}></div>
+
+                      <div className="p-8 flex flex-col flex-1">
                         {/* Icon */}
-                        <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${service.color} mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                        <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${service.color} mb-5 group-hover:scale-110 transition-transform duration-300 self-start`}>
                           <IconComponent className="w-8 h-8 text-white" />
                         </div>
 
                         {/* Title */}
-                        <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors">
+                        <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
                           {service.title}
                         </h3>
 
+                        {/* Subheading */}
+                        <p className="text-sm font-semibold text-gray-400 italic mb-4">
+                          {service.subheading}
+                        </p>
+
                         {/* Description */}
-                        <p className="text-gray-600 mb-6 line-clamp-2">
+                        <p className="text-gray-600 mb-6 text-sm leading-relaxed line-clamp-3">
                           {service.description}
                         </p>
 
                         {/* Features Preview */}
-                        <ul className="space-y-2 mb-6">
+                        <ul className="space-y-2 mb-6 flex-1">
                           {service.features.slice(0, 3).map((feature, idx) => (
                             <li key={idx} className="flex items-center text-sm text-gray-600">
                               <FiCheck className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
@@ -184,9 +189,9 @@ export default function ServicesPage() {
                         </ul>
 
                         {/* Price & CTA */}
-                        <div className="flex items-center justify-between pt-6 border-t border-gray-100">
-                          <span className="text-lg font-bold text-gray-900">{service.price}</span>
-                          <div className="flex items-center text-blue-600 font-semibold group-hover:gap-2 transition-all">
+                        <div className="flex items-center justify-between pt-5 border-t border-gray-100 mt-auto">
+                          <span className="text-base font-bold text-gray-900">{service.price}</span>
+                          <div className="flex items-center text-blue-600 font-semibold text-sm group-hover:gap-2 transition-all">
                             Learn More
                             <FiArrowRight className="ml-1 group-hover:translate-x-1 transition-transform" />
                           </div>
@@ -211,10 +216,10 @@ export default function ServicesPage() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Ready to Start Your Project?
+              Ready to Get Started?
             </h2>
             <p className="text-xl text-blue-100 mb-8">
-              Let's discuss how we can help bring your vision to life
+              Contact us today to discuss your aviation requirements
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link href="/contact">
@@ -222,9 +227,9 @@ export default function ServicesPage() {
                   Get Started
                 </button>
               </Link>
-              <Link href="/work">
+              <Link href="/about">
                 <button className="px-8 py-4 bg-transparent border-2 border-white text-white rounded-full font-bold text-lg hover:bg-white hover:text-blue-600 transition-all hover:scale-105">
-                  View Our Work
+                  About Us
                 </button>
               </Link>
             </div>
