@@ -17,6 +17,7 @@ class ServiceUpdate(ServiceBase):
 class ServiceResponse(ServiceBase):
     id: int
     slug: str
+    icon: Optional[str] = None  # Deprecated field for backward compatibility
     image: Optional[str] = None
     created_at: datetime
     updated_at: datetime
