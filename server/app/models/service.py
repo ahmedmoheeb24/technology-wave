@@ -6,6 +6,7 @@ class Service(Base):
     __tablename__ = "services"
     
     id = Column(Integer, primary_key=True, index=True)
+    icon = Column(String, nullable=True)  # Deprecated - kept for backward compatibility
     title = Column(String, index=True)
     slug = Column(String, unique=True, index=True)
     description = Column(Text)  # Short description for cards
