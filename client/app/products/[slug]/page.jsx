@@ -13,11 +13,15 @@ export default function ProductDetail() {
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
   const [quantity, setQuantity] = useState(1)
+  const [added, setAdded] = useState(false)
 
   useEffect(() => {
     const loadProduct = async () => {
       try {
-        const data = await api.getProductBySlug(params.slug)
+        const slug = params.slug
+        console.log('Loading product with slug:', slug)
+        const data = await api.getProductBySlug(slug)
+        console.log('Product loaded:', data)
         setProduct(data)
       } catch (error) {
         console.error('Error loading product:', error)
@@ -25,7 +29,9 @@ export default function ProductDetail() {
         setLoading(false)
       }
     }
-    loadProduct()
+    if (params.slug) {
+      loadProduct()
+    }
   }, [params.slug])
 
   const handleAddToCart = () => {
@@ -33,24 +39,33 @@ export default function ProductDetail() {
       for (let i = 0; i < quantity; i++) {
         addToCart(product)
       }
+      setAdded(true)
+      setTimeout(() => setAdded(false), 2000)
     }
   }
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-2xl text-gray-600">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 rounded-full border-4 border-blue-600 border-t-transparent animate-spin" />
+          <p className="text-gray-500 font-medium">Loading product...</p>
+        </div>
       </div>
     )
   }
 
   if (!product) {
     return (
-      <div className="min-h-screen">
-        <div className="max-w-7xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Product Not Found</h1>
-          <Link href="/products" className="text-blue-600 hover:underline">
-            Back to Products
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="text-6xl mb-4">🔍</div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-3">Product Not Found</h1>
+          <p className="text-gray-500 mb-6">This product may have been removed or doesn't exist.</p>
+          <Link href="/products">
+            <button className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors">
+              Back to Products
+            </button>
           </Link>
         </div>
       </div>
@@ -62,128 +77,196 @@ export default function ProductDetail() {
   return (
     <div className="min-h-screen bg-gray-50">
 
+      {/* Spacer for fixed navbar */}
+      <div className="h-20" />
+
       {/* Breadcrumb */}
-      <div className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center gap-2 text-sm text-gray-600">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
-            <span>/</span>
-            <Link href="/products" className="hover:text-blue-600">Products</Link>
-            <span>/</span>
-            <span className="text-gray-900 font-semibold">{product.title}</span>
+      <div className="bg-white border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
+          <div className="flex items-center gap-2 text-sm text-gray-500">
+            <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
+            <svg className="w-3.5 h-3.5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+            <Link href="/products" className="hover:text-blue-600 transition-colors">Products</Link>
+            <svg className="w-3.5 h-3.5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+            <span className="text-gray-900 font-medium truncate max-w-[180px]">{product.title}</span>
           </div>
         </div>
       </div>
 
-      <main className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Product Image */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+        {/* Main product grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+
+          {/* ── LEFT: Image ── */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="bg-white rounded-2xl shadow-lg overflow-hidden"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
           >
-            {product.image ? (
-              <img
-                src={api.getImageUrl(product.image)}
-                alt={product.title}
-                className="w-full h-[500px] object-cover"
-              />
-            ) : (
-              <div className="w-full h-[500px] bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
-                <span className="text-8xl">📦</span>
-              </div>
-            )}
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+              {product.image ? (
+                <img
+                  src={api.getImageUrl(product.image)}
+                  alt={product.title}
+                  className="w-full h-[420px] lg:h-[520px] object-cover"
+                />
+              ) : (
+                <div className="w-full h-[420px] lg:h-[520px] bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
+                  <span className="text-8xl">📦</span>
+                </div>
+              )}
+            </div>
           </motion.div>
 
-          {/* Product Info */}
+          {/* ── RIGHT: Info ── */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="flex flex-col"
           >
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-              <p className="text-sm font-semibold text-blue-600 uppercase mb-2">{product.category}</p>
-              <h1 className="text-4xl font-black text-gray-900 mb-4">{product.title}</h1>
-              
-              <div className="flex items-baseline gap-4 mb-6">
-                <span className="text-5xl font-black text-blue-600">${product.price}</span>
-                <span className="text-gray-500 line-through text-xl">${(product.price * 1.2).toFixed(2)}</span>
-                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-bold">Save 20%</span>
-              </div>
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 lg:p-8 flex flex-col gap-6 h-full">
 
-              {product.description && (
-                <p className="text-gray-700 text-lg mb-6 leading-relaxed">{product.description}</p>
+              {/* Category badge */}
+              {product.category && (
+                <span className="self-start text-xs font-bold text-blue-600 uppercase tracking-widest bg-blue-50 px-3 py-1.5 rounded-full">
+                  {product.category}
+                </span>
               )}
 
+              {/* Title */}
+              <h1 className="text-3xl lg:text-4xl font-black text-gray-900 leading-tight">
+                {product.title}
+              </h1>
+
+              {/* Price row */}
+              <div className="flex items-center gap-3 flex-wrap">
+                <span className="text-4xl font-black text-blue-600">${product.price}</span>
+                <span className="text-lg text-gray-400 line-through">${(product.price * 1.2).toFixed(2)}</span>
+                <span className="text-sm font-bold text-green-700 bg-green-100 px-3 py-1 rounded-full">
+                  Save 20%
+                </span>
+              </div>
+
+              {/* Description */}
+              {product.description && (
+                <p className="text-gray-600 text-base leading-relaxed border-t border-gray-100 pt-5">
+                  {product.description}
+                </p>
+              )}
+
+              {/* Features */}
               {features.length > 0 && (
-                <div className="mb-6">
-                  <h3 className="font-bold text-lg mb-3">Key Features:</h3>
+                <div>
+                  <h3 className="font-bold text-gray-900 mb-3 text-sm uppercase tracking-wide">Key Features</h3>
                   <ul className="space-y-2">
                     {features.map((feature, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                        <span className="text-gray-700">{feature}</span>
+                      <li key={index} className="flex items-start gap-2.5">
+                        <div className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center">
+                          <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                          </svg>
+                        </div>
+                        <span className="text-gray-700 text-sm">{feature}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
               )}
 
-              {/* Quantity Selector */}
-              <div className="mb-6">
-                <label className="block font-bold text-gray-900 mb-2">Quantity:</label>
-                <div className="flex items-center gap-4">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-12 h-12 rounded-lg border-2 border-gray-300 hover:border-blue-600 font-bold text-xl"
-                  >
-                    -
-                  </button>
-                  <span className="text-2xl font-bold w-12 text-center">{quantity}</span>
-                  <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="w-12 h-12 rounded-lg border-2 border-gray-300 hover:border-blue-600 font-bold text-xl"
-                  >
-                    +
-                  </button>
+              {/* Spacer */}
+              <div className="flex-1" />
+
+              {/* Quantity + Add to Cart */}
+              <div className="border-t border-gray-100 pt-6 space-y-4">
+
+                {/* Quantity selector */}
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-bold text-gray-700 uppercase tracking-wide">Quantity</span>
+                  <div className="flex items-center gap-0 border border-gray-200 rounded-xl overflow-hidden">
+                    <button
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      className="w-11 h-11 flex items-center justify-center text-gray-600 hover:bg-gray-50 font-bold text-lg transition-colors"
+                    >
+                      −
+                    </button>
+                    <span className="w-12 text-center text-lg font-bold text-gray-900 border-x border-gray-200">
+                      {quantity}
+                    </span>
+                    <button
+                      onClick={() => setQuantity(quantity + 1)}
+                      className="w-11 h-11 flex items-center justify-center text-gray-600 hover:bg-gray-50 font-bold text-lg transition-colors"
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
-              </div>
 
-              {/* Add to Cart Button */}
-              <button
-                onClick={handleAddToCart}
-                className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-800 text-white font-bold text-lg rounded-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 mb-4"
-              >
-                🛒 Add to Cart
-              </button>
-
-              <Link href="/products">
-                <button className="w-full py-4 border-2 border-blue-600 text-blue-600 font-bold text-lg rounded-xl hover:bg-blue-50 transition-all">
-                  ← Back to Products
+                {/* Add to cart */}
+                <button
+                  onClick={handleAddToCart}
+                  className={`w-full py-4 font-bold text-base rounded-xl transition-all duration-300 flex items-center justify-center gap-2 ${
+                    added
+                      ? 'bg-green-500 text-white scale-[0.98]'
+                      : 'bg-blue-600 hover:bg-blue-700 text-white hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98]'
+                  }`}
+                >
+                  {added ? (
+                    <>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      </svg>
+                      Added to Cart!
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                      </svg>
+                      Add to Cart
+                    </>
+                  )}
                 </button>
-              </Link>
+
+                {/* Back link */}
+                <Link href="/products">
+                  <button className="w-full py-3.5 border border-gray-200 text-gray-600 font-semibold text-sm rounded-xl hover:border-blue-300 hover:text-blue-600 transition-all flex items-center justify-center gap-2">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                    Back to Products
+                  </button>
+                </Link>
+              </div>
             </div>
           </motion.div>
         </div>
 
-        {/* Product Details */}
+        {/* Product Details section */}
         {product.details && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="mt-12 bg-white rounded-2xl shadow-lg p-8"
+            transition={{ delay: 0.25 }}
+            className="mt-8 bg-white rounded-2xl shadow-sm border border-gray-100 p-7 lg:p-10"
           >
-            <h2 className="text-3xl font-black text-gray-900 mb-6">Product Details</h2>
-            <div className="prose prose-lg max-w-none text-gray-700">
+            <h2 className="text-2xl font-black text-gray-900 mb-6 flex items-center gap-3">
+              <span className="w-1 h-7 rounded-full bg-blue-600 inline-block"></span>
+              Product Details
+            </h2>
+            <div className="text-gray-600 leading-relaxed space-y-4 text-base">
               {product.details.split('\n').map((paragraph, index) => (
-                <p key={index} className="mb-4">{paragraph}</p>
+                paragraph.trim() && <p key={index}>{paragraph}</p>
               ))}
             </div>
           </motion.div>
         )}
+
       </main>
     </div>
   )
