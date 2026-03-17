@@ -169,8 +169,9 @@ const services = [
   }
 ]
 
-export default function ServiceDetailPage({ params }) {
-  const service = services.find(s => s.slug === params.slug)
+export default async function ServiceDetailPage({ params }) {
+  const resolvedParams = await params
+  const service = services.find(s => s.slug === resolvedParams.slug)
 
   if (!service) {
     return (
