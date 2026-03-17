@@ -8,6 +8,10 @@ class Service(Base):
     id = Column(Integer, primary_key=True, index=True)
     icon = Column(String)
     title = Column(String, index=True)
-    description = Column(Text)
+    slug = Column(String, unique=True, index=True)
+    description = Column(Text)  # Short description for cards
+    detailed_description = Column(Text, nullable=True)  # Full content for detail page
+    features = Column(Text, nullable=True)  # Comma-separated or JSON string
+    image = Column(String, nullable=True)  # Service image
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

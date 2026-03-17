@@ -69,9 +69,12 @@ export default function ServicesModern1() {
             "from-blue-700 to-blue-900"
           ]
           const mappedServices = data.map((service, index) => ({
+            id: service.id,
+            slug: service.slug,
             icon: service.icon || "⚡",
             title: service.title || service.name,
             description: service.description,
+            image: service.image ? api.getImageUrl(service.image) : null,
             // Parse features - if it's a string, split by comma; if array, use as is
             features: typeof service.features === 'string' 
               ? service.features.split(',').map(f => f.trim()).filter(f => f.length > 0)
@@ -133,7 +136,8 @@ export default function ServicesModern1() {
               <div className={`absolute -inset-0.5 bg-gradient-to-r ${service.color} rounded-3xl opacity-0 group-hover:opacity-100 blur transition-all duration-500`}></div>
               
               {/* Card */}
-              <div className="relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 h-full">
+              <Link href={`/services/${service.slug}`}>
+                <div className="relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 h-full cursor-pointer">
                 {/* Icon */}
                 <motion.div
                   animate={{
@@ -172,7 +176,7 @@ export default function ServicesModern1() {
                 </ul>
 
                 {/* CTA Button */}
-                <Link href="/services">
+                <Link href={`/services/${service.slug}`}>
                   <button className={`w-full py-3 rounded-xl bg-gradient-to-r ${service.color} text-white font-bold hover:shadow-lg transform hover:scale-105 transition-all duration-300`}>
                     Learn More
                   </button>
@@ -182,7 +186,8 @@ export default function ServicesModern1() {
                 <div className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-br ${service.color} opacity-10 rounded-tr-3xl rounded-bl-3xl transition-all duration-300 ${
                   hoveredIndex === index ? 'scale-150' : 'scale-100'
                 }`}></div>
-              </div>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </div>

@@ -149,17 +149,17 @@ class APIClient {
     return this.request(`/api/services/${id}`);
   }
 
-  async createService(data) {
+  async createService(formData) {
     return this.request('/api/services/', {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: formData, // FormData object with image
     });
   }
 
-  async updateService(id, data) {
+  async updateService(id, formData) {
     return this.request(`/api/services/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(data),
+      body: formData, // FormData object with image
     });
   }
 

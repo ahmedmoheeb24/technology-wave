@@ -1,245 +1,251 @@
 "use client"
-import { serviceData, assets } from '@/assets/assets'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useParams, notFound } from 'next/navigation'
-import { motion } from "framer-motion"
-import { useState, useEffect } from 'react'
 
-const ServiceDetailPage = () => {
-  const params = useParams()
+import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import api from '@/lib/api'
+import Navbar from '@/app/Components/Navbar'
+import Footer from '@/app/Components/Footer'
+import Link from 'next/link'
+
+export default function ServiceDetailPage({ params }) {
   const [service, setService] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    const slug = params?.slug
-    if (slug) {
-      const foundService = serviceData.find(s => s.link === slug)
-      setService(foundService)
-      setLoading(false)
+    const loadService = async () => {
+      try {
+        setLoading(true)
+        const slug = params.slug
+        const data = await api.request(`/api/services/slug/${slug}`)
+        setService(data)
+        setError(null)
+      } catch (err) {
+        console.error('Error loading service:', err)
+        setError('Service not found')
+      } finally {
+        setLoading(false)
+      }
     }
-  }, [params])
+    loadService()
+  }, [params.slug])
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-2xl font-Ovo dark:text-white">Loading...</div>
-      </div>
-    )
-  }
-
-  if (!service) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-Ovo mb-4 dark:text-white">Service not found</h2>
-          <Link href="/#services" className="text-blue-600 dark:text-blue-400 hover:underline">
-            Back to Services
-          </Link>
+      <div className="min-h-screen font-outfit">
+        <Navbar />
+        <div className="flex items-center justify-center min-h-[80vh]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-xl text-gray-600">Loading service details...</p>
+          </div>
         </div>
       </div>
     )
   }
+
+  if (error || !service) {
+    return (
+      <div className="min-h-screen font-outfit">
+        <Navbar />
+        <div className="flex items-center justify-center min-h-[80vh]">
+          <div className="text-center">
+            <div className="text-8xl mb-4">😕</div>
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">Service Not Found</h1>
+            <p className="text-xl text-gray-600 mb-8">The service you're looking for doesn't exist.</p>
+            <Link href="/services">
+              <button className="px-8 py-4 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all">
+                Back to Services
+              </button>
+            </Link>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    )
+  }
+
+  // Parse features from comma-separated string
+  const features = service.features 
+    ? (typeof service.features === 'string' 
+        ? service.features.split(',').map(f => f.trim()).filter(f => f.length > 0)
+        : service.features)
+    : []
 
   return (
-    <div className="w-full px-[12%] py-20">
-      {/* Back Button */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <Link 
-          href="/#services" 
-          className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white mb-8 group"
-        >
-          <motion.div
-            whileHover={{ x: -5 }}
-            transition={{ type: 'spring', stiffness: 300 }}
-          >
-            <Image 
-              src={assets.right_arrow} 
-              alt="back" 
-              className="w-4 rotate-180" 
-            />
-          </motion.div>
-          <span className="font-Ovo">Back to Services</span>
-        </Link>
-      </motion.div>
-
+    <div className="min-h-screen font-outfit">
+      <Navbar />
+      
       {/* Hero Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-        className="mb-16"
-      >
-        <div className="flex items-center gap-4 mb-6">
+      <section className="pt-32 pb-20 bg-gradient-to-br from-blue-50 via-white to-purple-50">
+        <div className="max-w-7xl mx-auto px-6">
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
           >
-            <Image 
-              src={service.icon} 
-              alt={service.title} 
-              className="w-16 sm:w-20" 
-            />
-          </motion.div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-Ovo dark:text-white">
-            {service.title}
-          </h1>
-        </div>
-        <p className="text-xl text-gray-600 dark:text-gray-300 font-Ovo max-w-3xl">
-          {service.detailedDescription}
-        </p>
-      </motion.div>
+            {/* Breadcrumb */}
+            <div className="flex items-center gap-2 text-sm text-gray-600 mb-8">
+              <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
+              <span>/</span>
+              <Link href="/services" className="hover:text-blue-600 transition-colors">Services</Link>
+              <span>/</span>
+              <span className="text-gray-900 font-semibold">{service.title}</span>
+            </div>
 
-      {/* What's Included Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-        className="mb-16"
-      >
-        <h2 className="text-3xl sm:text-4xl font-Ovo mb-8 dark:text-white">
-          What's Included
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {service.includes.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
-              className="flex items-start gap-3 p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 transition-colors"
-            >
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-black dark:bg-white flex items-center justify-center mt-0.5">
-                <svg 
-                  className="w-4 h-4 text-white dark:text-black" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M5 13l4 4L19 7" 
-                  />
-                </svg>
-              </div>
-              <span className="text-gray-700 dark:text-gray-300 font-Ovo">
-                {item}
-              </span>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* Process Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.5 }}
-        className="mb-16"
-      >
-        <h2 className="text-3xl sm:text-4xl font-Ovo mb-8 dark:text-white">
-          How It Works
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {service.process.map((step, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-              className="relative"
-            >
-              <div className="border border-gray-300 dark:border-gray-600 rounded-2xl p-6 h-full hover:shadow-lg transition-shadow">
-                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-black dark:bg-white text-white dark:text-black font-bold text-xl mb-4">
-                  {index + 1}
-                </div>
-                <h3 className="text-xl font-semibold mb-3 dark:text-white font-Ovo">
-                  {step.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-                  {step.description}
+            {/* Title and Icon */}
+            <div className="flex items-start gap-6 mb-8">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+                className="text-7xl"
+              >
+                {service.icon}
+              </motion.div>
+              <div className="flex-1">
+                <h1 className="text-5xl md:text-7xl font-black text-gray-900 mb-6">
+                  {service.title}
+                </h1>
+                <p className="text-2xl text-gray-600 leading-relaxed">
+                  {service.description}
                 </p>
               </div>
-              
-              {/* Connecting Line (hidden on last item) */}
-              {index < service.process.length - 1 && (
-                <div className="hidden lg:block absolute top-6 left-full w-6 h-0.5 bg-gray-300 dark:bg-gray-600" />
-              )}
-            </motion.div>
-          ))}
+            </div>
+
+            {/* CTA Button */}
+            <div className="flex gap-4">
+              <a href="#contact">
+                <button className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-full font-bold text-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                  Get Started
+                </button>
+              </a>
+              <Link href="/services">
+                <button className="px-8 py-4 border-2 border-blue-600 text-blue-600 rounded-full font-bold text-lg hover:bg-blue-50 transition-all duration-300">
+                  All Services
+                </button>
+              </Link>
+            </div>
+          </motion.div>
         </div>
-      </motion.div>
+      </section>
+
+      {/* Image Section */}
+      {service.image && (
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="rounded-3xl overflow-hidden shadow-2xl"
+            >
+              <img
+                src={api.getImageUrl(service.image)}
+                alt={service.title}
+                className="w-full h-[500px] object-cover"
+                onError={(e) => {
+                  e.target.style.display = 'none'
+                }}
+              />
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {/* Detailed Description */}
+      {service.detailed_description && (
+        <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
+          <div className="max-w-4xl mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-8">
+                About This Service
+              </h2>
+              <div className="prose prose-lg max-w-none">
+                <p className="text-xl text-gray-700 leading-relaxed whitespace-pre-line">
+                  {service.detailed_description}
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {/* Features Section */}
+      {features.length > 0 && (
+        <section className="py-20 bg-white">
+          <div className="max-w-6xl mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-12 text-center">
+                Key Features
+              </h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                {features.map((feature, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.1 * index }}
+                    className="flex items-start gap-4 bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-2xl border border-blue-100 hover:shadow-lg transition-all"
+                  >
+                    <div className="flex-shrink-0">
+                      <svg className="w-7 h-7 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <p className="text-lg text-gray-700 font-medium">{feature}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      )}
 
       {/* CTA Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.8 }}
-        className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-3xl p-8 sm:p-12 text-center"
-      >
-        <h2 className="text-3xl sm:text-4xl font-Ovo mb-4 dark:text-white">
-          Ready to Get Started?
-        </h2>
-        <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto font-Ovo">
-          Let's discuss your project and see how I can help bring your ideas to life. 
-          Get in touch today for a free consultation.
-        </p>
-        <Link href="/#contact">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 bg-black dark:bg-white text-white dark:text-black rounded-full font-Ovo text-lg font-medium hover:shadow-xl transition-shadow"
+      <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-900">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
-            Contact Me
-          </motion.button>
-        </Link>
-      </motion.div>
-
-      {/* Other Services Section */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 1 }}
-        className="mt-20"
-      >
-        <h2 className="text-3xl sm:text-4xl font-Ovo mb-8 dark:text-white text-center">
-          Other Services
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {serviceData
-            .filter(s => s.link !== service.link)
-            .slice(0, 3)
-            .map((otherService, index) => (
-              <Link href={`/services/${otherService.link}`} key={index}>
-                <motion.div
-                  whileHover={{ y: -5 }}
-                  className="border border-gray-300 dark:border-gray-600 rounded-2xl p-6 cursor-pointer hover:shadow-lg transition-shadow h-full"
-                >
-                  <Image 
-                    src={otherService.icon} 
-                    alt={otherService.title} 
-                    className="w-10 mb-4" 
-                  />
-                  <h3 className="text-xl font-semibold mb-2 dark:text-white font-Ovo">
-                    {otherService.title}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">
-                    {otherService.description}
-                  </p>
-                </motion.div>
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-6">
+              Ready to Get Started?
+            </h2>
+            <p className="text-xl text-white/90 mb-10">
+              Let's discuss how this service can help your business grow
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a href="#contact">
+                <button className="px-10 py-5 bg-white text-blue-600 font-bold text-lg rounded-full hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-xl">
+                  Contact Us
+                </button>
+              </a>
+              <Link href="/services">
+                <button className="px-10 py-5 border-2 border-white text-white font-bold text-lg rounded-full hover:bg-white hover:text-blue-600 transition-all duration-300">
+                  View All Services
+                </button>
               </Link>
-            ))}
+            </div>
+          </motion.div>
         </div>
-      </motion.div>
+      </section>
+
+      <Footer />
     </div>
   )
 }
-
-export default ServiceDetailPage
