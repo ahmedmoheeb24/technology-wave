@@ -1,88 +1,57 @@
 "use client"
 
 import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
-import api from '@/lib/api'
+import { useState } from 'react'
 import Link from 'next/link'
 
 // Interactive Card Grid Services
 export default function ServicesModern1() {
   const [hoveredIndex, setHoveredIndex] = useState(null)
 
-  const [services, setServices] = useState([
+  const services = [
     {
-      title: "UI/UX Design",
-      description: "Beautiful, intuitive interfaces that users love",
-      features: ["User Research", "Wireframing", "Prototyping", "Visual Design"],
-      color: "from-blue-400 to-blue-600"
-    },
-    {
+      slug: "web-development",
       title: "Web Development",
-      description: "Fast, scalable, and secure web applications",
+      description: "Build powerful, scalable web applications with cutting-edge technologies",
       features: ["React/Next.js", "Backend APIs", "Database Design", "Deployment"],
-      color: "from-blue-500 to-blue-700"
+      color: "from-blue-500 to-cyan-500"
     },
     {
-      title: "Mobile Apps",
-      description: "Native and cross-platform mobile experiences",
+      slug: "mobile-app-development",
+      title: "Mobile App Development",
+      description: "Native and cross-platform mobile apps that users love",
       features: ["iOS & Android", "React Native", "App Store Deploy", "Push Notifications"],
-      color: "from-blue-600 to-blue-800"
+      color: "from-purple-500 to-pink-500"
     },
     {
-      title: "Digital Strategy",
-      description: "Data-driven strategies for digital growth",
-      features: ["Market Analysis", "SEO Strategy", "Content Planning", "Analytics"],
-      color: "from-sky-500 to-blue-600"
+      slug: "ui-ux-design",
+      title: "UI/UX Design",
+      description: "Beautiful, intuitive interfaces that convert visitors into customers",
+      features: ["User Research", "Wireframing", "Prototyping", "Visual Design"],
+      color: "from-orange-500 to-red-500"
     },
     {
+      slug: "cloud-solutions",
       title: "Cloud Solutions",
-      description: "Scalable infrastructure for modern applications",
-      features: ["AWS/Azure", "DevOps", "CI/CD Pipeline", "Monitoring"],
-      color: "from-cyan-500 to-blue-700"
+      description: "Scalable cloud infrastructure for modern applications",
+      features: ["AWS/Azure", "DevOps", "CI/CD Pipeline", "Cloud Security"],
+      color: "from-teal-500 to-green-500"
     },
     {
-      title: "AI Integration",
-      description: "Intelligent features powered by machine learning",
-      features: ["ChatGPT API", "Custom Models", "Automation", "Data Analysis"],
-      color: "from-blue-700 to-blue-900"
+      slug: "ecommerce-solutions",
+      title: "E-Commerce Solutions",
+      description: "Complete online store solutions that drive sales",
+      features: ["Shopping Carts", "Payment Gateway", "Inventory", "Analytics"],
+      color: "from-indigo-500 to-blue-500"
+    },
+    {
+      slug: "digital-marketing",
+      title: "Digital Marketing",
+      description: "Data-driven strategies to grow your online presence",
+      features: ["SEO Strategy", "Social Media", "PPC Advertising", "Analytics"],
+      color: "from-yellow-500 to-orange-500"
     }
-  ])
-
-  useEffect(() => {
-    const loadServices = async () => {
-      try {
-        const data = await api.getServices()
-        if (data && data.length > 0) {
-          // Map API data to component format
-          const colors = [
-            "from-blue-400 to-blue-600",
-            "from-blue-500 to-blue-700",
-            "from-blue-600 to-blue-800",
-            "from-sky-500 to-blue-600",
-            "from-cyan-500 to-blue-700",
-            "from-blue-700 to-blue-900"
-          ]
-          const mappedServices = data.map((service, index) => ({
-            id: service.id,
-            slug: service.slug,
-            title: service.title || service.name,
-            description: service.description,
-            image: service.image ? api.getImageUrl(service.image) : null,
-            // Parse features - if it's a string, split by comma; if array, use as is
-            features: typeof service.features === 'string' 
-              ? service.features.split(',').map(f => f.trim()).filter(f => f.length > 0)
-              : (service.features || ["Feature 1", "Feature 2", "Feature 3"]),
-            color: colors[index % colors.length]
-          }))
-          setServices(mappedServices)
-          console.log('✅ Services loaded from API:', mappedServices.length)
-        }
-      } catch (error) {
-        console.log('⚠️ Using default services (API not available)')
-      }
-    }
-    loadServices()
-  }, [])
+  ]
 
   return (
     <section className="relative py-24 md:py-32 bg-gradient-to-b from-gray-50 to-white overflow-hidden">

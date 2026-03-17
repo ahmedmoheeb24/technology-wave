@@ -221,7 +221,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Management Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <Link href="/admin/dashboard/products">
             <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all cursor-pointer border-2 border-transparent hover:border-blue-500">
               <div className="text-5xl mb-4">📦</div>
@@ -230,27 +230,11 @@ const AdminDashboard = () => {
             </div>
           </Link>
 
-          <Link href="/admin/dashboard/services">
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all cursor-pointer border-2 border-transparent hover:border-green-500">
-              <div className="text-5xl mb-4">⚡</div>
-              <h2 className="text-2xl font-bold mb-2">Services</h2>
-              <p className="text-gray-600">Manage your services</p>
-            </div>
-          </Link>
-
           <Link href="/admin/dashboard/hero">
             <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all cursor-pointer border-2 border-transparent hover:border-purple-500">
               <div className="text-5xl mb-4">🖼️</div>
               <h2 className="text-2xl font-bold mb-2">Hero Banners</h2>
               <p className="text-gray-600">Manage hero slider</p>
-            </div>
-          </Link>
-
-          <Link href="/admin/dashboard/about">
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all cursor-pointer border-2 border-transparent hover:border-indigo-500">
-              <div className="text-5xl mb-4">ℹ️</div>
-              <h2 className="text-2xl font-bold mb-2">About Page</h2>
-              <p className="text-gray-600">Manage about us content</p>
             </div>
           </Link>
 
