@@ -3,7 +3,6 @@ from typing import Optional
 from datetime import datetime
 
 class ServiceBase(BaseModel):
-    icon: str
     title: str
     description: str
     detailed_description: Optional[str] = None

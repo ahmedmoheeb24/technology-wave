@@ -37,7 +37,6 @@ async def get_service_by_slug(slug: str, db: Session = Depends(get_db)):
 
 @router.post("/", response_model=ServiceResponse)
 async def create_service(
-    icon: str = Form(...),
     title: str = Form(...),
     description: str = Form(...),
     detailed_description: Optional[str] = Form(None),
@@ -62,7 +61,6 @@ async def create_service(
         image_path = await save_upload_file(image, "services")
     
     service = Service(
-        icon=icon,
         title=title,
         slug=slug,
         description=description,
@@ -78,7 +76,6 @@ async def create_service(
 @router.put("/{service_id}", response_model=ServiceResponse)
 async def update_service(
     service_id: int,
-    icon: str = Form(...),
     title: str = Form(...),
     description: str = Form(...),
     detailed_description: Optional[str] = Form(None),
@@ -92,7 +89,6 @@ async def update_service(
         raise HTTPException(status_code=404, detail="Service not found")
     
     # Update fields
-    service.icon = icon
     service.title = title
     service.description = description
     service.detailed_description = detailed_description

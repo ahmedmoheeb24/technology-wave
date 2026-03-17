@@ -12,7 +12,6 @@ export default function AdminServicesPage() {
   const [imagePreview, setImagePreview] = useState(null)
   
   const [formData, setFormData] = useState({
-    icon: '⚡',
     title: '',
     description: '',
     detailed_description: '',
@@ -42,7 +41,6 @@ export default function AdminServicesPage() {
     
     try {
       const submitData = new FormData()
-      submitData.append('icon', formData.icon)
       submitData.append('title', formData.title)
       submitData.append('description', formData.description)
       submitData.append('detailed_description', formData.detailed_description || '')
@@ -71,7 +69,6 @@ export default function AdminServicesPage() {
   const handleEdit = (service) => {
     setEditingService(service)
     setFormData({
-      icon: service.icon,
       title: service.title,
       description: service.description,
       detailed_description: service.detailed_description || '',
@@ -100,7 +97,6 @@ export default function AdminServicesPage() {
 
   const resetForm = () => {
     setFormData({
-      icon: '⚡',
       title: '',
       description: '',
       detailed_description: '',
@@ -124,8 +120,6 @@ export default function AdminServicesPage() {
       reader.readAsDataURL(file)
     }
   }
-
-  const commonIcons = ['⚡', '🎨', '💻', '📱', '🚀', '☁️', '🤖', '🔧', '📊', '🎯', '💡', '🌐']
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
@@ -153,34 +147,6 @@ export default function AdminServicesPage() {
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Icon Selection */}
-              <div>
-                <label className="block text-sm font-semibold mb-2">Icon</label>
-                <div className="flex flex-wrap gap-2">
-                  {commonIcons.map((icon) => (
-                    <button
-                      key={icon}
-                      type="button"
-                      onClick={() => setFormData({ ...formData, icon })}
-                      className={`text-3xl p-3 border-2 rounded-lg transition-all ${
-                        formData.icon === icon
-                          ? 'border-blue-600 bg-blue-50'
-                          : 'border-gray-200 hover:border-gray-400'
-                      }`}
-                    >
-                      {icon}
-                    </button>
-                  ))}
-                </div>
-                <input
-                  type="text"
-                  value={formData.icon}
-                  onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                  placeholder="Or enter custom emoji/icon"
-                  className="mt-2 w-full p-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 outline-none"
-                />
-              </div>
-
               {/* Title */}
               <div>
                 <label className="block text-sm font-semibold mb-2">Title *</label>
@@ -301,8 +267,7 @@ export default function AdminServicesPage() {
                   />
                 )}
                 <div className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="text-4xl">{service.icon}</span>
+                  <div className="mb-4">
                     <h3 className="text-xl font-bold text-gray-900">{service.title}</h3>
                   </div>
                   <p className="text-gray-600 mb-4 line-clamp-2">{service.description}</p>

@@ -11,42 +11,36 @@ export default function ServicesModern1() {
 
   const [services, setServices] = useState([
     {
-      icon: "🎨",
       title: "UI/UX Design",
       description: "Beautiful, intuitive interfaces that users love",
       features: ["User Research", "Wireframing", "Prototyping", "Visual Design"],
       color: "from-blue-400 to-blue-600"
     },
     {
-      icon: "💻",
       title: "Web Development",
       description: "Fast, scalable, and secure web applications",
       features: ["React/Next.js", "Backend APIs", "Database Design", "Deployment"],
       color: "from-blue-500 to-blue-700"
     },
     {
-      icon: "📱",
       title: "Mobile Apps",
       description: "Native and cross-platform mobile experiences",
       features: ["iOS & Android", "React Native", "App Store Deploy", "Push Notifications"],
       color: "from-blue-600 to-blue-800"
     },
     {
-      icon: "🚀",
       title: "Digital Strategy",
       description: "Data-driven strategies for digital growth",
       features: ["Market Analysis", "SEO Strategy", "Content Planning", "Analytics"],
       color: "from-sky-500 to-blue-600"
     },
     {
-      icon: "☁️",
       title: "Cloud Solutions",
       description: "Scalable infrastructure for modern applications",
       features: ["AWS/Azure", "DevOps", "CI/CD Pipeline", "Monitoring"],
       color: "from-cyan-500 to-blue-700"
     },
     {
-      icon: "🤖",
       title: "AI Integration",
       description: "Intelligent features powered by machine learning",
       features: ["ChatGPT API", "Custom Models", "Automation", "Data Analysis"],
@@ -71,7 +65,6 @@ export default function ServicesModern1() {
           const mappedServices = data.map((service, index) => ({
             id: service.id,
             slug: service.slug,
-            icon: service.icon || "⚡",
             title: service.title || service.name,
             description: service.description,
             image: service.image ? api.getImageUrl(service.image) : null,
@@ -138,18 +131,6 @@ export default function ServicesModern1() {
               {/* Card */}
               <Link href={`/services/${service.slug}`}>
                 <div className="relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 h-full cursor-pointer">
-                {/* Icon */}
-                <motion.div
-                  animate={{
-                    scale: hoveredIndex === index ? 1.2 : 1,
-                    rotate: hoveredIndex === index ? 10 : 0,
-                  }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                  className="text-6xl mb-6"
-                >
-                  {service.icon}
-                </motion.div>
-
                 {/* Title */}
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.title}</h3>
 

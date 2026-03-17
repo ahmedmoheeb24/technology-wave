@@ -37,7 +37,7 @@ class Settings(BaseSettings):
     # CORS - Support multiple origins for production and development
     ALLOWED_ORIGINS: str = os.getenv(
         "ALLOWED_ORIGINS",
-        "http://localhost:3000,http://localhost:3001,https://technologywave.vercel.app"
+        "http://localhost:3000,http://localhost:3001,https://technologywave.vercel.app,https://technologywave-kgyc.vercel.app"
     )
     
     # File Upload - Use /tmp for Vercel serverless
