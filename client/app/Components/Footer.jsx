@@ -3,7 +3,7 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <footer className='bg-blue-500 text-white py-12 mt-20'>
+    <footer className='bg-gradient-to-r from-blue-600 to-sky-600 text-white py-12 mt-20'>
       <div className='max-w-7xl mx-auto px-6 sm:px-10 lg:px-12'>
         
         {/* Footer Top - Grid Layout */}

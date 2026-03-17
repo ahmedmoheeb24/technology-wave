@@ -100,7 +100,6 @@ const ProductsPage = () => {
 
   return (
     <div className="min-h-screen font-outfit overflow-x-hidden">
-      <Navbar />
       
       <main className='pt-24 pb-20'>
         {/* Hero Section */}
@@ -158,43 +157,45 @@ const ProductsPage = () => {
                   transition={{ duration: 0.3 }}
                   className="group"
                 >
-                  <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-200 hover:border-blue-300">
-                    {/* Product Image */}
-                    <div className="relative h-64 bg-gray-200 overflow-hidden">
-                      <div 
-                        className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                        style={{ backgroundImage: `url(${product.image})` }}
-                      />
-                      
-                      {/* Quick View Overlay */}
-                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <button className="bg-white text-gray-900 px-6 py-2 rounded-full font-semibold hover:bg-gray-100 transition-colors">
-                          Quick View
-                        </button>
+                  <Link href={`/products/${product.slug}`}>
+                    <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-200 hover:border-blue-300 cursor-pointer">
+                      {/* Product Image */}
+                      <div className="relative h-64 bg-gray-200 overflow-hidden">
+                        <div 
+                          className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                          style={{ backgroundImage: `url(${product.image})` }}
+                        />
+                        
+                        {/* Quick View Overlay */}
+                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                          <span className="bg-white text-gray-900 px-6 py-2 rounded-full font-semibold">
+                            View Details
+                          </span>
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Product Info */}
-                    <div className="p-5">
-                      <p className="text-xs text-blue-600 font-semibold mb-2 uppercase tracking-wide">
-                        {product.category}
-                      </p>
-                      <h3 className="font-bold text-lg text-gray-900 mb-3 font-Ovo">
-                        {product.title}
-                      </h3>
-                      
-                      <div className="flex items-center justify-between">
-                        <span className="text-2xl font-bold text-blue-600">
-                          {product.price}
-                        </span>
-                        <button className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full transition-colors duration-300">
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                          </svg>
-                        </button>
+                      {/* Product Info */}
+                      <div className="p-5">
+                        <p className="text-xs text-blue-600 font-semibold mb-2 uppercase tracking-wide">
+                          {product.category}
+                        </p>
+                        <h3 className="font-bold text-lg text-gray-900 mb-3 font-Ovo">
+                          {product.title}
+                        </h3>
+                        
+                        <div className="flex items-center justify-between">
+                          <span className="text-2xl font-bold text-blue-600">
+                            {product.price}
+                          </span>
+                          <div className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full transition-colors duration-300">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 </motion.div>
               ))}
             </motion.div>

@@ -5,7 +5,6 @@ import { useCart } from '../context/CartContext'
 import { useRouter } from 'next/navigation'
 import api from '@/lib/api'
 import Navbar from '../Components/Navbar'
-import Footer from '../Components/Footer'
 
 export default function CheckoutPage() {
   const { cart, getCartTotal, clearCart } = useCart()
@@ -78,7 +77,6 @@ export default function CheckoutPage() {
             Continue Shopping
           </a>
         </div>
-        <Footer />
       </div>
     )
   }

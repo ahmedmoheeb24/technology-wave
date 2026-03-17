@@ -17,7 +17,7 @@ const Navbar = () => {
     const useWhiteText = isHomePage && !isScroll;
 
     // White background with shadow on sub-pages when scrolled
-    const useWhiteBg = !isHomePage && isScroll;
+    const useWhiteBg = isScroll;
 
     function openMenu() {
         sideMenuRef.current.style.transform = "translateX(-16rem)";

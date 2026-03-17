@@ -4,7 +4,6 @@ import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Navbar from '../Components/Navbar'
-import Footer from '../Components/Footer'
 
 function OrderConfirmationContent() {
   const searchParams = useSearchParams()
@@ -77,8 +76,6 @@ function OrderConfirmationContent() {
           </Link>
         </div>
       </div>
-      
-      <Footer />
     </>
   )
 }
