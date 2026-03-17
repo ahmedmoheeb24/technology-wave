@@ -113,20 +113,21 @@ export default function ProductsModern() {
                 transition={{ delay: 0.1 * index }}
                 className="group relative"
               >
-                <div className="relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100">
-                  {product.featured && (
-                    <div className="absolute top-4 left-4 z-10 px-3 py-1 bg-gradient-to-r from-blue-600 to-blue-800 text-white text-xs font-bold rounded-full">
-                      ⭐ Featured
-                    </div>
-                  )}
+                <Link href={`/products/${product.slug || product.id}`}>
+                  <div className="relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 cursor-pointer">
+                    {product.featured && (
+                      <div className="absolute top-4 left-4 z-10 px-3 py-1 bg-gradient-to-r from-blue-600 to-blue-800 text-white text-xs font-bold rounded-full">
+                        ⭐ Featured
+                      </div>
+                    )}
 
-                  {!product.inStock && (
-                    <div className="absolute top-4 right-4 z-10 px-3 py-1 bg-red-500 text-white text-xs font-bold rounded-full">
-                      Out of Stock
-                    </div>
-                  )}
+                    {!product.inStock && (
+                      <div className="absolute top-4 right-4 z-10 px-3 py-1 bg-red-500 text-white text-xs font-bold rounded-full">
+                        Out of Stock
+                      </div>
+                    )}
 
-                  <div className="relative h-64 bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center cursor-pointer overflow-hidden">
+                    <div className="relative h-64 bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center overflow-hidden">
                     {typeof product.image === 'string' && (product.image.startsWith('http') || product.image.startsWith('data:')) ? (
                       <motion.img
                         src={product.image}
@@ -150,40 +151,43 @@ export default function ProductsModern() {
                     )}
                   </div>
 
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors cursor-pointer">
-                      {product.name}
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-4">
-                      {product.description}
-                    </p>
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                        {product.name}
+                      </h3>
+                      <p className="text-gray-600 text-sm mb-4">
+                        {product.description}
+                      </p>
 
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-3xl font-black bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                        ${product.price}
-                      </span>
-                    </div>
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-3xl font-black bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+                          ${product.price}
+                        </span>
+                      </div>
 
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => addToCart(product)}
-                        disabled={!product.inStock}
-                        className={`flex-1 py-3 rounded-xl font-bold transition-all duration-300 ${
-                          product.inStock
-                            ? 'bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:shadow-lg hover:scale-105'
-                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                        }`}
-                      >
-                        {product.inStock ? '🛒 Add to Cart' : 'Out of Stock'}
-                      </button>
-                      <Link href={`/products/${product.slug || product.id}`}>
-                        <button className="px-4 py-3 border-2 border-blue-600 text-blue-600 rounded-xl font-bold hover:bg-blue-50 transition-all">
-                          👁️
+                      <div className="flex gap-2">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            addToCart(product)
+                          }}
+                          disabled={!product.inStock}
+                          className={`flex-1 py-3 rounded-xl font-bold transition-all duration-300 ${
+                            product.inStock
+                              ? 'bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:shadow-lg hover:scale-105'
+                              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                          }`}
+                        >
+                          {product.inStock ? '🛒 Add to Cart' : 'Out of Stock'}
                         </button>
-                      </Link>
+                        <div className="px-4 py-3 border-2 border-blue-600 text-blue-600 rounded-xl font-bold hover:bg-blue-50 transition-all flex items-center justify-center">
+                          👁️
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               </motion.div>
             ))
           )}
