@@ -248,10 +248,10 @@ export default async function ServiceDetailPage({ params }) {
             <div className={`inline-flex p-6 rounded-3xl bg-gradient-to-r ${service.color} mb-6`}>
               <IconComponent className="w-16 h-16 text-white" />
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4">
               {service.title}
             </h1>
-            <p className="text-2xl text-gray-500 max-w-3xl mx-auto italic">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto italic px-4">
               {service.description}
             </p>
           </motion.div>
@@ -265,7 +265,7 @@ export default async function ServiceDetailPage({ params }) {
           >
             <div className="bg-white rounded-2xl p-8 text-center shadow-lg">
               <FiClock className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-              <h3 className="text-3xl font-bold text-gray-900 mb-2">{service.timeline}</h3>
+              <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{service.timeline}</h3>
               <p className="text-gray-600">Typical Timeline</p>
             </div>
             <div className="bg-white rounded-2xl p-8 text-center shadow-lg">
@@ -288,7 +288,7 @@ export default async function ServiceDetailPage({ params }) {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="lg:col-span-2"
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Overview</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Overview</h2>
               {service.longDescription.split('\n\n').map((para, i) => (
                 <p key={i} className="text-lg text-gray-600 mb-4 leading-relaxed">
                   {para}
@@ -346,7 +346,7 @@ export default async function ServiceDetailPage({ params }) {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Key Features</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Key Features</h2>
               <ul className="space-y-4">
                 {service.features.map((feature, index) => (
                   <li key={index} className="flex items-start">
@@ -364,7 +364,7 @@ export default async function ServiceDetailPage({ params }) {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.55 }}
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Benefits</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Benefits</h2>
               <div className="space-y-4">
                 {service.benefits.map((benefit, index) => (
                   <div key={index} className="bg-white rounded-xl p-5 shadow-md flex items-start gap-4">
@@ -385,7 +385,7 @@ export default async function ServiceDetailPage({ params }) {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="mb-20"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Aircraft & Equipment</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8 text-center">Aircraft & Equipment</h2>
             <div className="flex flex-wrap gap-4 justify-center">
               {service.technologies.map((tech, index) => (
                 <div key={index} className="px-6 py-3 bg-white rounded-full shadow-lg text-gray-700 font-semibold">
@@ -406,10 +406,10 @@ export default async function ServiceDetailPage({ params }) {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
               Ready to Get Started?
             </h2>
-            <p className="text-xl text-white/90 mb-8">
+            <p className="text-lg sm:text-xl text-white/90 mb-8">
               Contact us today to discuss your aviation needs
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
