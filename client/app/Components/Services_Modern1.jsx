@@ -42,7 +42,7 @@ export default function ServicesModern1() {
       title: "End-of-Life Aircraft Solutions",
       description: "Sustainable aircraft retirement and recycling services",
       features: ["Aircraft Dismantling", "Parts Harvesting", "Material Recycling", "Asset Recovery"],
-      color: "from-purple-600 to-violet-500"
+      color: "from-blue-600 to-sky-600"
     },
     {
       slug: "tagged-parts-available",

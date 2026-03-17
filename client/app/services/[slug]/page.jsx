@@ -169,7 +169,7 @@ const services = [
       'Revenue generation from parts and materials'
     ],
     technologies: ['All Commercial Aircraft', 'Regional Aircraft', 'Business Jets', 'Cargo Aircraft'],
-    color: 'from-purple-600 to-violet-500',
+    color: 'from-blue-600 to-sky-600',
     price: 'Custom Quote',
     timeline: '3-6 months'
   },
@@ -269,7 +269,7 @@ export default async function ServiceDetailPage({ params }) {
               <p className="text-gray-600">Typical Timeline</p>
             </div>
             <div className="bg-white rounded-2xl p-8 text-center shadow-lg">
-              <FiUsers className="w-12 h-12 mx-auto mb-4 text-purple-600" />
+              <FiUsers className="w-12 h-12 mx-auto mb-4 text-blue-600" />
               <h3 className="text-3xl font-bold text-gray-900 mb-2">1,500+</h3>
               <p className="text-gray-600">Global Clients</p>
             </div>

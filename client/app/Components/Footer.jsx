@@ -22,16 +22,16 @@ const Footer = () => {
             <h4 className='text-lg font-semibold mb-4 font-Ovo'>Quick Links</h4>
             <ul className='space-y-2 text-sm'>
               <li>
-                <a href="#about" className='text-white hover:text-purple-400 transition-colors'>About Us</a>
+                <a href="#about" className='text-white hover:text-sky-400 transition-colors'>About Us</a>
               </li>
               <li>
-                <a href="#services" className='text-white hover:text-purple-400 transition-colors'>Services</a>
+                <a href="#services" className='text-white hover:text-sky-400 transition-colors'>Services</a>
               </li>
               <li>
-                <a href="#work" className='text-white hover:text-purple-400 transition-colors'>Products</a>
+                <a href="#work" className='text-white hover:text-sky-400 transition-colors'>Products</a>
               </li>
               <li>
-                <a href="#contact" className='text-white hover:text-purple-400 transition-colors'>Contact</a>
+                <a href="#contact" className='text-white hover:text-sky-400 transition-colors'>Contact</a>
               </li>
             </ul>
           </div>

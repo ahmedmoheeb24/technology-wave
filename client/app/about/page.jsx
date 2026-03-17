@@ -23,7 +23,7 @@ export default function AboutPage() {
       icon: FiHeart,
       title: 'Client-Centric',
       description: 'Your mission readiness is our priority. We build lasting partnerships by understanding your operational goals and consistently exceeding expectations.',
-      color: 'from-purple-500 to-pink-500'
+      color: 'from-blue-500 to-blue-600'
     },
     {
       icon: FiShield,
@@ -87,7 +87,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       {/* Hero Section */}
       <section className="relative py-24 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 opacity-10"></div>
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -96,7 +96,7 @@ export default function AboutPage() {
             className="text-center mb-16"
           >
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 mb-6">
-              About <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Technology Wave</span>
+              About <span className="bg-gradient-to-r from-blue-600 to-sky-500 bg-clip-text text-transparent">Technology Wave</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
               A world-class, award-winning commercial and military aviation parts supplier — proudly serving the industry since 2001.
@@ -196,9 +196,9 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-12 shadow-xl"
+              className="bg-gradient-to-br from-blue-50 to-sky-50 rounded-3xl p-12 shadow-xl"
             >
-              <div className="inline-flex p-4 rounded-2xl bg-gradient-to-r from-purple-500 to-pink-500 mb-6">
+              <div className="inline-flex p-4 rounded-2xl bg-gradient-to-r from-blue-500 to-sky-500 mb-6">
                 <FiEye className="w-10 h-10 text-white" />
               </div>
               <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Vision</h2>
@@ -270,7 +270,7 @@ export default function AboutPage() {
 
           <div className="relative">
             {/* Timeline Line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-blue-500 to-purple-500 hidden lg:block"></div>
+            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-blue-500 to-blue-600 hidden lg:block"></div>
 
             {timeline.map((item, index) => (
               <motion.div
@@ -295,7 +295,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-purple-600">
+      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-sky-600">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

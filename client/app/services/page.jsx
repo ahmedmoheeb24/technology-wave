@@ -92,7 +92,7 @@ const services = [
       'Asset Value Recovery',
       'Documentation Services'
     ],
-    color: 'from-purple-600 to-violet-500',
+    color: 'from-blue-600 to-sky-600',
     price: 'Custom Quote'
   },
   {
@@ -120,7 +120,7 @@ export default function ServicesPage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       {/* Hero Section */}
       <section className="relative py-24 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 opacity-10"></div>
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -129,7 +129,7 @@ export default function ServicesPage() {
             className="text-center"
           >
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-              Our <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Services</span>
+              Our <span className="bg-gradient-to-r from-blue-600 to-sky-500 bg-clip-text text-transparent">Services</span>
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4">
               World-class aviation solutions — from commercial fleet support to military operations, MRO, and sustainable end-of-life programs.
@@ -207,7 +207,7 @@ export default function ServicesPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-purple-600">
+      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-sky-600">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
