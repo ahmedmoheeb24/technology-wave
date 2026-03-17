@@ -96,7 +96,7 @@ export default function AboutPage() {
             className="text-center mb-16"
           >
             <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6">
-              About <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Aventure Aviation</span>
+              About <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Technology Wave</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
               A world-class, award-winning commercial and military aviation parts supplier — proudly serving the industry since 2001.
