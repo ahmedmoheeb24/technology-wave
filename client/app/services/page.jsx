@@ -2,116 +2,116 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { FiCode, FiSmartphone, FiLayout, FiCloud, FiShoppingCart, FiTrendingUp, FiArrowRight, FiCheck } from 'react-icons/fi'
+import { FiCode, FiLayout, FiCloud, FiShoppingCart, FiTrendingUp, FiArrowRight, FiCheck, FiShield } from 'react-icons/fi'
 
 const services = [
   {
     id: 1,
-    slug: 'web-development',
-    icon: FiCode,
-    title: 'Web Development',
-    description: 'Build powerful, scalable web applications with cutting-edge technologies',
-    longDescription: 'Transform your ideas into reality with our expert web development services. We create fast, secure, and scalable web applications using modern frameworks like React, Next.js, and Node.js.',
+    slug: 'commercial-aviation',
+    icon: FiTrendingUp,
+    title: 'Commercial Aviation',
+    description: 'Comprehensive solutions for commercial aircraft operations and management',
+    longDescription: 'We provide end-to-end solutions for commercial aviation, including fleet management, aircraft leasing, and operational support to ensure maximum efficiency and safety.',
     features: [
-      'Custom Web Applications',
-      'E-commerce Solutions',
-      'Progressive Web Apps (PWA)',
-      'API Development & Integration',
-      'Performance Optimization',
-      'Responsive Design'
+      'Fleet Management Solutions',
+      'Aircraft Leasing & Sales',
+      'Route Optimization',
+      'Fuel Management Systems',
+      'Passenger Safety Compliance',
+      'Operational Efficiency Consulting'
     ],
-    color: 'from-blue-500 to-cyan-500',
-    price: 'Starting at $2,999'
+    color: 'from-blue-600 to-sky-500',
+    price: 'Custom Quote'
   },
   {
     id: 2,
-    slug: 'mobile-app-development',
-    icon: FiSmartphone,
-    title: 'Mobile App Development',
-    description: 'Native and cross-platform mobile apps that users love',
-    longDescription: 'Reach your audience wherever they are with stunning mobile applications. We develop iOS and Android apps that deliver exceptional user experiences and drive engagement.',
+    slug: 'military-division',
+    icon: FiShield,
+    title: 'Military Division',
+    description: 'Specialized aviation solutions for defense and military operations',
+    longDescription: 'Our military division offers specialized services including aircraft modifications, defense systems integration, and tactical aviation support for military applications.',
     features: [
-      'iOS & Android Apps',
-      'Cross-Platform Development',
-      'App Store Deployment',
-      'Push Notifications',
-      'In-App Purchases',
-      'Offline Functionality'
+      'Military Aircraft Modifications',
+      'Defense Systems Integration',
+      'Tactical Aviation Support',
+      'Secure Communications',
+      'Mission Planning Systems',
+      'Training & Simulation'
     ],
-    color: 'from-purple-500 to-pink-500',
-    price: 'Starting at $4,999'
+    color: 'from-slate-700 to-slate-500',
+    price: 'Custom Quote'
   },
   {
     id: 3,
-    slug: 'ui-ux-design',
-    icon: FiLayout,
-    title: 'UI/UX Design',
-    description: 'Beautiful, intuitive interfaces that convert visitors into customers',
-    longDescription: 'Great design is invisible. Our UI/UX experts create interfaces that are not only beautiful but also intuitive and conversion-focused, ensuring your users have the best experience.',
+    slug: 'helicopters',
+    icon: FiCloud,
+    title: 'Helicopters',
+    description: 'Complete helicopter services from acquisition to maintenance',
+    longDescription: 'Specialized in rotary-wing aircraft, we offer comprehensive helicopter services including sales, maintenance, modifications, and operational support for all helicopter types.',
     features: [
-      'User Research & Testing',
-      'Wireframing & Prototyping',
-      'Visual Design',
-      'Design Systems',
-      'Responsive Design',
-      'Usability Testing'
+      'Helicopter Sales & Leasing',
+      'Maintenance Programs',
+      'Avionics Upgrades',
+      'Interior Refurbishment',
+      'Performance Enhancements',
+      'Emergency Services Support'
     ],
-    color: 'from-orange-500 to-red-500',
-    price: 'Starting at $1,999'
+    color: 'from-emerald-600 to-teal-500',
+    price: 'Custom Quote'
   },
   {
     id: 4,
-    slug: 'cloud-solutions',
-    icon: FiCloud,
-    title: 'Cloud Solutions',
-    description: 'Scalable cloud infrastructure for modern applications',
-    longDescription: 'Leverage the power of cloud computing to scale your business. We design and implement robust cloud solutions using AWS, Google Cloud, and Azure.',
+    slug: 'maintenance-repair-overhaul',
+    icon: FiCode,
+    title: 'Maintenance, Repair and Overhaul',
+    description: 'Expert MRO services to keep your aircraft in peak condition',
+    longDescription: 'Our state-of-the-art MRO facilities provide comprehensive maintenance, repair, and overhaul services for all aircraft types, ensuring airworthiness and optimal performance.',
     features: [
-      'Cloud Migration',
-      'Infrastructure as Code',
-      'Auto-scaling Solutions',
-      'DevOps & CI/CD',
-      'Cloud Security',
-      'Cost Optimization'
+      'Scheduled Maintenance',
+      'Major Repairs & Modifications',
+      'Engine Overhaul',
+      'Avionics Maintenance',
+      'Structural Inspections',
+      'AOG (Aircraft on Ground) Support'
     ],
-    color: 'from-teal-500 to-green-500',
-    price: 'Starting at $3,499'
+    color: 'from-orange-600 to-amber-500',
+    price: 'Custom Quote'
   },
   {
     id: 5,
-    slug: 'ecommerce-solutions',
-    icon: FiShoppingCart,
-    title: 'E-Commerce Solutions',
-    description: 'Complete online store solutions that drive sales',
-    longDescription: 'Launch your online business with a powerful e-commerce platform. From product catalogs to payment processing, we build complete solutions that convert.',
+    slug: 'end-of-life-aircraft-solutions',
+    icon: FiLayout,
+    title: 'End-of-Life Aircraft Solutions',
+    description: 'Sustainable aircraft retirement and recycling services',
+    longDescription: 'We provide environmentally responsible end-of-life aircraft solutions including dismantling, parts harvesting, and material recycling to maximize asset value.',
     features: [
-      'Custom Shopping Carts',
-      'Payment Gateway Integration',
-      'Inventory Management',
-      'Order Processing',
-      'Analytics & Reporting',
-      'SEO Optimization'
+      'Aircraft Dismantling',
+      'Parts Harvesting & Certification',
+      'Material Recycling',
+      'Environmental Compliance',
+      'Asset Value Recovery',
+      'Documentation Services'
     ],
-    color: 'from-indigo-500 to-blue-500',
-    price: 'Starting at $3,999'
+    color: 'from-purple-600 to-violet-500',
+    price: 'Custom Quote'
   },
   {
     id: 6,
-    slug: 'digital-marketing',
-    icon: FiTrendingUp,
-    title: 'Digital Marketing',
-    description: 'Data-driven strategies to grow your online presence',
-    longDescription: 'Reach more customers and grow your business with targeted digital marketing campaigns. We combine SEO, content marketing, and paid advertising for maximum ROI.',
+    slug: 'tagged-parts-available',
+    icon: FiShoppingCart,
+    title: 'Tagged Parts Available',
+    description: 'Certified aircraft parts inventory with full traceability',
+    longDescription: 'Access our extensive inventory of certified, tagged aircraft parts with complete documentation and traceability. Quality parts at competitive prices with fast delivery.',
     features: [
-      'SEO & Content Strategy',
-      'Social Media Marketing',
-      'PPC Advertising',
-      'Email Marketing',
-      'Analytics & Reporting',
-      'Conversion Optimization'
+      'Certified Parts Inventory',
+      'Full Traceability & Documentation',
+      'Quality Assurance',
+      'Fast Global Shipping',
+      'Competitive Pricing',
+      'Exchange Programs'
     ],
-    color: 'from-yellow-500 to-orange-500',
-    price: 'Starting at $1,499/mo'
+    color: 'from-red-600 to-rose-500',
+    price: 'View Inventory'
   }
 ]
 

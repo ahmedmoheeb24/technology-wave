@@ -10,46 +10,46 @@ export default function ServicesModern1() {
 
   const services = [
     {
-      slug: "web-development",
-      title: "Web Development",
-      description: "Build powerful, scalable web applications with cutting-edge technologies",
-      features: ["React/Next.js", "Backend APIs", "Database Design", "Deployment"],
-      color: "from-blue-500 to-cyan-500"
+      slug: "commercial-aviation",
+      title: "Commercial Aviation",
+      description: "Comprehensive solutions for commercial aircraft operations and management",
+      features: ["Fleet Management", "Aircraft Leasing", "Route Optimization", "Safety Compliance"],
+      color: "from-blue-600 to-sky-500"
     },
     {
-      slug: "mobile-app-development",
-      title: "Mobile App Development",
-      description: "Native and cross-platform mobile apps that users love",
-      features: ["iOS & Android", "React Native", "App Store Deploy", "Push Notifications"],
-      color: "from-purple-500 to-pink-500"
+      slug: "military-division",
+      title: "Military Division",
+      description: "Specialized aviation solutions for defense and military operations",
+      features: ["Aircraft Modifications", "Defense Systems", "Tactical Support", "Mission Planning"],
+      color: "from-slate-700 to-slate-500"
     },
     {
-      slug: "ui-ux-design",
-      title: "UI/UX Design",
-      description: "Beautiful, intuitive interfaces that convert visitors into customers",
-      features: ["User Research", "Wireframing", "Prototyping", "Visual Design"],
-      color: "from-orange-500 to-red-500"
+      slug: "helicopters",
+      title: "Helicopters",
+      description: "Complete helicopter services from acquisition to maintenance",
+      features: ["Sales & Leasing", "Maintenance", "Avionics Upgrades", "Refurbishment"],
+      color: "from-emerald-600 to-teal-500"
     },
     {
-      slug: "cloud-solutions",
-      title: "Cloud Solutions",
-      description: "Scalable cloud infrastructure for modern applications",
-      features: ["AWS/Azure", "DevOps", "CI/CD Pipeline", "Cloud Security"],
-      color: "from-teal-500 to-green-500"
+      slug: "maintenance-repair-overhaul",
+      title: "Maintenance, Repair and Overhaul",
+      description: "Expert MRO services to keep your aircraft in peak condition",
+      features: ["Scheduled Maintenance", "Major Repairs", "Engine Overhaul", "AOG Support"],
+      color: "from-orange-600 to-amber-500"
     },
     {
-      slug: "ecommerce-solutions",
-      title: "E-Commerce Solutions",
-      description: "Complete online store solutions that drive sales",
-      features: ["Shopping Carts", "Payment Gateway", "Inventory", "Analytics"],
-      color: "from-indigo-500 to-blue-500"
+      slug: "end-of-life-aircraft-solutions",
+      title: "End-of-Life Aircraft Solutions",
+      description: "Sustainable aircraft retirement and recycling services",
+      features: ["Aircraft Dismantling", "Parts Harvesting", "Material Recycling", "Asset Recovery"],
+      color: "from-purple-600 to-violet-500"
     },
     {
-      slug: "digital-marketing",
-      title: "Digital Marketing",
-      description: "Data-driven strategies to grow your online presence",
-      features: ["SEO Strategy", "Social Media", "PPC Advertising", "Analytics"],
-      color: "from-yellow-500 to-orange-500"
+      slug: "tagged-parts-available",
+      title: "Tagged Parts Available",
+      description: "Certified aircraft parts inventory with full traceability",
+      features: ["Certified Inventory", "Full Traceability", "Global Shipping", "Competitive Pricing"],
+      color: "from-red-600 to-rose-500"
     }
   ]
 

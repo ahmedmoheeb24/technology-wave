@@ -2,170 +2,170 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { FiCode, FiSmartphone, FiLayout, FiCloud, FiShoppingCart, FiTrendingUp, FiArrowLeft, FiCheck, FiClock, FiUsers, FiAward } from 'react-icons/fi'
+import { FiCode, FiLayout, FiCloud, FiShoppingCart, FiTrendingUp, FiShield, FiArrowLeft, FiCheck, FiClock, FiUsers, FiAward } from 'react-icons/fi'
 
 const services = [
   {
-    slug: 'web-development',
-    icon: FiCode,
-    title: 'Web Development',
-    description: 'Build powerful, scalable web applications with cutting-edge technologies',
-    longDescription: 'Transform your ideas into reality with our expert web development services. We create fast, secure, and scalable web applications using modern frameworks like React, Next.js, and Node.js. Our team ensures your web presence is optimized for performance, SEO, and user experience.',
-    features: [
-      'Custom Web Applications',
-      'E-commerce Solutions',
-      'Progressive Web Apps (PWA)',
-      'API Development & Integration',
-      'Performance Optimization',
-      'Responsive Design',
-      'SEO Optimization',
-      'Security Best Practices'
-    ],
-    benefits: [
-      'Fast loading times for better user engagement',
-      'Scalable architecture that grows with your business',
-      'SEO-friendly code for better search rankings',
-      'Mobile-responsive for all devices'
-    ],
-    technologies: ['React', 'Next.js', 'Node.js', 'TypeScript', 'MongoDB', 'PostgreSQL'],
-    color: 'from-blue-500 to-cyan-500',
-    price: 'Starting at $2,999',
-    timeline: '4-8 weeks'
-  },
-  {
-    slug: 'mobile-app-development',
-    icon: FiSmartphone,
-    title: 'Mobile App Development',
-    description: 'Native and cross-platform mobile apps that users love',
-    longDescription: 'Reach your audience wherever they are with stunning mobile applications. We develop iOS and Android apps that deliver exceptional user experiences and drive engagement. From concept to app store deployment, we handle everything.',
-    features: [
-      'iOS & Android Apps',
-      'Cross-Platform Development',
-      'App Store Deployment',
-      'Push Notifications',
-      'In-App Purchases',
-      'Offline Functionality',
-      'Real-time Sync',
-      'Analytics Integration'
-    ],
-    benefits: [
-      'Reach users on their preferred devices',
-      'Increase customer engagement and retention',
-      'Enable mobile commerce opportunities',
-      'Build brand loyalty through mobile presence'
-    ],
-    technologies: ['React Native', 'Flutter', 'Swift', 'Kotlin', 'Firebase'],
-    color: 'from-purple-500 to-pink-500',
-    price: 'Starting at $4,999',
-    timeline: '8-12 weeks'
-  },
-  {
-    slug: 'ui-ux-design',
-    icon: FiLayout,
-    title: 'UI/UX Design',
-    description: 'Beautiful, intuitive interfaces that convert visitors into customers',
-    longDescription: 'Great design is invisible. Our UI/UX experts create interfaces that are not only beautiful but also intuitive and conversion-focused. We conduct thorough user research and testing to ensure your users have the best experience possible.',
-    features: [
-      'User Research & Testing',
-      'Wireframing & Prototyping',
-      'Visual Design',
-      'Design Systems',
-      'Responsive Design',
-      'Usability Testing',
-      'Brand Identity',
-      'Accessibility Compliance'
-    ],
-    benefits: [
-      'Increase conversion rates with better UX',
-      'Reduce development costs with clear designs',
-      'Build consistent brand experiences',
-      'Improve customer satisfaction'
-    ],
-    technologies: ['Figma', 'Adobe XD', 'Sketch', 'InVision', 'Principle'],
-    color: 'from-orange-500 to-red-500',
-    price: 'Starting at $1,999',
-    timeline: '2-4 weeks'
-  },
-  {
-    slug: 'cloud-solutions',
-    icon: FiCloud,
-    title: 'Cloud Solutions',
-    description: 'Scalable cloud infrastructure for modern applications',
-    longDescription: 'Leverage the power of cloud computing to scale your business. We design and implement robust cloud solutions using AWS, Google Cloud, and Azure. From migration to optimization, we ensure your infrastructure is reliable, secure, and cost-effective.',
-    features: [
-      'Cloud Migration',
-      'Infrastructure as Code',
-      'Auto-scaling Solutions',
-      'DevOps & CI/CD',
-      'Cloud Security',
-      'Cost Optimization',
-      'Disaster Recovery',
-      'Performance Monitoring'
-    ],
-    benefits: [
-      'Scale resources based on demand',
-      'Reduce infrastructure costs',
-      'Improve application reliability',
-      'Enhanced security and compliance'
-    ],
-    technologies: ['AWS', 'Google Cloud', 'Azure', 'Docker', 'Kubernetes', 'Terraform'],
-    color: 'from-teal-500 to-green-500',
-    price: 'Starting at $3,499',
-    timeline: '4-6 weeks'
-  },
-  {
-    slug: 'ecommerce-solutions',
-    icon: FiShoppingCart,
-    title: 'E-Commerce Solutions',
-    description: 'Complete online store solutions that drive sales',
-    longDescription: 'Launch your online business with a powerful e-commerce platform. From product catalogs to payment processing, we build complete solutions that convert visitors into customers. Our platforms are optimized for sales, security, and customer experience.',
-    features: [
-      'Custom Shopping Carts',
-      'Payment Gateway Integration',
-      'Inventory Management',
-      'Order Processing',
-      'Analytics & Reporting',
-      'SEO Optimization',
-      'Multi-currency Support',
-      'Customer Accounts'
-    ],
-    benefits: [
-      'Increase online sales revenue',
-      'Streamline order management',
-      'Provide seamless checkout experience',
-      'Track performance with detailed analytics'
-    ],
-    technologies: ['Shopify', 'WooCommerce', 'Stripe', 'PayPal', 'Square'],
-    color: 'from-indigo-500 to-blue-500',
-    price: 'Starting at $3,999',
-    timeline: '6-10 weeks'
-  },
-  {
-    slug: 'digital-marketing',
+    slug: 'commercial-aviation',
     icon: FiTrendingUp,
-    title: 'Digital Marketing',
-    description: 'Data-driven strategies to grow your online presence',
-    longDescription: 'Reach more customers and grow your business with targeted digital marketing campaigns. We combine SEO, content marketing, social media, and paid advertising to maximize your ROI and build your brand.',
+    title: 'Commercial Aviation',
+    description: 'Comprehensive solutions for commercial aircraft operations and management',
+    longDescription: 'We provide end-to-end solutions for commercial aviation, including fleet management, aircraft leasing, and operational support. Our expertise ensures maximum efficiency, safety, and profitability for commercial operators worldwide.',
     features: [
-      'SEO & Content Strategy',
-      'Social Media Marketing',
-      'PPC Advertising',
-      'Email Marketing',
-      'Analytics & Reporting',
-      'Conversion Optimization',
-      'Brand Strategy',
-      'Influencer Marketing'
+      'Fleet Management Solutions',
+      'Aircraft Leasing & Sales',
+      'Route Optimization',
+      'Fuel Management Systems',
+      'Passenger Safety Compliance',
+      'Operational Efficiency Consulting',
+      'Crew Training Programs',
+      'Regulatory Compliance Support'
     ],
     benefits: [
-      'Increase website traffic and visibility',
-      'Generate qualified leads',
-      'Improve brand awareness',
-      'Maximize marketing ROI'
+      'Reduce operational costs by up to 25%',
+      'Maximize aircraft utilization and profitability',
+      'Ensure complete regulatory compliance',
+      'Access to global aviation expertise'
     ],
-    technologies: ['Google Analytics', 'Google Ads', 'Facebook Ads', 'Mailchimp', 'SEMrush'],
-    color: 'from-yellow-500 to-orange-500',
-    price: 'Starting at $1,499/mo',
-    timeline: 'Ongoing'
+    technologies: ['Boeing 737', 'Airbus A320', 'Boeing 787', 'Airbus A350', 'Regional Jets'],
+    color: 'from-blue-600 to-sky-500',
+    price: 'Custom Quote',
+    timeline: 'Ongoing Partnership'
+  },
+  {
+    slug: 'military-division',
+    icon: FiShield,
+    title: 'Military Division',
+    description: 'Specialized aviation solutions for defense and military operations',
+    longDescription: 'Our military division offers specialized services including aircraft modifications, defense systems integration, and tactical aviation support. We work with defense forces worldwide to enhance operational capabilities and mission effectiveness.',
+    features: [
+      'Military Aircraft Modifications',
+      'Defense Systems Integration',
+      'Tactical Aviation Support',
+      'Secure Communications',
+      'Mission Planning Systems',
+      'Training & Simulation',
+      'Special Mission Aircraft',
+      'Counter-Measure Systems'
+    ],
+    benefits: [
+      'Enhanced mission capability and effectiveness',
+      'State-of-the-art defense technology integration',
+      'Secure and reliable communication systems',
+      'Proven track record with military clients'
+    ],
+    technologies: ['C-130 Hercules', 'F-16 Fighting Falcon', 'Black Hawk', 'Chinook', 'Military Transport'],
+    color: 'from-slate-700 to-slate-500',
+    price: 'Custom Quote',
+    timeline: 'Project-Based'
+  },
+  {
+    slug: 'helicopters',
+    icon: FiCloud,
+    title: 'Helicopters',
+    description: 'Complete helicopter services from acquisition to maintenance',
+    longDescription: 'Specialized in rotary-wing aircraft, we offer comprehensive helicopter services including sales, maintenance, modifications, and operational support. From medical helicopters to corporate transport, we handle all helicopter types with expertise.',
+    features: [
+      'Helicopter Sales & Leasing',
+      'Maintenance Programs',
+      'Avionics Upgrades',
+      'Interior Refurbishment',
+      'Performance Enhancements',
+      'Emergency Services Support',
+      'VIP Configurations',
+      'EMS/Air Ambulance Solutions'
+    ],
+    benefits: [
+      'Extended service life and reliability',
+      'Customized configurations for specific missions',
+      'Comprehensive support programs',
+      'Expert technical assistance 24/7'
+    ],
+    technologies: ['Bell 407', 'Airbus H125', 'Sikorsky S-76', 'AgustaWestland AW139', 'Robinson R44'],
+    color: 'from-emerald-600 to-teal-500',
+    price: 'Custom Quote',
+    timeline: 'Varies by Service'
+  },
+  {
+    slug: 'maintenance-repair-overhaul',
+    icon: FiCode,
+    title: 'Maintenance, Repair and Overhaul',
+    description: 'Expert MRO services to keep your aircraft in peak condition',
+    longDescription: 'Our state-of-the-art MRO facilities provide comprehensive maintenance, repair, and overhaul services for all aircraft types. With certified technicians and advanced equipment, we ensure airworthiness, safety, and optimal performance for your fleet.',
+    features: [
+      'Scheduled Maintenance',
+      'Major Repairs & Modifications',
+      'Engine Overhaul',
+      'Avionics Maintenance',
+      'Structural Inspections',
+      'AOG (Aircraft on Ground) Support',
+      'Component Repair',
+      'Non-Destructive Testing'
+    ],
+    benefits: [
+      'Minimize aircraft downtime',
+      'Extend component and aircraft life',
+      'Ensure regulatory compliance',
+      'Reduce long-term maintenance costs'
+    ],
+    technologies: ['CFM56 Engines', 'PW4000 Series', 'GE90 Series', 'Honeywell Avionics', 'Rockwell Collins'],
+    color: 'from-orange-600 to-amber-500',
+    price: 'Custom Quote',
+    timeline: '2-12 weeks'
+  },
+  {
+    slug: 'end-of-life-aircraft-solutions',
+    icon: FiLayout,
+    title: 'End-of-Life Aircraft Solutions',
+    description: 'Sustainable aircraft retirement and recycling services',
+    longDescription: 'We provide environmentally responsible end-of-life aircraft solutions including dismantling, parts harvesting, and material recycling. Our process maximizes asset value recovery while ensuring environmental compliance and sustainable practices.',
+    features: [
+      'Aircraft Dismantling',
+      'Parts Harvesting & Certification',
+      'Material Recycling',
+      'Environmental Compliance',
+      'Asset Value Recovery',
+      'Documentation Services',
+      'Hazardous Material Disposal',
+      'Scrap Metal Processing'
+    ],
+    benefits: [
+      'Maximize residual aircraft value',
+      'Environmentally responsible disposal',
+      'Full regulatory compliance',
+      'Revenue generation from parts and materials'
+    ],
+    technologies: ['All Commercial Aircraft', 'Regional Aircraft', 'Business Jets', 'Cargo Aircraft'],
+    color: 'from-purple-600 to-violet-500',
+    price: 'Custom Quote',
+    timeline: '3-6 months'
+  },
+  {
+    slug: 'tagged-parts-available',
+    icon: FiShoppingCart,
+    title: 'Tagged Parts Available',
+    description: 'Certified aircraft parts inventory with full traceability',
+    longDescription: 'Access our extensive inventory of certified, tagged aircraft parts with complete documentation and traceability. We maintain thousands of parts in stock, all with proper certifications and ready for immediate delivery worldwide.',
+    features: [
+      'Certified Parts Inventory',
+      'Full Traceability & Documentation',
+      'Quality Assurance',
+      'Fast Global Shipping',
+      'Competitive Pricing',
+      'Exchange Programs',
+      'AOG Priority Service',
+      'Warranty Support'
+    ],
+    benefits: [
+      'Reduce aircraft downtime with fast delivery',
+      'Save costs with competitive pricing',
+      'Ensure quality with certified parts',
+      'Access global inventory network'
+    ],
+    technologies: ['Engines', 'Landing Gear', 'Avionics', 'APU', 'Hydraulics', 'Electrical Components'],
+    color: 'from-red-600 to-rose-500',
+    price: 'View Inventory',
+    timeline: '24-72 hours delivery'
   }
 ]
 
@@ -235,13 +235,13 @@ export default function ServiceDetailPage({ params }) {
             </div>
             <div className="bg-white rounded-2xl p-8 text-center shadow-lg">
               <FiUsers className="w-12 h-12 mx-auto mb-4 text-purple-600" />
-              <h3 className="text-3xl font-bold text-gray-900 mb-2">50+</h3>
-              <p className="text-gray-600">Projects Completed</p>
+              <h3 className="text-3xl font-bold text-gray-900 mb-2">500+</h3>
+              <p className="text-gray-600">Global Clients</p>
             </div>
             <div className="bg-white rounded-2xl p-8 text-center shadow-lg">
               <FiAward className="w-12 h-12 mx-auto mb-4 text-orange-600" />
-              <h3 className="text-3xl font-bold text-gray-900 mb-2">98%</h3>
-              <p className="text-gray-600">Client Satisfaction</p>
+              <h3 className="text-3xl font-bold text-gray-900 mb-2">99.8%</h3>
+              <p className="text-gray-600">Safety Rating</p>
             </div>
           </motion.div>
 
@@ -261,7 +261,7 @@ export default function ServiceDetailPage({ params }) {
                 <div className="text-3xl font-bold text-gray-900 mb-4">{service.price}</div>
                 <Link href="/contact">
                   <button className={`w-full py-4 bg-gradient-to-r ${service.color} text-white rounded-xl font-bold text-lg hover:shadow-xl transition-all hover:scale-105`}>
-                    Get Started
+                    Request Quote
                   </button>
                 </Link>
               </div>
@@ -306,14 +306,14 @@ export default function ServiceDetailPage({ params }) {
             </div>
           </motion.div>
 
-          {/* Technologies */}
+          {/* Aircraft/Technologies */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
             className="mb-20"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Technologies We Use</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Aircraft & Equipment</h2>
             <div className="flex flex-wrap gap-4 justify-center">
               {service.technologies.map((tech, index) => (
                 <div key={index} className="px-6 py-3 bg-white rounded-full shadow-lg text-gray-700 font-semibold">
@@ -338,7 +338,7 @@ export default function ServiceDetailPage({ params }) {
               Ready to Get Started?
             </h2>
             <p className="text-xl text-white/90 mb-8">
-              Let's discuss how we can help you achieve your goals
+              Contact us today to discuss your aviation needs
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link href="/contact">
@@ -346,9 +346,9 @@ export default function ServiceDetailPage({ params }) {
                   Contact Us
                 </button>
               </Link>
-              <Link href="/work">
+              <Link href="/services">
                 <button className="px-8 py-4 bg-transparent border-2 border-white text-white rounded-full font-bold text-lg hover:bg-white hover:text-gray-900 transition-all hover:scale-105">
-                  View Portfolio
+                  View All Services
                 </button>
               </Link>
             </div>
