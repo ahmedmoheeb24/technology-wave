@@ -1,10 +1,9 @@
 "use client"
 import React, { useState, useEffect } from 'react'
-import Navbar from '../Components/Navbar'
-import Footer from '../Components/Footer'
 import { motion } from 'framer-motion'
 import api from '@/lib/api'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const ProductsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('All')
@@ -208,8 +207,6 @@ const ProductsPage = () => {
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   )
 }

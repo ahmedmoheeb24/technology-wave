@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
-import Navbar from '@/app/Components/Navbar'
-import Footer from '@/app/Components/Footer'
 import { motion } from 'framer-motion'
 import api from '@/lib/api'
 import Link from 'next/link'
@@ -49,14 +47,12 @@ export default function ProductDetail() {
   if (!product) {
     return (
       <div className="min-h-screen">
-        <Navbar />
         <div className="max-w-7xl mx-auto px-4 py-20 text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Product Not Found</h1>
           <Link href="/products" className="text-blue-600 hover:underline">
             Back to Products
           </Link>
         </div>
-        <Footer />
       </div>
     )
   }
@@ -65,7 +61,6 @@ export default function ProductDetail() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar />
 
       {/* Breadcrumb */}
       <div className="bg-white border-b">
@@ -190,8 +185,6 @@ export default function ProductDetail() {
           </motion.div>
         )}
       </main>
-
-      <Footer />
     </div>
   )
 }

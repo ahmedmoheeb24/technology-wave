@@ -41,16 +41,16 @@ const Footer = () => {
             <h4 className='text-lg font-semibold mb-4 font-Ovo'>Customer Service</h4>
             <ul className='space-y-2 text-sm'>
               <li>
-                <a href="#" className='text-white hover:text-purple-400 transition-colors'>Shipping Info</a>
+                <a href="#" className='text-white hover:text-sky-400 transition-colors'>Shipping Info</a>
               </li>
               <li>
-                <a href="#" className='text-white hover:text-purple-400 transition-colors'>Returns</a>
+                <a href="#" className='text-white hover:text-sky-400 transition-colors'>Returns</a>
               </li>
               <li>
-                <a href="#" className='text-white hover:text-purple-400 transition-colors'>FAQ</a>
+                <a href="#" className='text-white hover:text-sky-400 transition-colors'>FAQ</a>
               </li>
               <li>
-                <a href="#" className='text-white hover:text-purple-400 transition-colors'>Terms & Conditions</a>
+                <a href="#" className='text-white hover:text-sky-400 transition-colors'>Terms & Conditions</a>
               </li>
             </ul>
           </div>
