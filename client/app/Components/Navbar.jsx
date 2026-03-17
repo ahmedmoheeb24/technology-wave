@@ -2,6 +2,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import logo from '@/assets/logo.png'
 import { useCart } from '../context/CartContext'
 
@@ -9,6 +10,11 @@ const Navbar = () => {
     const { cart, toggleCart } = useCart()
     const [isScroll, setIsScroll] = useState(false)
     const sideMenuRef = useRef();
+    const pathname = usePathname();
+
+    // White text only on home page at the very top
+    const isHomePage = pathname === '/';
+    const useWhiteText = isHomePage && !isScroll;
 
     function openMenu() {
         sideMenuRef.current.style.transform = "translateX(-16rem)";
@@ -20,17 +26,14 @@ const Navbar = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 50) {
-                setIsScroll(true);
-            } else {
-                setIsScroll(false);
-            }
+            setIsScroll(window.scrollY > 50);
         };
         window.addEventListener('scroll', handleScroll);
+        // Check scroll position immediately on mount (e.g. after navigating back)
+        handleScroll();
         return () => window.removeEventListener('scroll', handleScroll);
     }, [])
 
-    // Updated navigation links for the shop
     const navLinks = [
         { href: "/", label: "Home" },
         { href: "/about", label: "About" },
@@ -41,9 +44,7 @@ const Navbar = () => {
 
     return (
         <>
-            <nav className={`w-full fixed px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between z-50 transition-all duration-300 ${isScroll 
-                ? "bg-white/95 backdrop-blur-lg shadow-md" 
-                : "bg-transparent"}`}>
+            <nav className="w-full fixed px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between z-50 bg-transparent transition-all duration-300">
                 
                 {/* Logo Section */}
                 <a href="/" className='flex items-center gap-3'>
@@ -56,7 +57,7 @@ const Navbar = () => {
                         style={{ width: 'auto' }}
                         priority
                     />
-                    <span className={`text-xl font-bold transition-colors ${isScroll ? 'text-gray-900' : 'text-white'}`}>
+                    <span className={`text-xl font-bold transition-colors duration-300 ${useWhiteText ? 'text-white' : 'text-gray-800'}`}>
                         Technology Wave
                     </span>
                 </a>
@@ -65,21 +66,32 @@ const Navbar = () => {
                 <ul className='hidden md:flex items-center gap-3 lg:gap-8 xl:gap-10'>
                     {navLinks.map((link) => (
                         <li key={link.href}>
-                            <a className={`font-Ovo text-sm lg:text-base relative group whitespace-nowrap transition-colors ${isScroll ? 'text-gray-700 hover:text-blue-700' : 'text-white hover:text-blue-500'}`} href={link.href}>
+                            <a
+                                className={`font-Ovo text-sm lg:text-base relative group whitespace-nowrap transition-colors duration-300 ${
+                                    useWhiteText
+                                        ? 'text-white hover:text-blue-300'
+                                        : 'text-gray-700 hover:text-blue-700'
+                                }`}
+                                href={link.href}
+                            >
                                 {link.label}
-                                <span className={`absolute bottom-0 left-0 w-0 h-[2px] transition-all duration-300 group-hover:w-full ${isScroll ? 'bg-blue-600' : 'bg-blue-500'}`}></span>
+                                <span className={`absolute bottom-0 left-0 w-0 h-[2px] transition-all duration-300 group-hover:w-full ${useWhiteText ? 'bg-blue-300' : 'bg-blue-600'}`}></span>
                             </a>
                         </li>
                     ))}
                 </ul>
 
                 {/* Right Side Buttons */}
-                <div className='flex items-center gap-2 lg:gap-4'> 
+                <div className='flex items-center gap-2 lg:gap-4'>
 
                     {/* Cart Button */}
                     <button
                         onClick={toggleCart}
-                        className={`relative flex items-center gap-2 px-4 py-2.5 rounded-full font-Ovo transition-all duration-300 hover:-translate-y-1 hover:shadow-lg active:scale-95 ${isScroll ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-white text-blue-600 hover:bg-gray-100'}`}
+                        className={`relative flex items-center gap-2 px-4 py-2.5 rounded-full font-Ovo transition-all duration-300 hover:-translate-y-1 hover:shadow-lg active:scale-95 ${
+                            useWhiteText
+                                ? 'bg-white/20 text-white hover:bg-white/30 border border-white/40'
+                                : 'bg-blue-600 text-white hover:bg-blue-700'
+                        }`}
                     >
                         <svg className='w-5 h-5' fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -92,8 +104,12 @@ const Navbar = () => {
                     </button>
 
                     {/* Desktop Contact Button */}
-                    <a href="#contact" 
-                        className={`hidden lg:flex items-center gap-2 px-6 py-2.5 rounded-full font-Ovo transition-all duration-300 hover:-translate-y-1 hover:shadow-lg active:scale-95 ${isScroll ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-500 text-white hover:bg-blue-700'}`}> 
+                    <a href="#contact"
+                        className={`hidden lg:flex items-center gap-2 px-6 py-2.5 rounded-full font-Ovo transition-all duration-300 hover:-translate-y-1 hover:shadow-lg active:scale-95 ${
+                            useWhiteText
+                                ? 'bg-white/20 text-white hover:bg-white/30 border border-white/40'
+                                : 'bg-blue-600 text-white hover:bg-blue-700'
+                        }`}>
                         Contact Us
                         <svg className='w-4 h-4' fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -101,24 +117,24 @@ const Navbar = () => {
                     </a>
 
                     {/* Hamburger Menu (Visible on mobile/tablet) */}
-                    <button 
-                        className={`block md:hidden ml-2 p-2 rounded-lg transition-all ${isScroll ? 'hover:bg-gray-100' : 'hover:bg-white/20'}`} 
+                    <button
+                        className={`block md:hidden ml-2 p-2 rounded-lg transition-all ${useWhiteText ? 'hover:bg-white/20' : 'hover:bg-gray-100'}`}
                         onClick={openMenu}
                         aria-label='Open menu'
                     >
-                        <svg className={`w-6 h-6 ${isScroll ? 'text-gray-700' : 'text-white'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className={`w-6 h-6 transition-colors duration-300 ${useWhiteText ? 'text-white' : 'text-gray-700'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
                 </div>
 
                 {/* Mobile Side Menu */}
-                <ul ref={sideMenuRef} className='flex md:hidden flex-col gap-4 py-20 px-10 fixed -right-64 top-0 bottom-0 w-64 z-50 h-screen bg-white transition-transform duration-500 shadow-2xl'> 
-                    <button 
-                        className='absolute top-6 right-6 p-2 hover:bg-gray-100 rounded-lg transition-all' 
+                <ul ref={sideMenuRef} className='flex md:hidden flex-col gap-4 py-20 px-10 fixed -right-64 top-0 bottom-0 w-64 z-50 h-screen bg-white transition-transform duration-500 shadow-2xl'>
+                    <button
+                        className='absolute top-6 right-6 p-2 hover:bg-gray-100 rounded-lg transition-all'
                         onClick={closeMenu}
                         aria-label='Close menu'
-                    > 
+                    >
                         <svg className='w-5 h-5 text-gray-700' fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                         </svg>
@@ -126,9 +142,9 @@ const Navbar = () => {
 
                     {navLinks.map((link) => (
                         <li key={link.href}>
-                            <a 
-                                className='font-Ovo text-lg text-gray-700 hover:text-blue-600 transition-colors' 
-                                onClick={closeMenu} 
+                            <a
+                                className='font-Ovo text-lg text-gray-700 hover:text-blue-600 transition-colors'
+                                onClick={closeMenu}
                                 href={link.href}
                             >
                                 {link.label}
