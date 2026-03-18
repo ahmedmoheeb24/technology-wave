@@ -4,7 +4,6 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { use } from 'react'
 import { FiCode, FiLayout, FiCloud, FiShoppingCart, FiTrendingUp, FiShield, FiArrowLeft, FiCheck, FiClock, FiUsers, FiAward } from 'react-icons/fi'
 
 const services = [
@@ -114,10 +113,10 @@ const services = [
   }
 ]
 
-export default function ServiceDetailPage({ params }) {
-  // Next.js 15: params is a Promise — unwrap with React.use()
-  const resolvedParams = use(params)
-  const slug = resolvedParams?.slug ?? ''
+export default function ServiceDetailPage() {
+  // Read slug directly from the URL via useParams
+  const params = useParams()
+  const slug = typeof params.slug === "string" ? params.slug : Array.isArray(params.slug) ? params.slug[0] : ""
 
   const service = services.find(s => s.slug === slug)
 
