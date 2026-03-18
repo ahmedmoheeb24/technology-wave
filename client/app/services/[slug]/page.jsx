@@ -133,6 +133,7 @@ export default async function ServiceDetailPage({ params }) {
       <div className="relative h-72 sm:h-96 w-full overflow-hidden">
         <Image
           src={service.images[0]}
+          unoptimized
           alt={service.title}
           fill
           className="object-cover"
@@ -228,6 +229,7 @@ export default async function ServiceDetailPage({ params }) {
           >
             <Image
               src={service.images[1]}
+            unoptimized
               alt={`${service.title} detail`}
               fill
               className="object-cover"

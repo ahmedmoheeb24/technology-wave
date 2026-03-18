@@ -92,7 +92,8 @@ export default function AboutPage() {
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="flex flex-col gap-4">
               {/* Aircraft image — tall */}
               <div className="relative h-64 sm:h-80 w-full rounded-2xl overflow-hidden shadow-xl">
-                <Image src={assets.about.aircraft} alt="Aviation aircraft" fill className="object-cover" />
+                <Image src={assets.about.aircraft}
+                  unoptimized alt="Aviation aircraft" fill className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                 <div className="absolute bottom-4 left-4">
                   <span className="bg-blue-600 text-white text-xs font-bold px-3 py-1.5 rounded-full">Commercial & Military Fleet</span>
@@ -100,7 +101,8 @@ export default function AboutPage() {
               </div>
               {/* Part image — shorter */}
               <div className="relative h-44 sm:h-52 w-full rounded-2xl overflow-hidden shadow-xl">
-                <Image src={assets.about.part} alt="Aviation parts" fill className="object-cover" />
+                <Image src={assets.about.part}
+                  unoptimized alt="Aviation parts" fill className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                 <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-xl px-4 py-2 shadow">
                   <p className="text-xs font-bold text-gray-900">ASA-100 Certified Parts</p>

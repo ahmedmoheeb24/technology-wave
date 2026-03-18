@@ -168,6 +168,7 @@ export default function ServicesPage() {
                       <div className="relative h-48 w-full overflow-hidden">
                         <Image
                           src={service.image}
+                          unoptimized
                           alt={service.title}
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-500"

@@ -1,40 +1,23 @@
-// Import all images from assets folder
-import aboutAircraft from './about - aircraft.jfif';
-import aboutPart from './about - part.jfif';
-import aircraftMaintenance1 from './Aircraft Maintenance 1.jfif';
-import aircraftMaintenance2 from './Aircraft Maintenance 2.jfif';
-import aircraftParts1 from './Aircraft Parts 1.jfif';
-import aircraftParts2 from './Aircraft Parts 2.jfif';
-import aircraftSolutions1 from './Aircraft Solutions 1.jfif';
-import aircraftSolutions2 from './Aircraft Solutions 2.jfif';
-import commercialAviation1 from './Commercial Aviation 1.jfif';
-import commercialAviation2 from './Commercial Aviation 2.jfif';
-import helicopters1 from './Helicopters 1.jfif';
-import helicopters2 from './Helicopters 2.jfif';
-import logo from './logo.png';
-import militaryDivision1 from './Military Division 1.jfif';
-import militaryDivision2 from './Military Division 2.jfif';
-
-// Export all assets as a structured object
+// Export all assets as static URL strings from /public directory
 export const assets = {
-  logo,
+  logo: '/logo.png',
   about: {
-    aircraft: aboutAircraft,
-    part: aboutPart,
+    aircraft: '/about - aircraft.jfif',
+    part: '/about - part.jfif',
   },
   services: {
-    aircraftMaintenance1,
-    aircraftMaintenance2,
-    aircraftParts1,
-    aircraftParts2,
-    aircraftSolutions1,
-    aircraftSolutions2,
-    commercialAviation1,
-    commercialAviation2,
-    helicopters1,
-    helicopters2,
-    militaryDivision1,
-    militaryDivision2,
+    aircraftMaintenance1: '/Aircraft Maintenance 1.jfif',
+    aircraftMaintenance2: '/Aircraft Maintenance 2.jfif',
+    aircraftParts1: '/Aircraft Parts 1.jfif',
+    aircraftParts2: '/Aircraft Parts 2.jfif',
+    aircraftSolutions1: '/Aircraft Solutions 1.jfif',
+    aircraftSolutions2: '/Aircraft Solutions 2.jfif',
+    commercialAviation1: '/Commercial Aviation 1.jfif',
+    commercialAviation2: '/Commercial Aviation 2.jfif',
+    helicopters1: '/Helicopters 1.jfif',
+    helicopters2: '/Helicopters 2.jfif',
+    militaryDivision1: '/Military Division 1.jfif',
+    militaryDivision2: '/Military Division 2.jfif',
   }
 };
 
