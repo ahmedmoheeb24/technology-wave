@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
+import { use } from 'react'
 import { FiCode, FiLayout, FiCloud, FiShoppingCart, FiTrendingUp, FiShield, FiArrowLeft, FiCheck, FiClock, FiUsers, FiAward } from 'react-icons/fi'
 
 const services = [
@@ -114,9 +115,9 @@ const services = [
 ]
 
 export default function ServiceDetailPage({ params }) {
-  // Accepts params as props (Next.js App Router) AND falls back to useParams hook
-  const hookParams = useParams()
-  const slug = params?.slug ?? (Array.isArray(hookParams?.slug) ? hookParams.slug[0] : hookParams?.slug)
+  // Next.js 15: params is a Promise — unwrap with React.use()
+  const resolvedParams = use(params)
+  const slug = resolvedParams?.slug ?? ''
 
   const service = services.find(s => s.slug === slug)
 
