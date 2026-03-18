@@ -24,8 +24,7 @@ export const viewport = {
 };
 
 import { Providers } from './providers'
-import Navbar from './Components/Navbar'
-import Footer from './Components/Footer'
+import ConditionalLayout from './Components/ConditionalLayout'
 
 export default function RootLayout({ children }) {
   return (
@@ -38,9 +37,9 @@ export default function RootLayout({ children }) {
         leading-8 overflow-x-hidden bg-white text-black`}
       >
         <Providers>
-          <Navbar />
-          {children}
-          <Footer />
+          <ConditionalLayout>
+            {children}
+          </ConditionalLayout>
         </Providers>
       </body>
     </html>
