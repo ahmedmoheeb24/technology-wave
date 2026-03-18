@@ -23,7 +23,7 @@ export default function AboutPage() {
       icon: FiHeart,
       title: 'Client-Centric',
       description: 'Your mission readiness is our priority. We build lasting partnerships by understanding your operational goals and consistently exceeding expectations.',
-      color: 'from-blue-500 to-blue-600'
+      color: 'from-purple-500 to-pink-500'
     },
     {
       icon: FiShield,
@@ -87,7 +87,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       {/* Hero Section */}
       <section className="relative py-24 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 opacity-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-10"></div>
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -95,8 +95,8 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 mb-6">
-              About <span className="bg-gradient-to-r from-blue-600 to-sky-500 bg-clip-text text-transparent">Technology Wave</span>
+            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6">
+              About <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Aventure Aviation</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
               A world-class, award-winning commercial and military aviation parts supplier — proudly serving the industry since 2001.
@@ -113,10 +113,10 @@ export default function AboutPage() {
             {stats.map((stat, index) => {
               const IconComponent = stat.icon
               return (
-                <div key={index} className="bg-white rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow">
-                  <IconComponent className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-                  <div className="text-3xl font-bold text-gray-900 mb-2">{stat.value}</div>
-                  <div className="text-gray-600 text-sm">{stat.label}</div>
+                <div key={index} className="bg-white rounded-2xl p-4 sm:p-8 text-center shadow-lg hover:shadow-xl transition-shadow">
+                  <IconComponent className="w-8 h-8 sm:w-12 sm:h-12 mx-auto mb-3 text-blue-600" />
+                  <div className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-900 mb-1 sm:mb-2 leading-tight break-words">{stat.value}</div>
+                  <div className="text-gray-600 text-xs sm:text-sm leading-snug">{stat.label}</div>
                 </div>
               )
             })}
@@ -134,7 +134,7 @@ export default function AboutPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-8">Who We Are</h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8">Who We Are</h2>
               <div className="space-y-5 text-lg text-gray-600 leading-relaxed">
                 <p>
                   Aventure Aviation has a proud heritage of service, dating from our founding in 2001. We have since grown into a world-class, award-winning commercial and military aviation parts supplier and provider of component repair management services.
@@ -160,7 +160,7 @@ export default function AboutPage() {
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Our Platform Specialties</h3>
               <div className="grid grid-cols-2 gap-4">
                 {specialties.map((item, index) => (
-                  <div key={index} className="bg-white rounded-xl p-5 shadow-md border-l-4 border-blue-500 hover:shadow-xl hover:scale-105 hover:border-blue-600 transition-all duration-300 cursor-pointer">
+                  <div key={index} className="bg-white rounded-xl p-5 shadow-md border-l-4 border-blue-500 hover:shadow-lg transition-shadow">
                     <div className="font-bold text-gray-900">{item.label}</div>
                     <div className="text-sm text-gray-500 mt-1">{item.sub}</div>
                   </div>
@@ -180,9 +180,9 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-3xl p-12 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer"
+              className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-3xl p-12 shadow-xl"
             >
-              <div className="inline-flex p-4 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-500 mb-6 group-hover:scale-110 transition-transform">
+              <div className="inline-flex p-4 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-500 mb-6">
                 <FiTarget className="w-10 h-10 text-white" />
               </div>
               <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Mission</h2>
@@ -196,9 +196,9 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="bg-gradient-to-br from-blue-50 to-sky-50 rounded-3xl p-12 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer"
+              className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-12 shadow-xl"
             >
-              <div className="inline-flex p-4 rounded-2xl bg-gradient-to-r from-blue-500 to-sky-500 mb-6 group-hover:scale-110 transition-transform">
+              <div className="inline-flex p-4 rounded-2xl bg-gradient-to-r from-purple-500 to-pink-500 mb-6">
                 <FiEye className="w-10 h-10 text-white" />
               </div>
               <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Vision</h2>
@@ -220,7 +220,7 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">Our Core Values</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Our Core Values</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               The principles that guide everything we do
             </p>
@@ -262,7 +262,7 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">Our Journey</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Our Journey</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Over two decades of growth, excellence, and industry recognition
             </p>
@@ -270,7 +270,7 @@ export default function AboutPage() {
 
           <div className="relative">
             {/* Timeline Line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-blue-500 to-blue-600 hidden lg:block"></div>
+            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-blue-500 to-purple-500 hidden lg:block"></div>
 
             {timeline.map((item, index) => (
               <motion.div
@@ -295,7 +295,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-sky-600">
+      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-purple-600">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -303,7 +303,7 @@ export default function AboutPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Let's Keep Your Fleet Flying
             </h2>
             <p className="text-xl text-blue-100 mb-8">

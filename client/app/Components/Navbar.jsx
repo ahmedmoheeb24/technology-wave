@@ -92,7 +92,7 @@ const Navbar = () => {
                     {/* Cart Button */}
                     <button
                         onClick={toggleCart}
-                        className={`relative flex items-center gap-2 px-4 py-2.5 rounded-full font-Ovo transition-all duration-300 hover:-translate-y-1 hover:shadow-lg active:scale-95 ${
+                        className={`hidden md:flex relative items-center gap-2 px-4 py-2.5 rounded-full font-Ovo transition-all duration-300 hover:-translate-y-1 hover:shadow-lg active:scale-95 ${
                             useWhiteText
                                 ? 'bg-white/20 text-white hover:bg-white/30 border border-white/40'
                                 : 'bg-blue-600 text-white hover:bg-blue-700'
