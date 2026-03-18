@@ -3,7 +3,7 @@ import React from 'react'
 import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
-import logo from '@/assets/logo.png'
+import { assets } from '@/assets/assets.js'
 import { useCart } from '../context/CartContext'
 
 const Navbar = () => {
@@ -58,7 +58,7 @@ const Navbar = () => {
                 {/* Logo */}
                 <a href="/" className='flex items-center gap-3'>
                     <Image
-                        src={logo}
+                        src={assets.logo}
                         alt='Technology Wave Logo'
                         width={120}
                         height={40}
@@ -160,7 +160,7 @@ const Navbar = () => {
                 <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
                     <a href="/" onClick={closeMenu} className="flex items-center gap-2">
                         <Image
-                            src={logo}
+                            src={assets.logo}
                             alt='Technology Wave Logo'
                             width={90}
                             height={30}
