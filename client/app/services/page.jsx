@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import { FiCode, FiLayout, FiCloud, FiShoppingCart, FiTrendingUp, FiShield } from 'react-icons/fi'
 
 const services = [
   {
