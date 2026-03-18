@@ -109,91 +109,10 @@ const services = [
   }
 ]
 
-export default function ServicesPage() {
+export default function ServiceDetailPage() {
 
   const params = useParams()
-  const slug = params?.slug
-  
-  // If no slug, show all services (listing page)
-  if (!slug) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-        {/* Hero Section */}
-        <section className="relative py-20 px-4 bg-gradient-to-r from-blue-600 to-sky-500">
-          <div className="max-w-7xl mx-auto text-center">
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6"
-            >
-              Our Aviation Services
-            </motion.h1>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-xl text-white/90 max-w-3xl mx-auto"
-            >
-              Comprehensive aviation solutions tailored to your needs
-            </motion.p>
-          </div>
-        </section>
-
-        {/* Services Grid */}
-        <section className="px-4 py-16">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {services.map((service, index) => {
-                const IconComponent = service.icon
-                return (
-                  <motion.div
-                    key={service.slug}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                  >
-                    <Link href={`/services/${service.slug}`}>
-                      <div className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden h-full flex flex-col cursor-pointer">
-                        <div className="relative h-48 overflow-hidden">
-                          <Image
-                            src={service.images[0]}
-                            alt={service.title}
-                            fill
-                            unoptimized
-                            className="object-cover group-hover:scale-110 transition-transform duration-500"
-                          />
-                          <div className={`absolute inset-0 bg-gradient-to-t from-black/60 to-transparent`} />
-                          <div className={`absolute top-4 right-4 p-3 rounded-xl bg-gradient-to-r ${service.color} shadow-lg`}>
-                            <IconComponent className="w-6 h-6 text-white" />
-                          </div>
-                        </div>
-                        <div className="p-6 flex-1 flex flex-col">
-                          <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                            {service.title}
-                          </h3>
-                          <p className="text-gray-600 mb-4 flex-1">
-                            {service.description}
-                          </p>
-                          <div className="flex items-center gap-2 text-blue-600 font-semibold group-hover:gap-4 transition-all">
-                            Learn More
-                            <FiArrowLeft className="w-5 h-5 rotate-180" />
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </motion.div>
-                )
-              })}
-            </div>
-          </div>
-        </section>
-      </div>
-    )
-  }
-
-  // Find service by slug for detail view
-  const service = services.find(s => s.slug === slug)
+  const service = services.find(s => s.slug === params.slug)
 
   if (!service) {
     return (

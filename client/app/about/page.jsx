@@ -139,8 +139,8 @@ export default function AboutPage() {
             className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10"
           >
             <div>
-              <p className="text-blue-600 font-mono text-xs tracking-widest uppercase mb-2">Aircraft Coverage</p>
-              <h2 className="text-2xl sm:text-3xl font-black text-gray-900">Platform Specialties</h2>
+              <p className="text-blue-600 font-mono text-xs sm:text-sm tracking-widest uppercase mb-2">Aircraft Coverage</p>
+              <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black text-gray-900">Platform Specialties</h2>
             </div>
             <p className="text-gray-500 text-sm max-w-xs">Parts support across commercial, regional, and military platforms.</p>
           </motion.div>
