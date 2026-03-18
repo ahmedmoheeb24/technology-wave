@@ -1,8 +1,10 @@
 "use client"
 
+
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import { FiCode, FiLayout, FiCloud, FiShoppingCart, FiTrendingUp, FiShield, FiArrowLeft, FiCheck, FiClock, FiUsers, FiAward } from 'react-icons/fi'
 import { assets } from '@/assets/assets'
 
@@ -107,9 +109,10 @@ const services = [
   }
 ]
 
-export default async function ServiceDetailPage({ params }) {
-  const resolvedParams = await params
-  const service = services.find(s => s.slug === resolvedParams.slug)
+export default function ServiceDetailPage() {
+
+  const params = useParams()
+  const service = services.find(s => s.slug === params.slug)
 
   if (!service) {
     return (
@@ -208,7 +211,7 @@ export default async function ServiceDetailPage({ params }) {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 max-w-sm">
                   <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">Investment</div>
                   <div className="text-3xl font-bold text-gray-900 mb-6">{service.price}</div>
                   <Link href="/contact">
