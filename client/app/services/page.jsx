@@ -12,7 +12,6 @@ const services = [
     title: 'Commercial Aviation',
     description: 'Keeping your fleet in the air',
     longDescription: 'Technology Wave is a fully accredited aviation parts supplier maintaining the highest industry standards. We have met the stringent requirements of the Aviation Suppliers Association Quality System ASA-100 accreditation, satisfying the FAA Advisory Circular 00-56B, ISO 9001:2015 and AS9120B quality standards. Our obsession with high standards have qualified us as an approved supplier to leading airlines, MRO facilities, and OEM authorized service centers worldwide.\n\nOur highly experienced team members offer AOG 7/24/365 service to our customers around the globe. They rely on our ability to provide solutions that ensure parts are delivered to the right location, at the right price, at the right time–allowing their aircraft to keep earning revenue.',
-    // Images served from /public folder — filenames must match exactly
     heroImage: '/Commercial Aviation 1.jfif',
     detailImage: '/Commercial Aviation 2.jfif',
     sections: [
@@ -145,16 +144,16 @@ export default function ServicesPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 * index }}
-              className="relative group"
+              className="relative group h-full"
             >
               {/* Glow Effect */}
               <div className={`absolute -inset-0.5 bg-gradient-to-r ${service.color} rounded-3xl opacity-0 group-hover:opacity-100 blur transition-all duration-500`}></div>
 
               {/* Card */}
-              <Link href={`/services/${service.slug}`}>
-                <div className="relative bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 h-full cursor-pointer">
+              <Link href={`/services/${service.slug}`} className="h-full flex">
+                <div className="relative bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 cursor-pointer flex flex-col w-full h-full">
                   {/* Card Image */}
-                  <div className="relative w-full h-48 overflow-hidden">
+                  <div className="relative w-full h-48 overflow-hidden flex-shrink-0">
                     <Image
                       src={service.heroImage}
                       alt={service.title}
@@ -167,22 +166,22 @@ export default function ServicesPage() {
                       {service.title}
                     </div>
                   </div>
-                  <div className="p-8">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.title}</h3>
-                  <p className="text-gray-600 mb-6">{service.description}</p>
-                  <ul className="space-y-2 mb-6">
-                    {service.features.slice(0, 4).map((feature, i) => (
-                      <li key={i} className="flex items-center text-sm text-gray-600">
-                        <svg className="w-5 h-5 mr-2 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  <button className={`w-full py-3 rounded-xl bg-gradient-to-r ${service.color} text-white font-bold hover:shadow-lg transform hover:scale-105 transition-all duration-300`}>
-                    Learn More
-                  </button>
+                  <div className="p-8 flex flex-col flex-1">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.title}</h3>
+                    <p className="text-gray-600 mb-6">{service.description}</p>
+                    <ul className="space-y-2 mb-6 flex-1">
+                      {service.features.slice(0, 4).map((feature, i) => (
+                        <li key={i} className="flex items-center text-sm text-gray-600">
+                          <svg className="w-5 h-5 mr-2 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                    <button className={`w-full py-3 rounded-xl bg-gradient-to-r ${service.color} text-white font-bold hover:shadow-lg transform hover:scale-105 transition-all duration-300 mt-auto`}>
+                      Learn More
+                    </button>
                   </div>
                 </div>
               </Link>
