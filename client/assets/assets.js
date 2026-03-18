@@ -1,3 +1,43 @@
+// Import all images from assets folder
+import aboutAircraft from './about - aircraft.jfif';
+import aboutPart from './about - part.jfif';
+import aircraftMaintenance1 from './Aircraft Maintenance 1.jfif';
+import aircraftMaintenance2 from './Aircraft Maintenance 2.jfif';
+import aircraftParts1 from './Aircraft Parts 1.jfif';
+import aircraftParts2 from './Aircraft Parts 2.jfif';
+import aircraftSolutions1 from './Aircraft Solutions 1.jfif';
+import aircraftSolutions2 from './Aircraft Solutions 2.jfif';
+import commercialAviation1 from './Commercial Aviation 1.jfif';
+import commercialAviation2 from './Commercial Aviation 2.jfif';
+import helicopters1 from './Helicopters 1.jfif';
+import helicopters2 from './Helicopters 2.jfif';
+import logo from './logo.png';
+import militaryDivision1 from './Military Division 1.jfif';
+import militaryDivision2 from './Military Division 2.jfif';
+
+// Export all assets as a structured object
+export const assets = {
+  logo,
+  about: {
+    aircraft: aboutAircraft,
+    part: aboutPart,
+  },
+  services: {
+    aircraftMaintenance1,
+    aircraftMaintenance2,
+    aircraftParts1,
+    aircraftParts2,
+    aircraftSolutions1,
+    aircraftSolutions2,
+    commercialAviation1,
+    commercialAviation2,
+    helicopters1,
+    helicopters2,
+    militaryDivision1,
+    militaryDivision2,
+  }
+};
+
 // Placeholder data for services and work portfolio
 // In production, this data should come from the API
 
@@ -46,9 +86,3 @@ export const workData = [
     year: '2024'
   }
 ]
-
-export const assets = {
-  // Placeholder for additional assets
-  logo: '/logo.png',
-  placeholder: '/placeholder.jpg'
-}

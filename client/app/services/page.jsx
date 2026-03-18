@@ -2,7 +2,9 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import { FiCode, FiLayout, FiCloud, FiShoppingCart, FiTrendingUp, FiArrowRight, FiCheck, FiShield } from 'react-icons/fi'
+import { assets } from '@/assets/assets'
 
 const services = [
   {
@@ -12,6 +14,7 @@ const services = [
     title: 'Commercial Aviation',
     subheading: 'Keeping your fleet in the air',
     description: 'Fully accredited aviation parts supplier with ASA-100, ISO 9001:2015 and AS9120B certifications. AOG 7/24/365 service ensuring parts are delivered to the right location, at the right price, at the right time.',
+    image: assets.services.commercialAviation1,
     features: [
       'Fleet Management Solutions',
       'Aircraft Leasing & Sales',
@@ -30,6 +33,7 @@ const services = [
     title: 'Military Division',
     subheading: 'Proud to serve those who serve',
     description: 'Specialized military aviation parts and MRO support since 2010. 24/7/365 AOG/MICAP grounding support with an approved supplier network qualified to ASA-100 and AS9100 standards.',
+    image: assets.services.militaryDivision1,
     features: [
       'Military Aircraft Modifications',
       'Defense Systems Integration',
@@ -48,6 +52,7 @@ const services = [
     title: 'Helicopters',
     subheading: 'The parts you need where you need them',
     description: 'Rotary-wing aircraft spare parts and component repair management for domestic and international operators. Hardware, airframe, engine, rotables, consumables, tools, and fasteners — all condition codes.',
+    image: assets.services.helicopters1,
     features: [
       'Helicopter Sales & Leasing',
       'Maintenance Programs',
@@ -66,6 +71,7 @@ const services = [
     title: 'Maintenance, Repair and Overhaul',
     subheading: 'Component repair and overhaul',
     description: 'Full ATA chapter coverage through FAA 145 and EASA 145 approved repair stations. Quality workmanship, competitive turnaround times, and full warranty on all managed components.',
+    image: assets.services.aircraftMaintenance1,
     features: [
       'Scheduled Maintenance',
       'Major Repairs & Modifications',
@@ -84,6 +90,7 @@ const services = [
     title: 'End-of-Life Aircraft Solutions',
     subheading: 'New revenue opportunity for retired or end-of-life aircraft',
     description: 'Full-service aircraft teardown from acquisition planning to hull recycling. We tailor partnership programs for owners, hedge fund managers, private equity funds, and institutional investors.',
+    image: assets.services.aircraftSolutions1,
     features: [
       'Aircraft Dismantling',
       'Parts Harvesting & Certification',
@@ -102,6 +109,7 @@ const services = [
     title: 'Tagged Parts Available',
     subheading: 'Material and Recycling',
     description: 'Large inventory across all engine types, acquired through whole engine teardowns to piece part level. Helping the aviation industry maximize sunset fleets via the USM market — sustainably.',
+    image: assets.services.aircraftParts1,
     features: [
       'Certified Parts Inventory',
       'Full Traceability & Documentation',
@@ -118,6 +126,7 @@ const services = [
 export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+
       {/* Hero Section */}
       <section className="relative py-24 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 opacity-10"></div>
@@ -154,43 +163,55 @@ export default function ServicesPage() {
                 >
                   <Link href={`/services/${service.slug}`}>
                     <div className="h-full bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-300 cursor-pointer flex flex-col">
-                      {/* Gradient top bar */}
-                      <div className={`h-1.5 bg-gradient-to-r ${service.color}`}></div>
 
-                      <div className="p-8 flex flex-col flex-1">
-                        {/* Icon */}
-                        <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${service.color} mb-5 group-hover:scale-110 transition-transform duration-300 self-start`}>
-                          <IconComponent className="w-8 h-8 text-white" />
+                      {/* Card Image */}
+                      <div className="relative h-48 w-full overflow-hidden">
+                        <Image
+                          src={service.image}
+                          alt={service.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        {/* Gradient overlay */}
+                        <div className={`absolute inset-0 bg-gradient-to-t from-black/50 to-transparent`} />
+                        {/* Icon badge over image */}
+                        <div className={`absolute bottom-3 left-3 inline-flex p-2.5 rounded-xl bg-gradient-to-r ${service.color} shadow-lg`}>
+                          <IconComponent className="w-5 h-5 text-white" />
                         </div>
+                        {/* Price badge */}
+                        <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-bold px-3 py-1 rounded-full shadow">
+                          {service.price}
+                        </div>
+                      </div>
 
+                      <div className="p-6 flex flex-col flex-1">
                         {/* Title */}
-                        <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
+                        <h3 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
                           {service.title}
                         </h3>
 
                         {/* Subheading */}
-                        <p className="text-sm font-semibold text-gray-400 italic mb-4">
+                        <p className="text-xs font-semibold text-gray-400 italic mb-3">
                           {service.subheading}
                         </p>
 
                         {/* Description */}
-                        <p className="text-gray-600 mb-6 text-sm leading-relaxed line-clamp-3">
+                        <p className="text-gray-600 mb-5 text-sm leading-relaxed line-clamp-2">
                           {service.description}
                         </p>
 
                         {/* Features Preview */}
-                        <ul className="space-y-2 mb-6 flex-1">
+                        <ul className="space-y-1.5 mb-5 flex-1">
                           {service.features.slice(0, 3).map((feature, idx) => (
                             <li key={idx} className="flex items-center text-sm text-gray-600">
-                              <FiCheck className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                              <FiCheck className="w-3.5 h-3.5 text-green-500 mr-2 flex-shrink-0" />
                               {feature}
                             </li>
                           ))}
                         </ul>
 
-                        {/* Price & CTA */}
-                        <div className="flex items-center justify-between pt-5 border-t border-gray-100 mt-auto">
-                          <span className="text-base font-bold text-gray-900">{service.price}</span>
+                        {/* CTA */}
+                        <div className="flex items-center justify-end pt-4 border-t border-gray-100 mt-auto">
                           <div className="flex items-center text-blue-600 font-semibold text-sm group-hover:gap-2 transition-all">
                             Learn More
                             <FiArrowRight className="ml-1 group-hover:translate-x-1 transition-transform" />
@@ -215,12 +236,8 @@ export default function ServicesPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Ready to Get Started?
-            </h2>
-            <p className="text-xl text-blue-100 mb-8">
-              Contact us today to discuss your aviation requirements
-            </p>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Ready to Get Started?</h2>
+            <p className="text-xl text-blue-100 mb-8">Contact us today to discuss your aviation requirements</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link href="/contact">
                 <button className="px-8 py-4 bg-white text-blue-600 rounded-full font-bold text-lg hover:bg-gray-100 transition-all hover:scale-105 shadow-xl">
