@@ -186,56 +186,63 @@ export default async function ServiceDetailPage({ params }) {
             ))}
           </motion.div>
 
-          {/* Overview + Sidebar */}
+          {/* Overview + 4:5 Image on right */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-14">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="lg:col-span-2 space-y-4"
-            >
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Overview</h2>
-              {service.longDescription.split('\n\n').map((para, i) => (
-                <p key={i} className="text-gray-600 leading-relaxed text-base">{para}</p>
-              ))}
-            </motion.div>
 
+            {/* Left: Overview text + quote card stacked */}
+            <div className="lg:col-span-2 flex flex-col gap-8">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="space-y-4"
+              >
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Overview</h2>
+                {service.longDescription.split('\n\n').map((para, i) => (
+                  <p key={i} className="text-gray-600 leading-relaxed text-base">{para}</p>
+                ))}
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                  <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">Investment</div>
+                  <div className="text-3xl font-bold text-gray-900 mb-6">{service.price}</div>
+                  <Link href="/contact">
+                    <button className={`w-full py-3.5 bg-gradient-to-r ${service.color} text-white rounded-xl font-bold text-base hover:shadow-xl transition-all hover:scale-105`}>
+                      Request Quote
+                    </button>
+                  </Link>
+                  <div className="mt-5 pt-5 border-t border-gray-100 text-center">
+                    <p className="text-xs text-gray-400">AOG 7/24/365 Support Available</p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Right: 4:5 portrait image */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              transition={{ duration: 0.5, delay: 0.25 }}
+              className="lg:col-span-1"
             >
-              <div className="bg-white rounded-2xl p-6 shadow-lg sticky top-24 border border-gray-100">
-                <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">Investment</div>
-                <div className="text-3xl font-bold text-gray-900 mb-6">{service.price}</div>
-                <Link href="/contact">
-                  <button className={`w-full py-3.5 bg-gradient-to-r ${service.color} text-white rounded-xl font-bold text-base hover:shadow-xl transition-all hover:scale-105`}>
-                    Request Quote
-                  </button>
-                </Link>
-                <div className="mt-5 pt-5 border-t border-gray-100 text-center">
-                  <p className="text-xs text-gray-400">AOG 7/24/365 Support Available</p>
-                </div>
+              {/* aspect-[4/5] = 4:5 ratio */}
+              <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-xl sticky top-24">
+                <Image
+                  src={service.images[1]}
+                  unoptimized
+                  alt={`${service.title} detail`}
+                  fill
+                  className="object-cover"
+                />
+                <div className={`absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent`} />
               </div>
             </motion.div>
           </div>
-
-          {/* Second image — full width banner */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.25 }}
-            className="relative h-56 sm:h-72 w-full rounded-2xl overflow-hidden mb-14 shadow-xl"
-          >
-            <Image
-              src={service.images[1]}
-            unoptimized
-              alt={`${service.title} detail`}
-              fill
-              className="object-cover"
-            />
-            <div className={`absolute inset-0 bg-gradient-to-r ${service.color} opacity-30`} />
-          </motion.div>
 
           {/* Sub-sections */}
           {service.sections && service.sections.length > 0 && (
