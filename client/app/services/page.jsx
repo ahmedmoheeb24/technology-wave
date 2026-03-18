@@ -1,9 +1,11 @@
 "use client"
 
+
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FiCode, FiLayout, FiCloud, FiShoppingCart, FiTrendingUp, FiShield, FiArrowRight } from 'react-icons/fi'
+import { useParams } from 'next/navigation'
+import { FiCode, FiLayout, FiCloud, FiShoppingCart, FiTrendingUp, FiShield, FiArrowLeft, FiCheck, FiClock, FiUsers, FiAward } from 'react-icons/fi'
 import { assets } from '@/assets/assets'
 
 const services = [
@@ -108,85 +110,165 @@ const services = [
 ]
 
 export default function ServicesPage() {
+
+  const params = useParams()
+  const slug = params?.slug
+  
+  // If no slug, show all services (listing page)
+  if (!slug) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+        {/* Hero Section */}
+        <section className="relative py-20 px-4 bg-gradient-to-r from-blue-600 to-sky-500">
+          <div className="max-w-7xl mx-auto text-center">
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6"
+            >
+              Our Aviation Services
+            </motion.h1>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-xl text-white/90 max-w-3xl mx-auto"
+            >
+              Comprehensive aviation solutions tailored to your needs
+            </motion.p>
+          </div>
+        </section>
+
+        {/* Services Grid */}
+        <section className="px-4 py-16">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {services.map((service, index) => {
+                const IconComponent = service.icon
+                return (
+                  <motion.div
+                    key={service.slug}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                  >
+                    <Link href={`/services/${service.slug}`}>
+                      <div className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden h-full flex flex-col cursor-pointer">
+                        <div className="relative h-48 overflow-hidden">
+                          <Image
+                            src={service.images[0]}
+                            alt={service.title}
+                            fill
+                            unoptimized
+                            className="object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                          <div className={`absolute inset-0 bg-gradient-to-t from-black/60 to-transparent`} />
+                          <div className={`absolute top-4 right-4 p-3 rounded-xl bg-gradient-to-r ${service.color} shadow-lg`}>
+                            <IconComponent className="w-6 h-6 text-white" />
+                          </div>
+                        </div>
+                        <div className="p-6 flex-1 flex flex-col">
+                          <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                            {service.title}
+                          </h3>
+                          <p className="text-gray-600 mb-4 flex-1">
+                            {service.description}
+                          </p>
+                          <div className="flex items-center gap-2 text-blue-600 font-semibold group-hover:gap-4 transition-all">
+                            Learn More
+                            <FiArrowLeft className="w-5 h-5 rotate-180" />
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+      </div>
+    )
+  }
+
+  // Find service by slug for detail view
+  const service = services.find(s => s.slug === slug)
+
+  if (!service) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Service Not Found</h1>
+          <Link href="/services">
+            <button className="text-blue-600 hover:text-blue-700 font-semibold">← Back to Services</button>
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
+  const IconComponent = service.icon
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
 
-      {/* Hero Section */}
-      <section className="relative py-20 px-4 bg-gradient-to-r from-blue-600 to-sky-500">
-        <div className="max-w-7xl mx-auto text-center">
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6"
-          >
-            Our Aviation Services
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-xl text-white/90 max-w-3xl mx-auto"
-          >
-            Comprehensive aviation solutions tailored to your needs
-          </motion.p>
-        </div>
-      </section>
+      {/* Hero Image Banner */}
+      <div className="relative h-72 sm:h-96 w-full overflow-hidden">
+        <Image
+          src={service.images[0]}
+          unoptimized
+          alt={service.title}
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/70" />
 
-      {/* Services Grid */}
-      <section className="px-4 py-16">
-        <div className="max-w-7xl mx-auto">
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, index) => {
-              const IconComponent = service.icon
-              return (
-                <motion.div
-                  key={service.slug}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <Link href={`/services/${service.slug}`}>
-                    <div className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden h-full flex flex-col cursor-pointer">
-                      {/* Image */}
-                      <div className="relative h-48 overflow-hidden">
-                        <Image
-                          src={service.images[0]}
-                          alt={service.title}
-                          fill
-                          unoptimized
-                          className="object-cover group-hover:scale-110 transition-transform duration-500"
-                        />
-                        <div className={`absolute inset-0 bg-gradient-to-t from-black/60 to-transparent`} />
-                        
-                        {/* Icon */}
-                        <div className={`absolute top-4 right-4 p-3 rounded-xl bg-gradient-to-r ${service.color} shadow-lg`}>
-                          <IconComponent className="w-6 h-6 text-white" />
-                        </div>
-                      </div>
-                      
-                      {/* Content */}
-                      <div className="p-6 flex-1 flex flex-col">
-                        <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                          {service.title}
-                        </h3>
-                        <p className="text-gray-600 mb-4 flex-1">
-                          {service.description}
-                        </p>
-                        
-                        {/* CTA */}
-                        <div className="flex items-center gap-2 text-blue-600 font-semibold group-hover:gap-4 transition-all">
-                          Learn More
-                          <FiArrowRight className="w-5 h-5" />
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              )
-            })}
+        {/* Back button over image */}
+        <div className="absolute top-6 left-4 sm:left-8 z-10">
+          <Link href="/services">
+            <button className="flex items-center gap-2 text-white bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors px-4 py-2 rounded-full text-sm font-medium">
+              <FiArrowLeft className="w-4 h-4" />
+              Back to Services
+            </button>
+          </Link>
+        </div>
+
+        {/* Title overlay on image */}
+        <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10">
+          <div className={`inline-flex p-3 rounded-2xl bg-gradient-to-r ${service.color} mb-4 shadow-lg`}>
+            <IconComponent className="w-7 h-7 text-white" />
           </div>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">
+            {service.title}
+          </h1>
+          <p className="text-white/80 text-lg italic">{service.description}</p>
+        </div>
+      </div>
+
+      <section className="px-4 py-12">
+        <div className="max-w-7xl mx-auto">
+
+          {/* Stats row */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-14 -mt-8 relative z-10"
+          >
+            {[
+              { icon: FiClock, value: service.timeline, label: 'Typical Timeline', color: 'text-blue-600' },
+              { icon: FiUsers, value: '1,500+', label: 'Global Clients', color: 'text-purple-600' },
+              { icon: FiAward, value: '99.8%', label: 'Safety Rating', color: 'text-orange-600' },
+            ].map((stat, i) => (
+              <div key={i} className="bg-white rounded-2xl p-6 text-center shadow-lg border border-gray-100">
+                <stat.icon className={`w-10 h-10 mx-auto mb-3 ${stat.color}`} />
+                <div className="text-2xl font-bold text-gray-900 mb-1 leading-tight">{stat.value}</div>
+                <p className="text-gray-500 text-sm">{stat.label}</p>
+              </div>
+            ))}
+          </motion.div>
 
           {/* Overview + 4:5 Image on right */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-14">
