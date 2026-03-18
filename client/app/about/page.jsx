@@ -129,14 +129,14 @@ export default function AboutPage() {
       </section>
 
       {/* ── PLATFORM SPECIALTIES ── */}
-      <section className="bg-gray-50 py-16 px-4">
+      <section className="bg-gray-50 py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10"
+            className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14"
           >
             <div>
               <p className="text-blue-600 font-mono text-xs sm:text-sm tracking-widest uppercase mb-2">Aircraft Coverage</p>
@@ -145,7 +145,7 @@ export default function AboutPage() {
             <p className="text-gray-500 text-sm lg:text-base max-w-xs">Parts support across commercial, regional, and military platforms.</p>
           </motion.div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
             {specialties.map((item, index) => (
               <motion.div
                 key={index}
@@ -153,11 +153,11 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="bg-white rounded-xl p-5 lg:p-7 border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all group cursor-default"
+                className="bg-white rounded-2xl p-7 lg:p-10 border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all group cursor-default"
               >
-                <div className="w-8 h-0.5 bg-blue-600 mb-3 group-hover:w-12 transition-all duration-300" />
-                <div className="font-bold text-gray-900 text-sm lg:text-base">{item.label}</div>
-                <div className="text-xs lg:text-sm text-gray-500 mt-1">{item.sub}</div>
+                <div className="w-10 h-0.5 bg-blue-600 mb-4 group-hover:w-14 transition-all duration-300" />
+                <div className="font-bold text-gray-900 text-base lg:text-lg">{item.label}</div>
+                <div className="text-sm lg:text-base text-gray-500 mt-2">{item.sub}</div>
               </motion.div>
             ))}
           </div>
@@ -222,20 +222,20 @@ export default function AboutPage() {
       </section>
 
       {/* ── CORE VALUES ── */}
-      <section className="py-20 px-4 bg-gray-50">
+      <section className="py-24 px-4 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-center mb-14"
+            className="text-center mb-16"
           >
             <p className="text-blue-600 font-mono text-xs lg:text-sm tracking-widest uppercase mb-3">What Drives Us</p>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900">Core Values</h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => {
               const IconComponent = value.icon
               return (
@@ -245,12 +245,12 @@ export default function AboutPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="group bg-white rounded-2xl p-7 lg:p-10 border border-gray-100 hover:border-blue-200 hover:shadow-xl transition-all duration-300"
+                  className="group bg-white rounded-3xl p-8 lg:p-12 border border-gray-100 hover:border-blue-200 hover:shadow-xl transition-all duration-300"
                 >
-                  <div className={`w-12 h-12 lg:w-16 lg:h-16 rounded-2xl bg-gradient-to-r ${value.color} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}>
-                    <IconComponent className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
+                  <div className={`w-14 h-14 lg:w-20 lg:h-20 rounded-2xl bg-gradient-to-r ${value.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    <IconComponent className="w-7 h-7 lg:w-10 lg:h-10 text-white" />
                   </div>
-                  <h3 className="text-lg lg:text-2xl font-black text-gray-900 mb-3">{value.title}</h3>
+                  <h3 className="text-xl lg:text-2xl font-black text-gray-900 mb-4">{value.title}</h3>
                   <p className="text-gray-500 text-sm lg:text-base leading-relaxed">{value.description}</p>
                 </motion.div>
               )
@@ -274,9 +274,10 @@ export default function AboutPage() {
           </motion.div>
 
           <div className="relative">
-            <div className="absolute left-4 lg:left-1/2 top-0 bottom-0 w-0.5 bg-blue-100 lg:-translate-x-px" />
+            {/* Vertical line — sits exactly at left-4 on mobile, centre on desktop */}
+            <div className="absolute left-[1.125rem] lg:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-200 via-blue-500 to-blue-200 lg:-translate-x-px" />
 
-            <div className="space-y-6">
+            <div className="space-y-8">
               {timeline.map((item, index) => (
                 <motion.div
                   key={index}
@@ -284,14 +285,14 @@ export default function AboutPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: index * 0.07 }}
-                  className={`relative flex items-start lg:items-center gap-0 ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}
+                  className={`relative flex items-center gap-0 ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}
                 >
-                  {/* Dot */}
-                  <div className="absolute left-4 lg:left-1/2 w-3 h-3 bg-blue-600 rounded-full border-2 border-white shadow-md lg:-translate-x-1/2 mt-6 lg:mt-0 z-10 ring-4 ring-blue-100" />
+                  {/* Dot — perfectly centred on the line */}
+                  <div className="absolute left-[1.125rem] lg:left-1/2 -translate-x-1/2 w-4 h-4 bg-blue-600 rounded-full border-[3px] border-white shadow-md z-10 ring-4 ring-blue-100" />
 
                   {/* Card */}
-                  <div className={`ml-10 lg:ml-0 w-full lg:w-[calc(50%-2.5rem)] ${index % 2 === 0 ? 'lg:pr-12' : 'lg:pl-12'}`}>
-                    <div className="bg-white border border-gray-100 rounded-2xl p-6 lg:p-8 hover:shadow-lg hover:border-blue-100 transition-all">
+                  <div className={`ml-12 lg:ml-0 w-full lg:w-[calc(50%-2rem)] ${index % 2 === 0 ? 'lg:pr-12' : 'lg:pl-12'}`}>
+                    <div className="bg-white border border-gray-100 rounded-2xl p-6 lg:p-8 hover:shadow-lg hover:border-blue-200 transition-all">
                       <span className="text-blue-600 font-black text-xl lg:text-3xl">{item.year}</span>
                       <h3 className="font-black text-gray-900 text-base lg:text-xl mt-1 mb-2">{item.title}</h3>
                       <p className="text-gray-500 text-sm lg:text-base leading-relaxed">{item.description}</p>
