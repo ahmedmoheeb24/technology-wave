@@ -22,7 +22,7 @@ export default function AboutPage() {
   ]
 
   const timeline = [
-    { year: '2001', title: 'Founded', description: 'Aventure Aviation was established with a mission to become a world-class aviation parts supplier, serving leading airlines and operators with exceptional quality and service.' },
+    { year: '2001', title: 'Founded', description: 'Technology Wave was established with a mission to become a world-class aviation parts supplier, serving leading airlines and operators with exceptional quality and service.' },
     { year: '2005', title: 'Commercial Expansion', description: 'Grew our commercial aviation portfolio to support narrow and wide-body aircraft across Airbus, Boeing, Bombardier, and Embraer platforms.' },
     { year: '2010', title: 'Military Division Launched', description: 'Established our dedicated military division to provide parts and MRO support for the Lockheed Martin C-130 transport, serving air forces worldwide.' },
     { year: '2013', title: 'ASA-100 Accreditation', description: 'Earned the Aviation Suppliers Association Quality System ASA-100 accreditation, satisfying FAA Advisory Circular 00-56B and cementing our reputation for quality.' },
@@ -50,7 +50,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-center mb-16">
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-900 mb-6">
-              About <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Aventure Aviation</span>
+              About <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Technology Wave</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
               A world-class, award-winning commercial and military aviation parts supplier — proudly serving the industry since 2001.
@@ -81,7 +81,7 @@ export default function AboutPage() {
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-8">Who We Are</h2>
               <div className="space-y-5 text-base lg:text-lg text-gray-600 leading-relaxed">
-                <p>Aventure Aviation has a proud heritage of service, dating from our founding in 2001. We have since grown into a world-class, award-winning commercial and military aviation parts supplier and provider of component repair management services.</p>
+                <p>Technology Wave has a proud heritage of service, dating from our founding in 2001. We have since grown into a world-class, award-winning commercial and military aviation parts supplier and provider of component repair management services.</p>
                 <p>We find practical solutions for your excess and surplus inventories, and are experts at acquiring retired aircraft for dismantling and harvesting parts. We excel in providing customers with the highest quality parts, best value, fastest delivery, exceptional customer service, and solutions for hard to find parts and repair requirements.</p>
                 <p>Our customers include the world's leading airlines, air forces, and MRO centers. They rely on our ability to supply parts that keep assets flying. To ensure a one-stop shop approach, we provide airframe and engine parts and component repair management services for the entire spectrum of ATA chapters.</p>
                 <p>We are a distributor for OEMs who qualify to AS9100 standards. Our knowledgeable team and international network of sales representatives provide 7/24/365 service.</p>
@@ -204,7 +204,7 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">Let's Keep Your Fleet Flying</h2>
-            <p className="text-xl text-blue-100 mb-8">Join 1,500+ operators worldwide who trust Aventure Aviation for their parts and MRO needs</p>
+            <p className="text-xl text-blue-100 mb-8">Join 1,500+ operators worldwide who trust Technology Wave for their parts and MRO needs</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link href="/contact"><button className="px-8 py-4 bg-white text-blue-600 rounded-full font-bold text-lg hover:bg-gray-100 transition-all hover:scale-105 shadow-xl">Contact Us</button></Link>
               <Link href="/services"><button className="px-8 py-4 bg-transparent border-2 border-white text-white rounded-full font-bold text-lg hover:bg-white hover:text-blue-600 transition-all hover:scale-105">Our Services</button></Link>
