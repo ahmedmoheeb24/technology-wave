@@ -13,10 +13,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
     # Database - PostgreSQL (Neon) for production, SQLite for local development
-    DATABASE_URL: str = os.getenv(
-        "DATABASE_URL", 
-        "sqlite:////tmp/store.db" if os.getenv("VERCEL") else "sqlite:///./store.db"
-    )
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./store.db")
     
     # Format DATABASE_URL if needed
     def __init__(self, **kwargs):
@@ -36,12 +33,12 @@ class Settings(BaseSettings):
     
     # CORS - Support multiple origins for production and development
     ALLOWED_ORIGINS: str = os.getenv(
-        "ALLOWED_ORIGINS",
-        "http://localhost:3000,http://localhost:3001,https://technologywave.vercel.app,https://technologywave-kgyc.vercel.app"
-    )
+    "ALLOWED_ORIGINS",
+    "http://localhost:3000"
+)
     
     # File Upload - Use /tmp for Vercel serverless
-    UPLOAD_DIR: str = os.getenv("UPLOAD_DIR", "/tmp/uploads" if os.getenv("VERCEL") else "./uploads")
+    UPLOAD_DIR: str = os.getenv("UPLOAD_DIR", "./uploads")
     MAX_FILE_SIZE: int = 5242880  # 5MB
     
     class Config:

@@ -1,41 +1,22 @@
-from sqlalchemy import create_engine, MetaData
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.pool import NullPool
 from app.core.config import settings
 import os
 
-# Create engine with appropriate config
-# SQLite needs check_same_thread=False, PostgreSQL doesn't need it
+# SQLite needs check_same_thread=False
 connect_args = {}
 if "sqlite" in settings.DATABASE_URL:
     connect_args = {"check_same_thread": False}
-    # For Vercel serverless with SQLite, ensure database directory exists
-    if os.getenv("VERCEL"):
-        db_path = settings.DATABASE_URL.replace("sqlite:///", "")
-        db_dir = os.path.dirname(db_path) if "/" in db_path else "/tmp"
-        if db_dir and not os.path.exists(db_dir):
-            os.makedirs(db_dir, exist_ok=True)
 
-# Create engine
-# For serverless, use NullPool to avoid connection pooling issues
-if os.getenv("VERCEL"):
-    # Serverless environment - no connection pooling
-    engine = create_engine(
-        settings.DATABASE_URL,
-        connect_args=connect_args,
-        poolclass=NullPool  # No pooling for serverless
-    )
-else:
-    # Traditional environment - use connection pooling
-    engine = create_engine(
-        settings.DATABASE_URL,
-        connect_args=connect_args,
-        pool_pre_ping=True,
-        pool_recycle=300,
-        pool_size=5,
-        max_overflow=10
-    )
+engine = create_engine(
+    settings.DATABASE_URL,
+    connect_args=connect_args,
+    pool_pre_ping=True,
+    pool_recycle=300,
+    pool_size=5,
+    max_overflow=10
+)
 
 # Create session
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -56,7 +37,6 @@ async def init_db():
     from app.models import user, product, service, hero_banner, about
     Base.metadata.create_all(bind=engine)
     
-    # Create default admin user
     db = SessionLocal()
     try:
         from app.models.user import User
@@ -64,8 +44,6 @@ async def init_db():
         
         existing_user = db.query(User).filter(User.username == settings.ADMIN_USERNAME).first()
         if existing_user:
-            # Check if password hash is old bcrypt format (starts with $2)
-            # If so, delete and recreate with new PBKDF2 format
             if existing_user.hashed_password.startswith('$2'):
                 print(f"🔄 Migrating admin user from bcrypt to PBKDF2...")
                 db.delete(existing_user)
