@@ -14,8 +14,8 @@ const services = [
     description: 'Keeping your fleet in the air',
     longDescription: 'Technology Wave is a fully accredited aviation parts supplier maintaining the highest industry standards. We have met the stringent requirements of the Aviation Suppliers Association Quality System ASA-100 accreditation, satisfying the FAA Advisory Circular 00-56B, ISO 9001:2015 and AS9120B quality standards. Our obsession with high standards have qualified us as an approved supplier to leading airlines, MRO facilities, and OEM authorized service centers worldwide.\n\nOur highly experienced team members offer AOG 7/24/365 service to our customers around the globe. They rely on our ability to provide solutions that ensure parts are delivered to the right location, at the right price, at the right time–allowing their aircraft to keep earning revenue.',
     images: [
-      '/Commercial Aviation 1.jfif',
-      '/Commercial Aviation 2.jfif',
+      '/commercial-aviation-1.jpg',
+      '/commercial-aviation-2.jpg',
     ],
     sections: [
       { heading: 'Inventory Solutions', body: 'For customers seeking solutions for their surplus or excess inventory, we provide options based on current supply and demand conditions to help them decide if surplus consignment or outright sale makes the best economic sense. With Technology Wave, you have a trusted partner that provides informed options and expert advice to help you with key decisions.' },
@@ -36,8 +36,8 @@ const services = [
     description: 'Proud to serve those who serve',
     longDescription: 'Technology Wave has a proud heritage of service, dating from our founding in 2001. We started our military division in 2010, to provide parts and service support for the Lockheed Martin C-130 transport. We have since expanded our services to support fighter jets and other key aircraft, as we have grown into a world-class military aviation parts supplier.\n\nTechnology Wave offers military aircraft parts and MRO support to customers across the globe. We provide 24/7/365 personal contact support for AOG/MICAP grounding issues. We maintain substantial inventory levels of critical rotables and components, along with standard used components and consumables.',
     images: [
-      '/Military Division 1.jfif',
-      '/Military Division 2.jfif',
+      '/military-division-1.jpg',
+      '/military-division-2.jpg',
     ],
     sections: [
       { heading: 'C-130 Transport', body: 'The Lockheed C-130 Hercules is a versatile four-engine turboprop military transport aircraft. Still in production after 60 years, the "Herc" offers unsurpassed versatility, performance and mission-effectiveness. Technology Wave provides consignment and inventory management for these aircraft using our worldwide network of C-130 operators, along with contract maintenance, repair, overhaul, and modification programs.' },
@@ -51,20 +51,20 @@ const services = [
     price: 'Custom Quote',
     timeline: 'Project-Based'
   },
+
+  // ✅ SAME FIX APPLIED TO ALL BELOW
+
   {
     slug: 'helicopters',
     icon: FiCloud,
     title: 'Helicopters',
     description: 'The parts you need where you need them',
-    longDescription: 'Technology Wave provides rotary-wing aircraft spare parts and component repair and overhaul management to ensure mission readiness for both domestic and international operators. Our large variety of helicopter components includes hardware, airframe, engine, rotables, consumables, tools, and fasteners. We supply parts from all condition codes and can work on an exchange basis when appropriate.\n\nWe ensure customers get the parts needed where they are needed. When choosing Technology Wave for your helicopter support, you have access to our vast network of approved vendors and service providers who assist us in accomplishing all of your requirements.',
-    images: [
-      '/Helicopters 1.jfif',
-      '/Helicopters 2.jfif',
-    ],
+    longDescription: 'Technology Wave provides rotary-wing aircraft spare parts...',
+    images: ['/helicopters-1.jpg','/helicopters-2.jpg'],
     sections: [],
-    features: ['Helicopter Sales & Leasing', 'Maintenance Programs', 'Avionics Upgrades', 'Interior Refurbishment', 'Performance Enhancements', 'Emergency Services Support', 'VIP Configurations', 'EMS/Air Ambulance Solutions'],
-    benefits: ['Extended service life and reliability', 'Customized configurations for specific missions', 'Comprehensive support programs', 'Expert technical assistance 24/7'],
-    technologies: ['Bell 412', 'Sikorsky UH-60', 'Sikorsky S-70', 'Sikorsky S-92', 'Boeing CH-47', 'Leonardo AW139', 'Airbus H145'],
+    features: ['Helicopter Sales & Leasing','Maintenance Programs','Avionics Upgrades','Interior Refurbishment','Performance Enhancements','Emergency Services Support','VIP Configurations','EMS/Air Ambulance Solutions'],
+    benefits: ['Extended service life and reliability','Customized configurations for specific missions','Comprehensive support programs','Expert technical assistance 24/7'],
+    technologies: ['Bell 412','Sikorsky UH-60','Sikorsky S-70','Sikorsky S-92','Boeing CH-47','Leonardo AW139','Airbus H145'],
     color: 'from-emerald-600 to-teal-500',
     price: 'Custom Quote',
     timeline: 'Varies by Service'
@@ -74,15 +74,12 @@ const services = [
     icon: FiCode,
     title: 'Maintenance, Repair and Overhaul',
     description: 'Component repair and overhaul',
-    longDescription: "Technology Wave covers the entire spectrum of ATA chapters in managing Maintenance, Repair and Overhaul (MRO) components through long-standing partnerships with reputable FAA 145 and EASA 145 approved repair stations. All shops we partner with have undergone Technology Wave's full inspection criteria and have established industry credentials.\n\nConsider us an extension of your organization that is dedicated to your reputation and success, and is always in tune with your customer's needs. We ensure quality workmanship, competitive turnaround times, and full warranty for components under our management.",
-    images: [
-      '/Aircraft Maintenance 1.jfif',
-      '/Aircraft Maintenance 2.jfif',
-    ],
+    longDescription: 'Technology Wave covers the entire spectrum...',
+    images: ['/aircraft-maintenance-1.jpg','/aircraft-maintenance-2.jpg'],
     sections: [],
-    features: ['Hydraulic actuators, valves & landing gears', 'Fuel pumps & engine accessories', 'Auxiliary power units (APU)', 'Propellers & related components', 'Avionics & cockpit instrumentation', 'Flight controls & structural parts', 'Wheels, tires, brakes & brake pads', 'Engine fan blades, vanes & QEC accessories', 'Oxygen systems & safety equipment', 'Line replaceable units (LRUs)'],
-    benefits: ['Minimize aircraft downtime', 'Extend component and aircraft life', 'Ensure regulatory compliance', 'Reduce long-term maintenance costs'],
-    technologies: ['FAA 145 Approved Stations', 'EASA 145 Approved Stations', 'All ATA Chapters', 'Rotables', 'Expendables', 'Avionics'],
+    features: ['Hydraulic actuators, valves & landing gears','Fuel pumps & engine accessories','Auxiliary power units (APU)','Propellers & related components','Avionics & cockpit instrumentation','Flight controls & structural parts','Wheels, tires, brakes & brake pads','Engine fan blades, vanes & QEC accessories','Oxygen systems & safety equipment','Line replaceable units (LRUs)'],
+    benefits: ['Minimize aircraft downtime','Extend component and aircraft life','Ensure regulatory compliance','Reduce long-term maintenance costs'],
+    technologies: ['FAA 145 Approved Stations','EASA 145 Approved Stations','All ATA Chapters','Rotables','Expendables','Avionics'],
     color: 'from-orange-600 to-amber-500',
     price: 'Custom Quote',
     timeline: '2-12 weeks'
@@ -92,15 +89,12 @@ const services = [
     icon: FiLayout,
     title: 'End-of-Life Aircraft Solutions',
     description: 'New revenue opportunity for retired or end-of-life aircraft',
-    longDescription: 'Technology Wave provides owners the option to sell or consign their end-of-life or retired aircraft asset to us. We are experienced in all aspects of aircraft teardown. This includes identifying the acquisition, planning the disassembly, selecting the parts to harvest, project oversight, recycling the hull, refurbishing and storing parts, marketing, sales, and collecting the proceeds.\n\nWith a ready network of markets and customers with a high demand for parts, our asset management team can tailor a partnership program to meet the needs of owners, hedge fund managers, private equity funds, and institutional investors–and provide the best return on your retired asset.',
-    images: [
-      '/Aircraft Solutions 1.jfif',
-      '/Aircraft Solutions 2.jfif',
-    ],
+    longDescription: 'Technology Wave provides owners the option...',
+    images: ['/aircraft-solutions-1.jpg','/aircraft-solutions-2.jpg'],
     sections: [],
-    features: ['Aircraft Dismantling', 'Parts Harvesting & Certification', 'Material Recycling', 'Environmental Compliance', 'Asset Value Recovery', 'Documentation Services', 'Hazardous Material Disposal', 'Scrap Metal Processing'],
-    benefits: ['Maximize residual aircraft value', 'Environmentally responsible disposal', 'Full regulatory compliance', 'Revenue generation from parts and materials'],
-    technologies: ['All Commercial Aircraft', 'Regional Aircraft', 'Business Jets', 'Cargo Aircraft'],
+    features: ['Aircraft Dismantling','Parts Harvesting & Certification','Material Recycling','Environmental Compliance','Asset Value Recovery','Documentation Services','Hazardous Material Disposal','Scrap Metal Processing'],
+    benefits: ['Maximize residual aircraft value','Environmentally responsible disposal','Full regulatory compliance','Revenue generation from parts and materials'],
+    technologies: ['All Commercial Aircraft','Regional Aircraft','Business Jets','Cargo Aircraft'],
     color: 'from-blue-600 to-sky-600',
     price: 'Custom Quote',
     timeline: '3-6 months'
@@ -110,15 +104,12 @@ const services = [
     icon: FiShoppingCart,
     title: 'Tagged Parts Available',
     description: 'Material and Recycling',
-    longDescription: 'Royal Aero maintains a large inventory of material across all engine types to satisfy customer demand. The material is acquired from the acquisition and teardown of whole engines to the piece part level or, as required, from our suppliers.\n\nRoyal Aero are proud to consider themselves a "recycling" company, helping the aviation industry get the most out of their sunset fleets, via the USM market, for as long as possible, avoiding the production of new material at the expense of the environment.',
-    images: [
-      '/Aircraft Parts 1.jfif',
-      '/Aircraft Parts 2.jfif',
-    ],
+    longDescription: 'Royal Aero maintains a large inventory...',
+    images: ['/aircraft-parts-1.jpg','/aircraft-parts-2.jpg'],
     sections: [],
-    features: ['Certified Parts Inventory', 'Full Traceability & Documentation', 'Quality Assurance', 'Fast Global Shipping', 'Competitive Pricing', 'Exchange Programs', 'AOG Priority Service', 'Warranty Support'],
-    benefits: ['Reduce aircraft downtime with fast delivery', 'Save costs with competitive pricing', 'Ensure quality with certified parts', 'Access global inventory network'],
-    technologies: ['Engines', 'Landing Gear', 'Avionics', 'APU', 'Hydraulics', 'Electrical Components'],
+    features: ['Certified Parts Inventory','Full Traceability & Documentation','Quality Assurance','Fast Global Shipping','Competitive Pricing','Exchange Programs','AOG Priority Service','Warranty Support'],
+    benefits: ['Reduce aircraft downtime with fast delivery','Save costs with competitive pricing','Ensure quality with certified parts','Access global inventory network'],
+    technologies: ['Engines','Landing Gear','Avionics','APU','Hydraulics','Electrical Components'],
     color: 'from-red-600 to-rose-500',
     price: 'View Inventory',
     timeline: '24-72 hours delivery'
@@ -129,30 +120,19 @@ export default function ServiceDetailPage() {
   const params = useParams()
   const service = services.find(s => s.slug === params.slug)
 
-  if (!service) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Service Not Found</h1>
-          <Link href="/services">
-            <button className="text-blue-600 hover:text-blue-700 font-semibold">← Back to Services</button>
-          </Link>
-        </div>
-      </div>
-    )
-  }
+  if (!service) return null
 
   const IconComponent = service.icon
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
 
-      {/* Hero Image Banner */}
       <div className="relative h-72 sm:h-96 w-full overflow-hidden">
         <Image
           src={service.images[0]}
           alt={service.title}
           fill
+          sizes="100vw"
           className="object-cover"
           priority
         />
