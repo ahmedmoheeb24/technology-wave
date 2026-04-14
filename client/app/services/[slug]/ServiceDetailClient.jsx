@@ -1,11 +1,11 @@
 "use client"
 
-
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { FiCode, FiLayout, FiCloud, FiShoppingCart, FiTrendingUp, FiShield, FiArrowLeft, FiCheck, FiClock, FiUsers, FiAward } from 'react-icons/fi'
+
 const services = [
   {
     slug: 'commercial-aviation',
@@ -107,10 +107,23 @@ const services = [
   }
 ]
 
-export default function ServiceDetailPage() {
+export default function ServiceDetailPage({ params: paramsPromise }) {
+  const [resolvedParams, setResolvedParams] = useState(null)
 
-  const params = useParams()
-  const service = services.find(s => s.slug === params.slug)
+  // Safety for Next.js 15+ Params
+  useEffect(() => {
+    paramsPromise.then(setResolvedParams)
+  }, [paramsPromise])
+
+  const service = resolvedParams ? services.find(s => s.slug === resolvedParams.slug) : null
+
+  // Helper to fix image paths with spaces
+  const getImageUrl = (path) => {
+    if (!path) return "";
+    return encodeURI(path);
+  }
+
+  if (!resolvedParams) return <div className="min-h-screen bg-gray-50" />;
 
   if (!service) {
     return (
@@ -133,7 +146,7 @@ export default function ServiceDetailPage() {
       {/* Hero Image Banner */}
       <div className="relative h-72 sm:h-96 w-full overflow-hidden">
         <Image
-          src={service.images[0]}
+          src={getImageUrl(service.images[0])}
           unoptimized
           alt={service.title}
           fill
@@ -231,10 +244,9 @@ export default function ServiceDetailPage() {
               transition={{ duration: 0.5, delay: 0.25 }}
               className="lg:col-span-1"
             >
-              {/* aspect-[4/5] = 4:5 ratio */}
               <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-xl sticky top-24">
                 <Image
-                  src={service.images[1]}
+                  src={getImageUrl(service.images[1])}
                   unoptimized
                   alt={`${service.title} detail`}
                   fill
