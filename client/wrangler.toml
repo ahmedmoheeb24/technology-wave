@@ -2,5 +2,4 @@ name = "technologywave"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
-# This is the critical change for Next-on-Pages
 pages_build_output_dir = ".vercel/output/static"
