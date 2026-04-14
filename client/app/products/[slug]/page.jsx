@@ -1,17 +1,11 @@
 import ProductDetailClient from './ProductDetailClient.jsx'
 
-export const dynamic = 'force-static'
+// Force the page to use Cloudflare's Edge runtime
+export const runtime = 'edge'
+export const dynamic = 'force-dynamic'
 
-export async function generateStaticParams() {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/`)
-    const products = await res.json()
-    return products.map((product) => ({ slug: product.slug }))
-  } catch (error) {
-    return [{ slug: 'placeholder' }]
-  }
-}
-
-export default function Page({ params }) {
-  return <ProductDetailClient params={params} />
+export default async function Page({ params }) {
+  // In Next.js 15+, params is a Promise that must be awaited
+  const resolvedParams = await params
+  return <ProductDetailClient params={resolvedParams} />
 }
