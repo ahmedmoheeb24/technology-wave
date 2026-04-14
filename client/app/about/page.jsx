@@ -1,11 +1,10 @@
 "use client"
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import Link from 'next/link'
 import { FiTarget, FiEye, FiUsers, FiHeart, FiZap, FiShield } from 'react-icons/fi'
-
-// Base URL for your uploaded assets
-const ASSET_URL = "https://api.technology-wave.com/uploads";
+import { assets } from '@/assets/assets'
 
 export default function AboutPage() {
   const stats = [
@@ -47,11 +46,16 @@ export default function AboutPage() {
 
       {/* ── HERO ── */}
       <section className="relative h-[75vh] min-h-[520px] overflow-hidden">
-        <img
-          src={`${ASSET_URL}/about-aircraft.jfif`}
-          alt="Aviation"
-          className="absolute inset-0 w-full h-full object-cover object-center"
-        />
+        {assets.about.aircraft && (
+          <Image
+            src={assets.about.aircraft}
+            alt="Aviation Hero"
+            fill
+            unoptimized
+            className="object-cover object-center"
+            priority
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
 
         <div className="absolute bottom-0 left-0 right-0 px-6 sm:px-10 lg:px-16 pb-10 lg:pb-16">
@@ -75,6 +79,7 @@ export default function AboutPage() {
       {/* ── WHO WE ARE ── */}
       <section className="bg-gray-950">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2">
+          
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -107,11 +112,15 @@ export default function AboutPage() {
             transition={{ duration: 0.7 }}
             className="relative min-h-[360px] lg:min-h-0 order-1 lg:order-2"
           >
-            <img
-              src={`${ASSET_URL}/about-part.jfif`}
-              alt="Aviation parts"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
+            {assets.about.part && (
+              <Image
+                src={assets.about.part}
+                alt="Aviation parts"
+                fill
+                unoptimized
+                className="object-cover"
+              />
+            )}
             <div className="absolute inset-0 bg-gradient-to-r from-gray-950/40 to-transparent lg:bg-gradient-to-l" />
             <div className="absolute bottom-6 right-6 bg-black/60 backdrop-blur-md border border-white/10 rounded-2xl p-4 text-white">
               <div className="text-2xl font-black mb-0.5">1,500+</div>
@@ -161,6 +170,7 @@ export default function AboutPage() {
       <section className="py-20 px-4 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-stretch">
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -187,11 +197,9 @@ export default function AboutPage() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="lg:col-span-1 relative min-h-[280px] rounded-3xl overflow-hidden shadow-2xl"
             >
-              <img 
-                src={`${ASSET_URL}/about-aircraft.jfif`} 
-                alt="Aircraft" 
-                className="absolute inset-0 w-full h-full object-cover" 
-              />
+              {assets.about.aircraft && (
+                <Image src={assets.about.aircraft} alt="Aircraft View" fill unoptimized className="object-cover" />
+              )}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30" />
             </motion.div>
 
@@ -271,6 +279,7 @@ export default function AboutPage() {
 
           <div className="relative">
             <div className="absolute left-[1.125rem] lg:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-200 via-blue-500 to-blue-200 lg:-translate-x-px" />
+
             <div className="space-y-8">
               {timeline.map((item, index) => (
                 <motion.div
@@ -282,6 +291,7 @@ export default function AboutPage() {
                   className={`relative flex items-center gap-0 ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}
                 >
                   <div className="absolute left-[1.125rem] lg:left-1/2 -translate-x-1/2 w-4 h-4 bg-blue-600 rounded-full border-[3px] border-white shadow-md z-10 ring-4 ring-blue-100" />
+
                   <div className={`ml-12 lg:ml-0 w-full lg:w-[calc(50%-2rem)] ${index % 2 === 0 ? 'lg:pr-12' : 'lg:pl-12'}`}>
                     <div className="bg-white border border-gray-100 rounded-2xl p-6 lg:p-8 hover:shadow-lg hover:border-blue-200 transition-all">
                       <span className="text-blue-600 font-black text-xl lg:text-3xl">{item.year}</span>
@@ -299,11 +309,9 @@ export default function AboutPage() {
       {/* ── CTA ── */}
       <section className="relative overflow-hidden bg-gray-950 py-24 px-4">
         <div className="absolute inset-0 opacity-15">
-          <img 
-            src={`${ASSET_URL}/about-part.jfif`} 
-            alt="" 
-            className="w-full h-full object-cover" 
-          />
+          {assets.about.part && (
+            <Image src={assets.about.part} alt="Background Part" fill unoptimized className="object-cover" />
+          )}
         </div>
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/50 to-gray-950/80" />
 

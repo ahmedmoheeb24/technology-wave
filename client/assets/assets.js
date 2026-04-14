@@ -1,10 +1,12 @@
 const BACKEND_URL = "https://api.technology-wave.com"; 
 
 export const assets = {
+  // Use encodeURI to handle spaces automatically or rename files to avoid spaces
   logo: `${BACKEND_URL}/uploads/logo.png`,
   about: {
-    aircraft: `${BACKEND_URL}/uploads/about - aircraft.jfif`,
-    part: `${BACKEND_URL}/uploads/about - part.jfif`,
+    // Encoded spaces to %20 to ensure the browser can reach the path
+    aircraft: `${BACKEND_URL}/uploads/about%20-%20aircraft.jfif`,
+    part: `${BACKEND_URL}/uploads/about%20-%20part.jfif`,
   },
   services: {
     commercialAviation1: `${BACKEND_URL}/uploads/commercial-aviation-1.jfif`,
