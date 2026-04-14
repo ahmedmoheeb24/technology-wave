@@ -6,9 +6,6 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { FiCode, FiLayout, FiCloud, FiShoppingCart, FiTrendingUp, FiShield, FiArrowLeft, FiCheck, FiClock, FiUsers, FiAward } from 'react-icons/fi'
 
-// Import the assets object from your specified path
-import { assets } from '../../assets/assets'
-
 const services = [
   {
     slug: 'commercial-aviation',
@@ -16,8 +13,10 @@ const services = [
     title: 'Commercial Aviation',
     description: 'Keeping your fleet in the air',
     longDescription: 'Technology Wave is a fully accredited aviation parts supplier maintaining the highest industry standards. We have met the stringent requirements of the Aviation Suppliers Association Quality System ASA-100 accreditation, satisfying the FAA Advisory Circular 00-56B, ISO 9001:2015 and AS9120B quality standards. Our obsession with high standards have qualified us as an approved supplier to leading airlines, MRO facilities, and OEM authorized service centers worldwide.\n\nOur highly experienced team members offer AOG 7/24/365 service to our customers around the globe. They rely on our ability to provide solutions that ensure parts are delivered to the right location, at the right price, at the right time–allowing their aircraft to keep earning revenue.',
-    // Updated to use assets.js keys
-    images: [assets.services.commercialAviation1, assets.services.commercialAviation2],
+    images: [
+      '/assets/services/commercial-aviation-1.jpg',
+      '/assets/services/commercial-aviation-2.jpg',
+    ],
     sections: [
       { heading: 'Inventory Solutions', body: 'For customers seeking solutions for their surplus or excess inventory, we provide options based on current supply and demand conditions to help them decide if surplus consignment or outright sale makes the best economic sense. With Technology Wave, you have a trusted partner that provides informed options and expert advice to help you with key decisions.' },
       { heading: 'Narrow and Wide-Body Aircraft', body: "Technology Wave provides parts support for narrow and wide-body aircraft to the world's airlines, aircraft owners and operators, corporate aviation, leasing firms, fixed base operators, and maintenance facilities. Our comprehensive parts support includes the Boeing 777, 767, 757, 737, and the Airbus 340, 330, 320, and 310." },
@@ -36,8 +35,10 @@ const services = [
     title: 'Military Division',
     description: 'Proud to serve those who serve',
     longDescription: 'Technology Wave has a proud heritage of service, dating from our founding in 2001. We started our military division in 2010, to provide parts and service support for the Lockheed Martin C-130 transport. We have since expanded our services to support fighter jets and other key aircraft, as we have grown into a world-class military aviation parts supplier.\n\nTechnology Wave offers military aircraft parts and MRO support to customers across the globe. We provide 24/7/365 personal contact support for AOG/MICAP grounding issues. We maintain substantial inventory levels of critical rotables and components, along with standard used components and consumables.',
-    // Updated to use assets.js keys
-    images: [assets.services.militaryDivision1, assets.services.militaryDivision2],
+    images: [
+      '/assets/services/military-division-1.jpg',
+      '/assets/services/military-division-2.jpg',
+    ],
     sections: [
       { heading: 'C-130 Transport', body: 'The Lockheed C-130 Hercules is a versatile four-engine turboprop military transport aircraft. Still in production after 60 years, the "Herc" offers unsurpassed versatility, performance and mission-effectiveness. Technology Wave provides consignment and inventory management for these aircraft using our worldwide network of C-130 operators, along with contract maintenance, repair, overhaul, and modification programs.' },
       { heading: 'F-16 Fighter', body: 'The F-16 Fighting Falcon is a single-engine multirole fighter aircraft originally developed by General Dynamics (now Lockheed Martin). More than 4,500 F-16s have been built since 1976. Due to the high demand of allied air forces in key regions, we have focused our parts supply services on the F-16A/C variants.' },
@@ -56,8 +57,10 @@ const services = [
     title: 'Helicopters',
     description: 'The parts you need where you need them',
     longDescription: 'Technology Wave provides rotary-wing aircraft spare parts and component repair and overhaul management to ensure mission readiness for both domestic and international operators. Our large variety of helicopter components includes hardware, airframe, engine, rotables, consumables, tools, and fasteners. We supply parts from all condition codes and can work on an exchange basis when appropriate.\n\nWe ensure customers get the parts needed where they are needed. When choosing Technology Wave for your helicopter support, you have access to our vast network of approved vendors and service providers who assist us in accomplishing all of your requirements.',
-    // Updated to use assets.js keys
-    images: [assets.services.helicopters1, assets.services.helicopters2],
+    images: [
+      '/assets/services/helicopters-1.jpg',
+      '/assets/services/helicopters-2.jpg',
+    ],
     sections: [],
     features: ['Helicopter Sales & Leasing', 'Maintenance Programs', 'Avionics Upgrades', 'Interior Refurbishment', 'Performance Enhancements', 'Emergency Services Support', 'VIP Configurations', 'EMS/Air Ambulance Solutions'],
     benefits: ['Extended service life and reliability', 'Customized configurations for specific missions', 'Comprehensive support programs', 'Expert technical assistance 24/7'],
@@ -72,8 +75,10 @@ const services = [
     title: 'Maintenance, Repair and Overhaul',
     description: 'Component repair and overhaul',
     longDescription: "Technology Wave covers the entire spectrum of ATA chapters in managing Maintenance, Repair and Overhaul (MRO) components through long-standing partnerships with reputable FAA 145 and EASA 145 approved repair stations. All shops we partner with have undergone Technology Wave's full inspection criteria and have established industry credentials.\n\nConsider us an extension of your organization that is dedicated to your reputation and success, and is always in tune with your customer's needs. We ensure quality workmanship, competitive turnaround times, and full warranty for components under our management.",
-    // Updated to use assets.js keys
-    images: [assets.services.aircraftMaintenance1, assets.services.aircraftMaintenance2],
+    images: [
+      '/assets/services/aircraft-maintenance-1.jpg',
+      '/assets/services/aircraft-maintenance-2.jpg',
+    ],
     sections: [],
     features: ['Hydraulic actuators, valves & landing gears', 'Fuel pumps & engine accessories', 'Auxiliary power units (APU)', 'Propellers & related components', 'Avionics & cockpit instrumentation', 'Flight controls & structural parts', 'Wheels, tires, brakes & brake pads', 'Engine fan blades, vanes & QEC accessories', 'Oxygen systems & safety equipment', 'Line replaceable units (LRUs)'],
     benefits: ['Minimize aircraft downtime', 'Extend component and aircraft life', 'Ensure regulatory compliance', 'Reduce long-term maintenance costs'],
@@ -88,8 +93,10 @@ const services = [
     title: 'End-of-Life Aircraft Solutions',
     description: 'New revenue opportunity for retired or end-of-life aircraft',
     longDescription: 'Technology Wave provides owners the option to sell or consign their end-of-life or retired aircraft asset to us. We are experienced in all aspects of aircraft teardown. This includes identifying the acquisition, planning the disassembly, selecting the parts to harvest, project oversight, recycling the hull, refurbishing and storing parts, marketing, sales, and collecting the proceeds.\n\nWith a ready network of markets and customers with a high demand for parts, our asset management team can tailor a partnership program to meet the needs of owners, hedge fund managers, private equity funds, and institutional investors–and provide the best return on your retired asset.',
-    // Updated to use assets.js keys
-    images: [assets.services.aircraftSolutions1, assets.services.aircraftSolutions2],
+    images: [
+      '/assets/services/aircraft-solutions-1.jpg',
+      '/assets/services/aircraft-solutions-2.jpg',
+    ],
     sections: [],
     features: ['Aircraft Dismantling', 'Parts Harvesting & Certification', 'Material Recycling', 'Environmental Compliance', 'Asset Value Recovery', 'Documentation Services', 'Hazardous Material Disposal', 'Scrap Metal Processing'],
     benefits: ['Maximize residual aircraft value', 'Environmentally responsible disposal', 'Full regulatory compliance', 'Revenue generation from parts and materials'],
@@ -104,8 +111,10 @@ const services = [
     title: 'Tagged Parts Available',
     description: 'Material and Recycling',
     longDescription: 'Royal Aero maintains a large inventory of material across all engine types to satisfy customer demand. The material is acquired from the acquisition and teardown of whole engines to the piece part level or, as required, from our suppliers.\n\nRoyal Aero are proud to consider themselves a "recycling" company, helping the aviation industry get the most out of their sunset fleets, via the USM market, for as long as possible, avoiding the production of new material at the expense of the environment.',
-    // Updated to use assets.js keys
-    images: [assets.services.aircraftParts1, assets.services.aircraftParts2],
+    images: [
+      '/assets/services/aircraft-parts-1.jpg',
+      '/assets/services/aircraft-parts-2.jpg',
+    ],
     sections: [],
     features: ['Certified Parts Inventory', 'Full Traceability & Documentation', 'Quality Assurance', 'Fast Global Shipping', 'Competitive Pricing', 'Exchange Programs', 'AOG Priority Service', 'Warranty Support'],
     benefits: ['Reduce aircraft downtime with fast delivery', 'Save costs with competitive pricing', 'Ensure quality with certified parts', 'Access global inventory network'],
@@ -119,14 +128,6 @@ const services = [
 export default function ServiceDetailPage() {
   const params = useParams()
   const service = services.find(s => s.slug === params.slug)
-
-  // Helper to ensure pathing and encoding is correct
-  const getImagePath = (path) => {
-    if (!path) return "";
-    // If files are in public/assets/, ensure prefix exists
-    const fullPath = path.startsWith('/assets/') ? path : `/assets${path}`;
-    return encodeURI(fullPath);
-  };
 
   if (!service) {
     return (
@@ -149,7 +150,7 @@ export default function ServiceDetailPage() {
       {/* Hero Image Banner */}
       <div className="relative h-72 sm:h-96 w-full overflow-hidden">
         <Image
-          src={getImagePath(service.images[0])}
+          src={service.images[0]}
           unoptimized
           alt={service.title}
           fill
@@ -249,7 +250,7 @@ export default function ServiceDetailPage() {
             >
               <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-xl sticky top-24">
                 <Image
-                  src={getImagePath(service.images[1])}
+                  src={service.images[1]}
                   unoptimized
                   alt={`${service.title} detail`}
                   fill
