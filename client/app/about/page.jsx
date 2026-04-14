@@ -48,7 +48,7 @@ export default function AboutPage() {
       {/* ── HERO ── */}
       <section className="relative h-[75vh] min-h-[520px] overflow-hidden">
         <img
-          src={`${ASSET_URL}/commercial-aviation-1.jfif`}
+          src={`${ASSET_URL}/about-aircraft.jfif`}
           alt="Aviation"
           className="absolute inset-0 w-full h-full object-cover object-center"
         />
@@ -108,7 +108,7 @@ export default function AboutPage() {
             className="relative min-h-[360px] lg:min-h-0 order-1 lg:order-2"
           >
             <img
-              src={`${ASSET_URL}/aircraft-parts-1.jfif`}
+              src={`${ASSET_URL}/about-part.jfif`}
               alt="Aviation parts"
               className="absolute inset-0 w-full h-full object-cover"
             />
@@ -188,7 +188,7 @@ export default function AboutPage() {
               className="lg:col-span-1 relative min-h-[280px] rounded-3xl overflow-hidden shadow-2xl"
             >
               <img 
-                src={`${ASSET_URL}/commercial-aviation-2.jfif`} 
+                src={`${ASSET_URL}/about-aircraft.jfif`} 
                 alt="Aircraft" 
                 className="absolute inset-0 w-full h-full object-cover" 
               />
@@ -300,7 +300,7 @@ export default function AboutPage() {
       <section className="relative overflow-hidden bg-gray-950 py-24 px-4">
         <div className="absolute inset-0 opacity-15">
           <img 
-            src={`${ASSET_URL}/military-division-2.jfif`} 
+            src={`${ASSET_URL}/about-part.jfif`} 
             alt="" 
             className="w-full h-full object-cover" 
           />
