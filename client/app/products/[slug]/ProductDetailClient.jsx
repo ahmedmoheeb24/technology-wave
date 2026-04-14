@@ -7,8 +7,7 @@ import api from '@/lib/api'
 import Link from 'next/link'
 import { useCart } from '@/app/context/CartContext'
 
-export default function ProductDetail() {
-  const params = useParams()
+export default function ProductDetail({ params }) {
   const { addToCart } = useCart()
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -18,7 +17,7 @@ export default function ProductDetail() {
   useEffect(() => {
     const loadProduct = async () => {
       try {
-        const slug = params.slug
+        const slug = params?.slug
         console.log('Loading product with slug:', slug)
         const data = await api.getProductBySlug(slug)
         console.log('Product loaded:', data)
@@ -32,7 +31,7 @@ export default function ProductDetail() {
     if (params.slug) {
       loadProduct()
     }
-  }, [params.slug])
+  }, [params?.slug])
 
   const handleAddToCart = () => {
     if (product) {

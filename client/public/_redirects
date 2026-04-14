@@ -1,1 +1,2 @@
-/products/* /products/[slug] 200
+/products/* /products/[slug]  200
+/services/* /services/[slug]  200
