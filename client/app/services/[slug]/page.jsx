@@ -1,11 +1,13 @@
-import ServiceDetailClient from './ServiceDetailClient.jsx'
+import ServiceDetailClient from './ServiceDetailClient'
 
-// Force Cloudflare to handle this route dynamically at the Edge
+// Cloudflare Workers necessity
 export const runtime = 'edge'
 export const dynamic = 'force-dynamic'
 
 export default async function Page({ params }) {
-  // Await the params (Required for Next.js 15/16)
+  // We await the params here on the server
   const resolvedParams = await params
+  
+  // Pass the already-resolved object to the client
   return <ServiceDetailClient params={resolvedParams} />
 }
