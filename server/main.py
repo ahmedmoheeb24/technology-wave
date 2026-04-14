@@ -8,8 +8,11 @@ from app.core.config import settings
 from app.core.database import init_db
 from app.api import auth, products, services, hero_banners, about, orders
 
-# Create uploads directory if it doesn't exist
-os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+# Ensure the physical path exists on your server
+# If settings.UPLOAD_DIR is already "/server/assets", this works.
+# Otherwise, you can explicitly set it here:
+ASSETS_PATH = "/server/assets"
+os.makedirs(ASSETS_PATH, exist_ok=True)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -25,7 +28,8 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# CORS Configuration
+# Updated CORS Configuration
+# It is vital that "https://technology-wave.com" is in your settings.ALLOWED_ORIGINS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.ALLOWED_ORIGINS.split(","),
@@ -35,7 +39,8 @@ app.add_middleware(
 )
 
 # Mount static files for uploads
-app.mount("/uploads", StaticFiles(directory=settings.UPLOAD_DIR), name="uploads")
+# We use "/uploads" as the URL path, but point it to the physical "/server/assets" folder
+app.mount("/uploads", StaticFiles(directory=ASSETS_PATH), name="uploads")
 
 # Include routers
 app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
@@ -59,4 +64,5 @@ async def health_check():
 
 if __name__ == "__main__":
     import uvicorn
+    # Using 'main:app' assumes this file is named main.py
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
