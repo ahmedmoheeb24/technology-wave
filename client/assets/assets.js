@@ -1,4 +1,3 @@
-// Export all assets as static URL strings from /public directory
 export const assets = {
   logo: '/logo.png',
   about: {
@@ -6,66 +5,17 @@ export const assets = {
     part: '/about - part.jfif',
   },
   services: {
-    aircraftMaintenance1: '/Aircraft Maintenance 1.jfif',
-    aircraftMaintenance2: '/Aircraft Maintenance 2.jfif',
-    aircraftParts1: '/Aircraft Parts 1.jfif',
-    aircraftParts2: '/Aircraft Parts 2.jfif',
-    aircraftSolutions1: '/Aircraft Solutions 1.jfif',
-    aircraftSolutions2: '/Aircraft Solutions 2.jfif',
-    commercialAviation1: '/Commercial Aviation 1.jfif',
-    commercialAviation2: '/Commercial Aviation 2.jfif',
-    helicopters1: '/Helicopters 1.jfif',
-    helicopters2: '/Helicopters 2.jfif',
-    militaryDivision1: '/Military Division 1.jfif',
-    militaryDivision2: '/Military Division 2.jfif',
+    commercialAviation1: '/commercial-aviation-1.jfif',
+    commercialAviation2: '/commercial-aviation-2.jfif',
+    militaryDivision1: '/military-division-1.jfif',
+    militaryDivision2: '/military-division-2.jfif',
+    helicopters1: '/helicopters-1.jfif',
+    helicopters2: '/helicopters-2.jfif',
+    aircraftMaintenance1: '/aircraft-maintenance-1.jfif',
+    aircraftMaintenance2: '/aircraft-maintenance-2.jfif',
+    aircraftSolutions1: '/aircraft-solutions-1.jfif',
+    aircraftSolutions2: '/aircraft-solutions-2.jfif',
+    aircraftParts1: '/aircraft-parts-1.jfif',
+    aircraftParts2: '/aircraft-parts-2.jfif',
   }
 };
-
-// Placeholder data for services and work portfolio
-// In production, this data should come from the API
-
-export const serviceData = [
-  {
-    id: 1,
-    slug: 'web-development',
-    title: 'Web Development',
-    description: 'Custom web development solutions tailored to your business needs.',
-    fullDescription: 'We create modern, responsive websites and web applications using the latest technologies.',
-    image: '/placeholder-service.jpg',
-    features: ['Responsive Design', 'Modern Technologies', 'SEO Optimized', 'Fast Performance']
-  },
-  {
-    id: 2,
-    slug: 'mobile-development',
-    title: 'Mobile Development',
-    description: 'Native and cross-platform mobile applications.',
-    fullDescription: 'Build powerful mobile apps for iOS and Android platforms.',
-    image: '/placeholder-service.jpg',
-    features: ['Native Apps', 'Cross-Platform', 'UI/UX Design', 'App Store Optimization']
-  }
-]
-
-export const workData = [
-  {
-    id: 1,
-    slug: 'project-one',
-    title: 'Project One',
-    description: 'A sample project showcasing our work.',
-    fullDescription: 'Detailed description of the project and technologies used.',
-    image: '/placeholder-work.jpg',
-    category: 'Web Development',
-    client: 'Sample Client',
-    year: '2024'
-  },
-  {
-    id: 2,
-    slug: 'project-two',
-    title: 'Project Two',
-    description: 'Another sample project from our portfolio.',
-    fullDescription: 'Detailed description of the project and technologies used.',
-    image: '/placeholder-work.jpg',
-    category: 'Mobile Development',
-    client: 'Sample Client',
-    year: '2024'
-  }
-]
