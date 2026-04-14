@@ -135,13 +135,11 @@ export default function ServiceDetailPage() {
 
       {/* Hero Image Banner */}
       <div className="relative h-72 sm:h-96 w-full overflow-hidden">
-        <Image
+        <img
           src={service.images[0]}
-          unoptimized
           alt={service.title}
-          fill
-          className="object-cover"
-          priority
+          className="w-full h-full object-cover"
+          loading="eager" 
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/70" />
 
@@ -234,16 +232,14 @@ export default function ServiceDetailPage() {
               transition={{ duration: 0.5, delay: 0.25 }}
               className="lg:col-span-1"
             >
-              <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-xl sticky top-24">
-                <Image
-                  src={service.images[1]}
-                  unoptimized
-                  alt={`${service.title} detail`}
-                  fill
-                  className="object-cover"
-                />
-                <div className={`absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent`} />
-              </div>
+            <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-xl sticky top-24">
+              <img
+                src={service.images[1]}
+                alt={`${service.title} detail`}
+                className="w-full h-full object-cover"
+              />
+              <div className={`absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent`} />
+            </div>
             </motion.div>
           </div>
 
