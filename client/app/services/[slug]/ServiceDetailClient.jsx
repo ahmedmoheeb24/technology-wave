@@ -151,7 +151,6 @@ export default function ServiceDetailPage() {
       <div className="relative h-72 sm:h-96 w-full overflow-hidden">
         <Image
           src={service.images[0]}
-          unoptimized
           alt={service.title}
           fill
           className="object-cover"
@@ -251,7 +250,6 @@ export default function ServiceDetailPage() {
               <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-xl sticky top-24">
                 <Image
                   src={service.images[1]}
-                  unoptimized
                   alt={`${service.title} detail`}
                   fill
                   className="object-cover"
