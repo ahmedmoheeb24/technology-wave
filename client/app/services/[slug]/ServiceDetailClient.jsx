@@ -7,7 +7,7 @@ import { useParams } from 'next/navigation'
 import { FiCode, FiLayout, FiCloud, FiShoppingCart, FiTrendingUp, FiShield, FiArrowLeft, FiCheck, FiClock, FiUsers, FiAward } from 'react-icons/fi'
 
 // Import the assets object from your specified path
-import { assets } from '@/app/assets/assets'
+import { assets } from '../../assets/assets'
 
 const services = [
   {
