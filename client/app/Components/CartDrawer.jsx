@@ -70,34 +70,37 @@ export default function CartDrawer() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, x: -100 }}
-                      className="flex gap-4 bg-gray-50 p-4 rounded-xl"
+                      className="flex gap-4 bg-gray-50 p-4 rounded-xl items-center"
                     >
-                      {/* Product Image */}
-                      <div className="w-20 h-20 bg-gradient-to-br from-blue-50 to-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      {/* Product Image Safety Check */}
+                      <div className="w-20 h-20 bg-gradient-to-br from-blue-50 to-gray-100 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
                         {typeof item.image === 'string' && item.image.startsWith('http') ? (
                           <img src={item.image} alt={item.name} className="w-full h-full object-cover rounded-lg" />
                         ) : (
-                          <span className="text-3xl">{item.image || '📦'}</span>
+                          <span className="text-3xl">📦</span>
                         )}
                       </div>
 
                       {/* Product Info */}
-                      <div className="flex-1">
-                        <h3 className="font-bold text-gray-900 mb-1">{item.name}</h3>
+                      <div className="flex-1 min-w-0">
+                        {/* Name Safety Check: Truncates if the name is actually a base64 image string */}
+                        <h3 className="font-bold text-gray-900 mb-1 truncate">
+                          {item.name && item.name.length > 100 ? "Product" : item.name}
+                        </h3>
                         <p className="text-blue-600 font-bold">${item.price}</p>
 
                         {/* Quantity Controls */}
                         <div className="flex items-center gap-2 mt-2">
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="w-7 h-7 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center"
+                            className="w-7 h-7 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-colors"
                           >
                             -
                           </button>
                           <span className="w-8 text-center font-semibold">{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="w-7 h-7 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center"
+                            className="w-7 h-7 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-colors"
                           >
                             +
                           </button>
@@ -107,7 +110,7 @@ export default function CartDrawer() {
                       {/* Remove Button */}
                       <button
                         onClick={() => removeFromCart(item.id)}
-                        className="text-red-500 hover:text-red-700 p-2"
+                        className="text-red-500 hover:text-red-700 p-2 transition-colors flex-shrink-0"
                       >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -122,26 +125,22 @@ export default function CartDrawer() {
             {/* Footer */}
             {cart.length > 0 && (
               <div className="border-t border-gray-200 p-6 bg-gray-50">
-                {/* Total */}
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-lg font-semibold text-gray-700">Total:</span>
                   <span className="text-2xl font-black text-blue-600">${getCartTotal().toFixed(2)}</span>
                 </div>
 
-                {/* Checkout Button */}
-                <Link href="/checkout">
+                <Link href="/checkout" onClick={() => setIsCartOpen(false)}>
                   <button
-                    onClick={() => setIsCartOpen(false)}
-                    className="w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                    className="w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] active:scale-95"
                   >
                     Proceed to Checkout
                   </button>
                 </Link>
 
-                {/* Continue Shopping */}
                 <button
                   onClick={() => setIsCartOpen(false)}
-                  className="w-full mt-3 text-gray-600 py-2 hover:text-gray-900 font-semibold"
+                  className="w-full mt-3 text-gray-600 py-2 hover:text-gray-900 font-semibold transition-colors"
                 >
                   Continue Shopping
                 </button>
