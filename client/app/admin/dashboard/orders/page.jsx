@@ -9,6 +9,7 @@ export default function OrdersManagement() {
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(false)
   const [filterStatus, setFilterStatus] = useState('all')
+  const [selectedOrder, setSelectedOrder] = useState(null) // State for Modal
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem('adminLoggedIn')
@@ -37,10 +38,12 @@ export default function OrdersManagement() {
     try {
       await api.updateOrder(orderId, { status })
       loadOrders()
-      alert('Order status updated!')
+      // If modal is open, update the local state too
+      if(selectedOrder && selectedOrder.id === orderId) {
+        setSelectedOrder({...selectedOrder, status})
+      }
     } catch (error) {
       console.error('Error updating order:', error)
-      alert('Failed to update order status')
     }
   }
 
@@ -49,10 +52,9 @@ export default function OrdersManagement() {
     try {
       await api.deleteOrder(orderId)
       loadOrders()
-      alert('Order deleted!')
+      setSelectedOrder(null)
     } catch (error) {
       console.error('Error deleting order:', error)
-      alert('Failed to delete order')
     }
   }
 
@@ -68,7 +70,7 @@ export default function OrdersManagement() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50/50">
+    <div className="min-h-screen bg-gray-50/50 font-outfit">
       {/* PROFESSIONAL HEADER */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-20">
         <div className="max-w-[1600px] mx-auto px-6 h-24 flex items-center justify-between">
@@ -184,8 +186,8 @@ export default function OrdersManagement() {
                         <p className="text-sm text-gray-500 font-medium">{order.customer_email}</p>
                       </td>
                       <td className="py-7 px-8">
-                        <p className="font-black text-gray-900 text-lg">${order.total_amount.toFixed(2)}</p>
-                        <p className="text-[10px] font-bold text-gray-400 uppercase">Paid via Gateway</p>
+                        <p className="font-black text-gray-900 text-lg">${order.total_amount?.toFixed(2)}</p>
+                        <p className="text-[10px] font-bold text-gray-400 uppercase">Gateway Paid</p>
                       </td>
                       <td className="py-7 px-8">
                         <select
@@ -203,10 +205,7 @@ export default function OrdersManagement() {
                       <td className="py-7 px-8">
                         <div className="flex gap-3 justify-center">
                           <button
-                            onClick={() => {
-                              const details = `Order: ${order.order_number}\nCustomer: ${order.customer_name}\nAddress: ${order.shipping_address}, ${order.shipping_city}\nTotal: $${order.total_amount.toFixed(2)}`
-                              alert(details)
-                            }}
+                            onClick={() => setSelectedOrder(order)}
                             className="p-3 bg-blue-50 text-blue-600 rounded-2xl hover:bg-blue-600 hover:text-white transition-all shadow-sm group/btn"
                           >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -232,6 +231,114 @@ export default function OrdersManagement() {
           </div>
         </div>
       </main>
+
+      {/* --- ORDER DETAILS MODAL --- */}
+      {selectedOrder && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+            {/* Modal Header */}
+            <div className="bg-blue-600 p-8 text-white flex justify-between items-center">
+              <div>
+                <p className="text-xs font-black uppercase tracking-widest opacity-70 mb-1">Order Details</p>
+                <h3 className="text-2xl font-black font-mono">{selectedOrder.order_number}</h3>
+              </div>
+              <button 
+                onClick={() => setSelectedOrder(null)}
+                className="p-2 hover:bg-white/20 rounded-full transition-colors"
+              >
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="p-8 max-h-[70vh] overflow-y-auto custom-scrollbar">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Customer Section */}
+                <section>
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 mb-4">Customer Information</h4>
+                  <div className="space-y-3">
+                    <div>
+                      <p className="text-xs text-gray-400 font-bold uppercase">Name</p>
+                      <p className="font-black text-gray-900">{selectedOrder.customer_name}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-400 font-bold uppercase">Email</p>
+                      <p className="font-bold text-gray-700">{selectedOrder.customer_email}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-400 font-bold uppercase">Contact Number</p>
+                      <p className="font-bold text-gray-900">{selectedOrder.customer_phone || 'Not Provided'}</p>
+                    </div>
+                  </div>
+                </section>
+
+                {/* Shipping Section */}
+                <section>
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 mb-4">Shipping Destination</h4>
+                  <div className="space-y-3">
+                    <div>
+                      <p className="text-xs text-gray-400 font-bold uppercase">Address</p>
+                      <p className="font-bold text-gray-900 leading-tight">{selectedOrder.shipping_address}</p>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-xs text-gray-400 font-bold uppercase">City</p>
+                        <p className="font-bold text-gray-900">{selectedOrder.shipping_city}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-400 font-bold uppercase">Postal Code</p>
+                        <p className="font-bold text-gray-900">{selectedOrder.shipping_postal_code || 'N/A'}</p>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-400 font-bold uppercase">Country</p>
+                      <p className="font-bold text-gray-900">{selectedOrder.shipping_country || 'Pakistan'}</p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+
+              <hr className="my-8 border-gray-100" />
+
+              {/* Order Notes Section */}
+              <section className="mb-8">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 mb-3">Order Notes</h4>
+                <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 italic text-gray-600 text-sm leading-relaxed">
+                  {selectedOrder.order_notes || "No additional instructions provided for this order."}
+                </div>
+              </section>
+
+              {/* Total Section */}
+              <div className="bg-blue-50 rounded-3xl p-6 flex justify-between items-center">
+                <div>
+                  <p className="text-xs font-black uppercase text-blue-600">Total Transaction Amount</p>
+                  <p className="text-3xl font-black text-gray-900">${selectedOrder.total_amount?.toFixed(2)}</p>
+                </div>
+                <div className={`px-4 py-2 rounded-xl text-xs font-black uppercase ${getStatusColor(selectedOrder.status)}`}>
+                  {selectedOrder.status}
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer Controls */}
+            <div className="p-8 bg-gray-50 border-t border-gray-100 flex gap-4">
+               <button 
+                onClick={() => deleteOrder(selectedOrder.id)}
+                className="flex-1 py-4 bg-red-50 text-red-500 font-black rounded-2xl hover:bg-red-500 hover:text-white transition-all text-sm"
+               >
+                 Archive Order
+               </button>
+               <button 
+                onClick={() => setSelectedOrder(null)}
+                className="flex-1 py-4 bg-white border border-gray-200 text-gray-700 font-black rounded-2xl hover:bg-gray-100 transition-all text-sm"
+               >
+                 Close View
+               </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

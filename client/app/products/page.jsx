@@ -158,14 +158,21 @@ const ProductsPage = () => {
                   transition={{ duration: 0.3 }}
                   className="group"
                 >
-                  <Link href={`/products/${product.slug}`}>
-                    <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-200 hover:border-blue-300 cursor-pointer">
-                      {/* Product Image */}
-                      <div className="relative h-64 bg-gray-200 overflow-hidden">
-                        <div 
-                          className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                          style={{ backgroundImage: `url(${product.image})` }}
-                        />
+                  <Link href={`/products/${product.slug || product.id}`}>
+                    <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-200 hover:border-blue-300 cursor-pointer h-full flex flex-col">
+                      {/* Product Image - Fixed for Safety */}
+                      <div className="relative h-64 bg-gray-100 overflow-hidden flex items-center justify-center">
+                        {typeof product.image === 'string' && product.image.startsWith('http') ? (
+                          <div 
+                            className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                            style={{ backgroundImage: `url(${product.image})` }}
+                          />
+                        ) : (
+                          <div className="flex flex-col items-center text-gray-400">
+                            <span className="text-5xl">📦</span>
+                            <span className="text-xs mt-2 uppercase tracking-tighter">No Image</span>
+                          </div>
+                        )}
                         
                         {/* Quick View Overlay */}
                         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -176,18 +183,18 @@ const ProductsPage = () => {
                       </div>
 
                       {/* Product Info */}
-                      <div className="p-5">
+                      <div className="p-5 flex-1 flex flex-col">
                         <p className="text-xs text-blue-600 font-semibold mb-2 uppercase tracking-wide">
                           {product.category}
                         </p>
-                        <h3 className="font-bold text-lg text-gray-900 mb-3 font-Ovo">
-                          {product.title}
+                        <h3 className="font-bold text-lg text-gray-900 mb-3 font-Ovo truncate">
+                          {/* Safety check for malformed titles */}
+                          {product.title && product.title.length > 100 ? "Product" : product.title}
                         </h3>
                         
-                        {/* FIX: Added flex-wrap and responsive font sizing */}
-                        <div className="flex items-center justify-between flex-wrap gap-2">
+                        <div className="flex items-center justify-between flex-wrap gap-2 mt-auto">
                           <span className="text-xl sm:text-2xl font-bold text-blue-600">
-                            {product.price.startsWith('$') ? product.price : `$${product.price}`}
+                            {product.price && String(product.price).startsWith('$') ? product.price : `$${product.price}`}
                           </span>
                           <div className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full transition-colors duration-300 shrink-0">
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
