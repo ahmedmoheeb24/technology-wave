@@ -76,20 +76,54 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <header className="bg-white shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-          <div className="flex items-center gap-4">
-            <Link href="/" className="text-blue-600 hover:text-blue-700 font-semibold">
-              View Site
-            </Link>
-            <button
-              onClick={handleLogout}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-            >
-              Logout
-            </button>
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+          
+          {/* Left Side: Branding */}
+          <div className="flex items-center gap-3">
+            <div className="bg-blue-600 p-2 rounded-lg shrink-0">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <div className="min-w-0">
+              <h1 className="text-lg sm:text-xl font-black text-gray-900 leading-none truncate">Admin</h1>
+              <p className="text-[10px] text-blue-600 font-bold uppercase tracking-wider mt-1 truncate">Tech Wave</p>
+            </div>
           </div>
+
+          {/* Right Side: Actions */}
+          <div className="flex items-center gap-3 sm:gap-6">
+            {/* Hidden on small mobile to save space */}
+            <Link 
+              href="/" 
+              className="hidden md:flex items-center gap-2 text-gray-500 hover:text-blue-600 transition-colors text-sm font-medium border-r border-gray-200 pr-6"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+              Live Site
+            </Link>
+
+            <div className="flex items-center gap-3">
+              {/* Only shown on tablets and up */}
+              <div className="text-right hidden sm:block">
+                <p className="text-sm font-bold text-gray-900 leading-none">Syed Zain</p>
+                <p className="text-[10px] text-green-500 font-medium flex items-center justify-end gap-1 mt-1">
+                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                  Online
+                </p>
+              </div>
+              
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 sm:px-5 sm:py-2.5 bg-gray-900 text-white text-xs sm:text-sm font-bold rounded-xl hover:bg-red-600 transition-all shadow-sm active:scale-95"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+
         </div>
       </header>
 

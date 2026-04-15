@@ -18,7 +18,7 @@ const Navbar = () => {
     // State logic for styling
     const isHomePage = pathname === '/';
     const useWhiteText = isHomePage && !isScroll;
-    const useWhiteBg = isScroll || !isHomePage; // White background on scroll or non-home pages
+    const useWhiteBg = isScroll || !isHomePage; 
 
     const openMenu = () => {
         setMenuOpen(true)
@@ -57,9 +57,9 @@ const Navbar = () => {
         <>
             <nav className={`w-full fixed px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between z-50 transition-all duration-300 ${useWhiteBg ? 'bg-white shadow-md' : 'bg-transparent'}`}>
 
-                {/* Logo Section */}
-                <Link href="/" className='flex items-center gap-3 group'>
-                    <div className="relative h-10 w-32">
+                {/* Logo Section - Handled for Transparent vs White Navbar */}
+                <Link href="/" className='flex items-center gap-2 sm:gap-3 group'>
+                    <div className="relative h-8 w-8 sm:h-10 sm:w-10 shrink-0">
                         <Image
                             src={assets.logo}
                             alt='Technology Wave Logo'
@@ -68,7 +68,7 @@ const Navbar = () => {
                             priority
                         />
                     </div>
-                    <span className={`text-xl font-black tracking-tight transition-colors duration-300 hidden sm:block ${useWhiteText ? 'text-white' : 'text-gray-900'}`}>
+                    <span className={`text-lg sm:text-xl font-black tracking-tight transition-colors duration-300 ${useWhiteText ? 'text-white' : 'text-gray-900'}`}>
                         Technology Wave
                     </span>
                 </Link>
@@ -146,7 +146,7 @@ const Navbar = () => {
             />
 
             <div
-                className={`fixed top-0 right-0 h-full w-[85vw] max-w-sm z-[70] md:hidden flex flex-col bg-white shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+                className={`fixed top-0 right-0 h-full w-[85vw] max-sm:w-full max-w-sm z-[70] md:hidden flex flex-col bg-white shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
                     menuOpen ? 'translate-x-0' : 'translate-x-full'
                 }`}
             >

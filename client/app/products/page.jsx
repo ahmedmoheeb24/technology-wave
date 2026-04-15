@@ -30,7 +30,7 @@ const ProductsPage = () => {
     loadProducts()
   }, [])
 
-  // Old default products code removed
+  // Old default products code preserved exactly as provided
   const oldDefaultProducts = () => {
     if (false) {
       setAllProducts([
@@ -94,9 +94,10 @@ const ProductsPage = () => {
     }
   }
 
+  // Updated filter logic with case-insensitivity to ensure it works with database strings
   const filteredProducts = selectedCategory === 'All' 
     ? allProducts 
-    : allProducts.filter(product => product.category === selectedCategory)
+    : allProducts.filter(product => product.category?.toLowerCase() === selectedCategory.toLowerCase())
 
   return (
     <div className="min-h-screen font-outfit overflow-x-hidden">
@@ -212,4 +213,4 @@ const ProductsPage = () => {
   )
 }
 
-export default ProductsPage
+export default ProductsPage;

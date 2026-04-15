@@ -127,22 +127,58 @@ const ProductsManagement = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <header className="bg-white shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-900">Products Management</h1>
-          <Link href="/admin/dashboard" className="text-blue-600 hover:text-blue-700 font-semibold">
-            ← Back to Dashboard
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-20">
+        <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+          
+          {/* Left Side: Context */}
+          <div className="flex items-center gap-3">
+            <div className="bg-blue-600 p-2 rounded-lg shrink-0">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              </svg>
+            </div>
+            <div>
+              <h1 className="text-lg sm:text-xl font-black text-gray-900 leading-none">Products</h1>
+              <p className="text-[10px] text-blue-600 font-bold uppercase tracking-wider mt-1">Management</p>
+            </div>
+          </div>
+
+          {/* Right Side: Navigation */}
+          <Link 
+            href="/admin/dashboard" 
+            className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all text-sm font-bold group"
+          >
+            <span className="group-hover:-translate-x-1 transition-transform">←</span>
+            <span className="hidden sm:inline">Back to</span> Dashboard
           </Link>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-6">
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">Inventory Overview</h2>
+            <p className="text-sm text-gray-500">You have {products.length} active products in your catalog</p>
+          </div>
+          
           <button
             onClick={() => setShowForm(!showForm)}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+            className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold transition-all shadow-lg active:scale-95 ${
+              showForm 
+                ? 'bg-white border-2 border-gray-200 text-gray-600 hover:bg-gray-50 shadow-none' 
+                : 'bg-blue-600 text-white hover:bg-blue-700 shadow-blue-100'
+            }`}
           >
-            {showForm ? 'Cancel' : '+ Add Product'}
+            {showForm ? (
+              'Cancel'
+            ) : (
+              <>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m0-0H6" />
+                </svg>
+                Add Product
+              </>
+            )}
           </button>
         </div>
 

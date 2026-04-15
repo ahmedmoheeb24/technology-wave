@@ -58,11 +58,8 @@ const HeroManagement = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
     try {
       setSubmitting(true)
-      
-      // Create FormData for file upload
       const formDataToSend = new FormData()
       formDataToSend.append('title', formData.title)
       formDataToSend.append('subtitle', formData.subtitle)
@@ -123,11 +120,7 @@ const HeroManagement = () => {
 
   const resetForm = () => {
     setFormData({
-      title: '',
-      subtitle: '',
-      description: '',
-      buttonText: '',
-      buttonLink: '',
+      title: '', subtitle: '', description: '', buttonText: '', buttonLink: '',
       bgColor: 'from-blue-500 to-blue-700'
     })
     setImageFile(null)
@@ -138,26 +131,60 @@ const HeroManagement = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <header className="bg-white shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/admin/dashboard" className="text-blue-600 hover:text-blue-700">
-              ← Back to Dashboard
-            </Link>
-            <h1 className="text-2xl font-bold text-gray-900">Manage Hero Banners</h1>
+      {/* UPDATED HEADER */}
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-20">
+        <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="bg-blue-600 p-2 rounded-lg shrink-0">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+              </svg>
+            </div>
+            <div>
+              <h1 className="text-lg sm:text-xl font-black text-gray-900 leading-none">Hero Banners</h1>
+              <p className="text-[10px] text-blue-600 font-bold uppercase tracking-wider mt-1">Homepage Control</p>
+            </div>
           </div>
-          <button
-            onClick={() => setShowForm(!showForm)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+
+          <Link 
+            href="/admin/dashboard" 
+            className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all text-xs sm:text-sm font-bold group"
           >
-            {showForm ? 'Cancel' : '+ Add Slide'}
-          </button>
+            <span className="group-hover:-translate-x-1 transition-transform">←</span>
+            <span className="hidden xs:inline">Dashboard</span>
+          </Link>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* UPDATED ACTION AREA */}
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="space-y-1">
+            <h2 className="text-2xl font-bold text-gray-900">Banner Slides</h2>
+            <p className="text-sm text-gray-500">Currently displaying {slides.length} slides in rotation</p>
+          </div>
+          
+          <button
+            onClick={() => setShowForm(!showForm)}
+            className={`w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold transition-all shadow-lg active:scale-95 ${
+              showForm 
+                ? 'bg-white border-2 border-gray-200 text-gray-600 hover:bg-gray-50 shadow-none' 
+                : 'bg-blue-600 text-white hover:bg-blue-700 shadow-blue-100'
+            }`}
+          >
+            {showForm ? 'Cancel' : (
+              <>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Add New Slide
+              </>
+            )}
+          </button>
+        </div>
+
         {showForm && (
-          <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+          <div className="bg-white rounded-lg shadow-md p-6 mb-8 border border-gray-100">
             <h2 className="text-xl font-bold mb-4">{editingSlide ? 'Edit Slide' : 'Add New Slide'}</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -172,7 +199,6 @@ const HeroManagement = () => {
                     required
                   />
                 </div>
-
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Subtitle</label>
                   <input
@@ -184,7 +210,6 @@ const HeroManagement = () => {
                     required
                   />
                 </div>
-
                 <div className="md:col-span-2">
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
                   <input
@@ -196,7 +221,6 @@ const HeroManagement = () => {
                     required
                   />
                 </div>
-
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Button Text</label>
                   <input
@@ -208,7 +232,6 @@ const HeroManagement = () => {
                     required
                   />
                 </div>
-
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Button Link</label>
                   <input
@@ -220,7 +243,6 @@ const HeroManagement = () => {
                     required
                   />
                 </div>
-
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Background Gradient</label>
                   <select
@@ -235,7 +257,6 @@ const HeroManagement = () => {
                     <option value="from-green-500 to-teal-600">Green Teal</option>
                   </select>
                 </div>
-
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Background Image (Optional)</label>
                   <input
@@ -248,24 +269,24 @@ const HeroManagement = () => {
               </div>
 
               {imagePreview && (
-                <div>
+                <div className="mt-4">
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Image Preview</label>
-                  <img src={imagePreview} alt="Preview" className="w-full h-64 object-cover rounded-lg" />
+                  <img src={imagePreview} alt="Preview" className="w-full h-48 sm:h-64 object-cover rounded-xl border-2 border-dashed border-gray-200" />
                 </div>
               )}
 
-              <div className="flex gap-4">
+              <div className="flex gap-4 pt-4">
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                  className="flex-1 sm:flex-none px-8 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors disabled:bg-gray-400"
                 >
                   {submitting ? 'Saving...' : (editingSlide ? 'Update Slide' : 'Add Slide')}
                 </button>
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
+                  className="flex-1 sm:flex-none px-8 py-3 bg-gray-100 text-gray-600 rounded-xl font-bold hover:bg-gray-200 transition-colors"
                 >
                   Cancel
                 </button>
@@ -274,9 +295,9 @@ const HeroManagement = () => {
           </div>
         )}
 
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-bold mb-4">All Hero Slides ({slides.length})</h2>
-          
+        {/* SLIDE LIST SECTION */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <h2 className="text-xl font-bold mb-6">Current Rotation ({slides.length})</h2>
           {loading ? (
             <p className="text-gray-500 text-center py-8">Loading hero slides...</p>
           ) : slides.length === 0 ? (
@@ -284,30 +305,30 @@ const HeroManagement = () => {
           ) : (
             <div className="space-y-6">
               {slides.map((slide) => (
-                <div key={slide.id} className="border border-gray-200 rounded-lg overflow-hidden">
-                  <div className={`bg-gradient-to-r ${slide.bg_color} p-8 relative`}>
+                <div key={slide.id} className="group border border-gray-200 rounded-2xl overflow-hidden hover:border-blue-300 transition-all shadow-sm">
+                  <div className={`bg-gradient-to-r ${slide.bg_color} p-6 sm:p-10 relative min-h-[200px] flex items-center`}>
                     {slide.image && (
-                      <img src={api.getImageUrl(slide.image)} alt={slide.title} className="absolute inset-0 w-full h-full object-cover opacity-50" />
+                      <img src={api.getImageUrl(slide.image)} alt={slide.title} className="absolute inset-0 w-full h-full object-cover opacity-30" />
                     )}
-                    <div className="relative text-white">
-                      <p className="text-lg mb-2">{slide.subtitle}</p>
-                      <h3 className="text-3xl font-bold mb-2">{slide.title}</h3>
-                      <p className="mb-4">{slide.description}</p>
-                      <button className="px-6 py-2 bg-white text-gray-900 rounded-full font-semibold">
+                    <div className="relative text-white max-w-lg">
+                      <p className="text-sm sm:text-lg font-medium mb-1 opacity-90">{slide.subtitle}</p>
+                      <h3 className="text-2xl sm:text-4xl font-black mb-3 leading-tight">{slide.title}</h3>
+                      <p className="mb-6 text-sm sm:text-base opacity-80 line-clamp-2">{slide.description}</p>
+                      <button className="px-6 py-2 bg-white text-gray-900 rounded-full text-sm font-bold shadow-lg">
                         {slide.button_text}
                       </button>
                     </div>
                   </div>
-                  <div className="p-4 bg-gray-50 flex gap-2">
+                  <div className="p-4 bg-gray-50 flex gap-3 border-t border-gray-100">
                     <button
                       onClick={() => handleEdit(slide)}
-                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      className="flex-1 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-all text-sm"
                     >
-                      Edit
+                      Edit Content
                     </button>
                     <button
                       onClick={() => handleDelete(slide.id)}
-                      className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                      className="px-4 py-2.5 bg-white border border-gray-200 text-red-500 font-bold rounded-xl hover:bg-red-50 hover:border-red-200 transition-all text-sm"
                     >
                       Delete
                     </button>
