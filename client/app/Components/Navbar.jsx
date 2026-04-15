@@ -57,14 +57,14 @@ const Navbar = () => {
         <>
             <nav className={`w-full fixed px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between z-50 transition-all duration-300 ${useWhiteBg ? 'bg-white shadow-md' : 'bg-transparent'}`}>
 
-                {/* Logo Section - Handled for Transparent vs White Navbar */}
+                {/* Logo Section - Logo stays original, text changes color */}
                 <Link href="/" className='flex items-center gap-2 sm:gap-3 group'>
                     <div className="relative h-8 w-8 sm:h-10 sm:w-10 shrink-0">
                         <Image
                             src={assets.logo}
                             alt='Technology Wave Logo'
                             fill
-                            className={`object-contain transition-all duration-300 ${useWhiteText ? 'brightness-0 invert' : ''}`}
+                            className="object-contain" 
                             priority
                         />
                     </div>
