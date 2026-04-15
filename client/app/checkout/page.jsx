@@ -40,8 +40,10 @@ export default function CheckoutPage() {
         total_amount: getCartTotal(),
         items: cart.map(item => ({
           product_id: item.id,
-          product_name: item.name,
+          // FIX for Problem 4: Ensure product_name is provided to satisfy FastAPI validation
+          product_name: item.name || item.title || "Product", 
           product_price: item.price,
+          // FIX for Problem 2/3: Only send image if it's a valid URL string to prevent payload bloating
           product_image: typeof item.image === 'string' && item.image.startsWith('http') ? item.image : null,
           quantity: item.quantity,
           subtotal: item.price * item.quantity
@@ -85,7 +87,8 @@ export default function CheckoutPage() {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       
-      <div className="max-w-7xl mx-auto px-4 py-12">
+      {/* FIX for Problem 1: Added pt-24 to prevent heading hiding behind fixed navbar */}
+      <div className="max-w-7xl mx-auto px-4 py-12 pt-24 lg:pt-32">
         <h1 className="text-4xl font-bold mb-8">Checkout</h1>
         
         <div className="grid lg:grid-cols-3 gap-8">
@@ -217,18 +220,19 @@ export default function CheckoutPage() {
               <div className="space-y-4 mb-6">
                 {cart.map((item) => (
                   <div key={item.id} className="flex gap-4">
-                    <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
+                    {/* FIX for Problem 2/3: Wrapped image and used overflow-hidden to prevent string overflow */}
+                    <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
                       {typeof item.image === 'string' && item.image.startsWith('http') ? (
-                        <img src={item.image} alt={item.name} className="w-full h-full object-cover rounded-lg" />
+                        <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                       ) : (
-                        <span className="text-2xl">{item.image || '📦'}</span>
+                        <span className="text-2xl">📦</span>
                       )}
                     </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold">{item.name}</h3>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold truncate">{item.name || item.title}</h3>
                       <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
                     </div>
-                    <div className="text-right">
+                    <div className="text-right flex-shrink-0">
                       <p className="font-bold">${(item.price * item.quantity).toFixed(2)}</p>
                     </div>
                   </div>

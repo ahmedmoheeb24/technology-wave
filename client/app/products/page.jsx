@@ -184,11 +184,12 @@ const ProductsPage = () => {
                           {product.title}
                         </h3>
                         
-                        <div className="flex items-center justify-between">
-                          <span className="text-2xl font-bold text-blue-600">
-                            {product.price}
+                        {/* FIX: Added flex-wrap and responsive font sizing */}
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                          <span className="text-xl sm:text-2xl font-bold text-blue-600">
+                            {product.price.startsWith('$') ? product.price : `$${product.price}`}
                           </span>
-                          <div className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full transition-colors duration-300">
+                          <div className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full transition-colors duration-300 shrink-0">
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
