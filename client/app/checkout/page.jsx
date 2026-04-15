@@ -34,29 +34,22 @@ export default function CheckoutPage() {
     setLoading(true)
     
     try {
-      // Prepare order data
       const orderData = {
         ...formData,
         total_amount: getCartTotal(),
         items: cart.map(item => ({
           product_id: item.id,
-          // FIX for Problem 4: Ensure product_name is provided to satisfy FastAPI validation
           product_name: item.name || item.title || "Product", 
           product_price: item.price,
-          // FIX for Problem 2/3: Only send image if it's a valid URL string to prevent payload bloating
+          // Prevents sending massive base64 strings to your backend
           product_image: typeof item.image === 'string' && item.image.startsWith('http') ? item.image : null,
           quantity: item.quantity,
           subtotal: item.price * item.quantity
         }))
       }
 
-      // Create order
       const response = await api.createOrder(orderData)
-      
-      // Clear cart
       clearCart()
-      
-      // Redirect to success page
       router.push(`/order-confirmation?order=${response.order_number}`)
       
     } catch (error) {
@@ -87,12 +80,11 @@ export default function CheckoutPage() {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       
-      {/* FIX for Problem 1: Added pt-24 to prevent heading hiding behind fixed navbar */}
+      {/* pt-24 fixes the overlap with the fixed Navbar */}
       <div className="max-w-7xl mx-auto px-4 py-12 pt-24 lg:pt-32">
         <h1 className="text-4xl font-bold mb-8">Checkout</h1>
         
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Order Form */}
           <div className="lg:col-span-2">
             <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-8 shadow-lg">
               <h2 className="text-2xl font-bold mb-6">Shipping Information</h2>
@@ -187,7 +179,6 @@ export default function CheckoutPage() {
               </div>
 
               <h2 className="text-2xl font-bold mt-8 mb-6">Payment Method</h2>
-              
               <div className="space-y-4">
                 <label className="flex items-center p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-blue-500">
                   <input
@@ -212,7 +203,7 @@ export default function CheckoutPage() {
             </form>
           </div>
 
-          {/* Order Summary */}
+          {/* Order Summary Sidebar */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl p-8 shadow-lg sticky top-24">
               <h2 className="text-2xl font-bold mb-6">Order Summary</h2>
@@ -220,7 +211,7 @@ export default function CheckoutPage() {
               <div className="space-y-4 mb-6">
                 {cart.map((item) => (
                   <div key={item.id} className="flex gap-4">
-                    {/* FIX for Problem 2/3: Wrapped image and used overflow-hidden to prevent string overflow */}
+                    {/* Fixed Image Logic: prevents Base64 string from breaking layout */}
                     <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
                       {typeof item.image === 'string' && item.image.startsWith('http') ? (
                         <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
