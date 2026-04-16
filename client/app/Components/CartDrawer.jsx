@@ -74,7 +74,7 @@ export default function CartDrawer() {
                     >
                       {/* Product Image Safety Check */}
                       <div className="w-20 h-20 bg-gradient-to-br from-blue-50 to-gray-100 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
-                        {typeof item.image === 'string' && item.image.startsWith('http') ? (
+                        {typeof item.image === 'string' && (item.image.startsWith('http') || item.image.startsWith('data:')) ? (
                           <img src={item.image} alt={item.name} className="w-full h-full object-cover rounded-lg" />
                         ) : (
                           <span className="text-3xl">📦</span>
