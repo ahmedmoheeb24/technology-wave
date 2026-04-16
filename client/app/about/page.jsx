@@ -3,42 +3,88 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FiTarget, FiEye, FiUsers, FiHeart, FiZap, FiShield, FiDownload } from 'react-icons/fi'
+import { FiTarget, FiEye, FiShield, FiZap, FiCheckCircle, FiDownload, FiMapPin, FiMail, FiPhone } from 'react-icons/fi'
 import { assets } from '@/assets/assets'
 
 export default function AboutPage() {
   const stats = [
-    { value: '1,500+', label: 'Global Clients' },
-    { value: 'ASA-100', label: 'Accredited' },
-    { value: '20+', label: 'Years' },
+    { value: '25+', label: 'Years Experience' },
+    { value: 'ICAO/EASA/FAA', label: 'Aligned' },
+    { value: 'Independent', label: 'Consultancy' },
     { value: '7/24/365', label: 'AOG Support' }
   ]
 
   const values = [
-    { icon: FiTarget, title: 'Quality', description: 'ASA-100, ISO 9001:2015, and AS9120B certifications reflect our obsession with delivering the highest quality parts and services.', color: 'from-blue-500 to-cyan-500' },
-    { icon: FiHeart, title: 'Client-Centric', description: 'Your mission readiness is our priority. We build lasting partnerships by understanding your operational goals and consistently exceeding expectations.', color: 'from-violet-500 to-purple-600' },
-    { icon: FiShield, title: 'Integrity', description: 'Trusted approved supplier to leading airlines, military forces, and OEM authorized service centers worldwide.', color: 'from-orange-500 to-red-500' },
-    { icon: FiZap, title: 'Responsiveness', description: 'AOG situations demand immediate action. Round-the-clock support to ensure parts reach the right location at the right time.', color: 'from-teal-500 to-green-500' }
+    {
+      icon: FiTarget,
+      title: 'Regulatory Compliance',
+      description: 'Grounded in ICAO, EASA, FAA, GCAA, GACA and other international authority frameworks — ensuring every recommendation meets the highest standards.',
+      color: 'from-blue-500 to-cyan-500'
+    },
+    {
+      icon: FiShield,
+      title: 'Risk Mitigation',
+      description: 'Independent, confidential, and results-driven. We identify technical risks and deliver structured findings with corrective action recommendations.',
+      color: 'from-slate-600 to-slate-400'
+    },
+    {
+      icon: FiCheckCircle,
+      title: 'Operational Practicality',
+      description: 'Real-world solutions from senior professionals with deep MRO, airline, CAMO, and Power Plant engineering backgrounds.',
+      color: 'from-orange-500 to-amber-500'
+    },
+    {
+      icon: FiZap,
+      title: 'Cost-Effectiveness',
+      description: 'On-demand consultancy that delivers maximum value without the overhead of a full-time resource — practical, focused, and outcome-driven.',
+      color: 'from-teal-500 to-green-500'
+    }
   ]
+
+  const expertise = [
+    { label: 'Airline Operations', icon: '✈️' },
+    { label: 'MRO Environments', icon: '🔧' },
+    { label: 'Power Plant Engineering', icon: '⚙️' },
+    { label: 'CAMO Services', icon: '📋' },
+    { label: 'Material Management', icon: '📦' },
+    { label: 'Executive Technical Leadership', icon: '🏢' },
+    { label: 'Aircraft Leasing & Asset Advisory', icon: '🤝' },
+    { label: 'Technical Records & Airworthiness', icon: '📁' },
+  ]
+
+  const authorities = ['ICAO', 'EASA', 'FAA', 'GCAA', 'GACA']
 
   const timeline = [
-    { year: '2001', title: 'Founded', description: 'Technology Wave was established with a mission to become a world-class aviation parts supplier, serving leading airlines and operators.' },
-    { year: '2005', title: 'Commercial Expansion', description: 'Grew our commercial aviation portfolio to support narrow and wide-body aircraft across Airbus, Boeing, Bombardier, and Embraer platforms.' },
-    { year: '2010', title: 'Military Division Launched', description: 'Established our dedicated military division to provide parts and MRO support for the Lockheed Martin C-130 transport, serving air forces worldwide.' },
-    { year: '2013', title: 'ASA-100 Accreditation', description: 'Earned the Aviation Suppliers Association Quality System ASA-100 accreditation, satisfying FAA Advisory Circular 00-56B.' },
-    { year: '2018', title: 'Global Network', description: 'Expanded our international network of sales representatives and approved vendors, enabling 7/24/365 service coverage across all major markets.' },
-    { year: '2024', title: 'Industry Recognition', description: 'Continued significant growth while earning industry awards as a leading provider of aviation parts and component repair management services.' }
-  ]
-
-  const specialties = [
-    { label: 'Airbus', sub: 'A320, A330, A340, A350' },
-    { label: 'Boeing', sub: '737, 757, 767, 777, 787' },
-    { label: 'Bombardier', sub: 'Dash 8, CRJ Series' },
-    { label: 'Embraer', sub: 'Regional & Commercial' },
-    { label: 'C-130 Hercules', sub: 'Lockheed Martin' },
-    { label: 'F-16 Fighting Falcon', sub: 'Lockheed Martin' },
-    { label: 'F-15 / F-18', sub: 'McDonnell Douglas' },
-    { label: 'UH-60 / CH-47', sub: 'Military Helicopters' },
+    {
+      year: '2001',
+      title: 'Founded',
+      description: 'Technology Wave was established with a mission to become a world-class aviation parts supplier, serving leading airlines and operators.'
+    },
+    {
+      year: '2005',
+      title: 'Commercial Expansion',
+      description: 'Grew our commercial aviation portfolio to support narrow and wide-body aircraft across Airbus, Boeing, Bombardier, and Embraer platforms.'
+    },
+    {
+      year: '2010',
+      title: 'Military Division Launched',
+      description: 'Established our dedicated military division to provide parts and MRO support for the Lockheed Martin C-130 transport, serving air forces worldwide.'
+    },
+    {
+      year: '2013',
+      title: 'ASA-100 Accreditation',
+      description: 'Earned the Aviation Suppliers Association Quality System ASA-100 accreditation, satisfying FAA Advisory Circular 00-56B.'
+    },
+    {
+      year: '2018',
+      title: 'Global Network',
+      description: 'Expanded our international network of sales representatives and approved vendors, enabling 7/24/365 service coverage across all major markets.'
+    },
+    {
+      year: '2024',
+      title: 'Technical Consultancy Launched',
+      description: 'Launched structured Technical Organization and Asset Advisory services — delivering independent consultancy to Operators, MROs, Lessors, and Investors worldwide.'
+    }
   ]
 
   return (
@@ -56,7 +102,7 @@ export default function AboutPage() {
             priority
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/10" />
 
         <div className="absolute bottom-0 left-0 right-0 px-6 sm:px-10 lg:px-16 pb-10 lg:pb-16">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
@@ -79,7 +125,7 @@ export default function AboutPage() {
       {/* ── WHO WE ARE ── */}
       <section className="bg-gray-950">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2">
-          
+
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -89,36 +135,57 @@ export default function AboutPage() {
           >
             <p className="text-blue-400 font-mono text-xs tracking-widest uppercase mb-4">Who We Are</p>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-8 leading-tight">
-              World-class aviation parts, delivered right.
+              Expert Technical Consultancy &amp; Asset Advisory.
             </h2>
             <div className="space-y-4 text-gray-400 text-base leading-relaxed">
-              <p>Technology Wave has a proud heritage of service, dating from our founding in 2001. We have since grown into a world-class, award-winning commercial and military aviation parts supplier and provider of component repair management services.</p>
-              <p>We find practical solutions for your excess and surplus inventories, and are experts at acquiring retired aircraft for dismantling and harvesting parts. We excel in providing customers with the highest quality parts, best value, fastest delivery, and solutions for hard to find parts and repair requirements.</p>
-              <p>Our customers include the world's leading airlines, air forces, and MRO centers. We provide airframe and engine parts and component repair management services for the entire spectrum of ATA chapters.</p>
+              <p>
+                Our team comprises senior aviation professionals with over 25 years of experience across airline operations, MRO environments, Power Plant engineering, CAMO services, material management, and executive technical leadership.
+              </p>
+              <p>
+                We provide structured Technical Organization and Asset Advisory consultancy to Aircraft Operators, MROs, Lessors, and Investors on an as-needed basis — independent, confidential, and results-driven.
+              </p>
+              <p>
+                Our consultancy philosophy is grounded in regulatory compliance, operational practicality, cost control, and risk mitigation, aligned with ICAO, EASA, FAA, GCAA, GACA, and other international authority frameworks.
+              </p>
             </div>
-            
+
             <div className="flex flex-wrap gap-2 mt-8">
-              {['ASA-100', 'ISO 9001:2015', 'AS9120B', 'FAA AC 00-56B'].map((cert) => (
-                <span key={cert} className="text-xs font-bold text-blue-400 border border-blue-400/30 bg-blue-400/10 px-3 py-1.5 rounded-full">
-                  {cert}
+              {authorities.map((auth) => (
+                <span key={auth} className="text-xs font-bold text-blue-400 border border-blue-400/30 bg-blue-400/10 px-3 py-1.5 rounded-full">
+                  {auth}
                 </span>
               ))}
             </div>
 
+            {/* Contact Info */}
+            <div className="mt-8 space-y-2">
+              <div className="flex items-center gap-2 text-gray-400 text-sm">
+                <FiMapPin className="text-blue-400 flex-shrink-0" />
+                <span>Karachi, Pakistan (International Assignments Available)</span>
+              </div>
+              <div className="flex items-center gap-2 text-gray-400 text-sm">
+                <FiMail className="text-blue-400 flex-shrink-0" />
+                <span>company email@gmail.com</span>
+              </div>
+              <div className="flex items-center gap-2 text-gray-400 text-sm">
+                <FiPhone className="text-blue-400 flex-shrink-0" />
+                <span>+92 company contact number</span>
+              </div>
+            </div>
+
             {/* DOWNLOAD BUTTON */}
-          <div className="mt-8">
-            <a
-              // Replace 'https://api.technology-wave.com' with your actual Backend API URL
-              href="https://api.technology-wave.com/assets/certificate.pdf" 
-              download="Technology_Wave_Certificate.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white text-sm font-bold rounded-2xl transition-all hover:scale-[1.02] shadow-xl shadow-blue-900/30 group"
-            >
-              <FiDownload className="w-5 h-5 group-hover:translate-y-0.5 transition-transform" />
-              <span>Download Incorporation Certificate</span>
-            </a>
-          </div>
+            <div className="mt-8">
+              <a
+                href="https://api.technology-wave.com/assets/certificate.pdf"
+                download="Technology_Wave_Certificate.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white text-sm font-bold rounded-2xl transition-all hover:scale-[1.02] shadow-xl shadow-blue-900/30 group"
+              >
+                <FiDownload className="w-5 h-5 group-hover:translate-y-0.5 transition-transform" />
+                <span>Download Incorporation Certificate</span>
+              </a>
+            </div>
           </motion.div>
 
           <motion.div
@@ -139,14 +206,14 @@ export default function AboutPage() {
             )}
             <div className="absolute inset-0 bg-gradient-to-r from-gray-950/40 to-transparent lg:bg-gradient-to-l" />
             <div className="absolute bottom-6 right-6 bg-black/60 backdrop-blur-md border border-white/10 rounded-2xl p-4 text-white">
-              <div className="text-2xl font-black mb-0.5">1,500+</div>
-              <div className="text-xs text-white/60">Customers in 60+ countries</div>
+              <div className="text-2xl font-black mb-0.5">25+</div>
+              <div className="text-xs text-white/60">Years of Aviation Expertise</div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* ── PLATFORM SPECIALTIES ── */}
+      {/* ── AREAS OF EXPERTISE ── */}
       <section className="bg-gray-50 py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -157,14 +224,14 @@ export default function AboutPage() {
             className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14"
           >
             <div>
-              <p className="text-blue-600 font-mono text-xs sm:text-sm tracking-widest uppercase mb-2">Aircraft Coverage</p>
-              <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black text-gray-900">Platform Specialties</h2>
+              <p className="text-blue-600 font-mono text-xs sm:text-sm tracking-widest uppercase mb-2">What We Know</p>
+              <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black text-gray-900">Areas of Expertise</h2>
             </div>
-            <p className="text-gray-500 text-sm lg:text-base max-w-xs">Parts support across commercial, regional, and military platforms.</p>
+            <p className="text-gray-500 text-sm lg:text-base max-w-xs">Deep domain knowledge across the full aviation technical spectrum.</p>
           </motion.div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
-            {specialties.map((item, index) => (
+            {expertise.map((item, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 15 }}
@@ -173,9 +240,9 @@ export default function AboutPage() {
                 transition={{ duration: 0.4, delay: index * 0.05 }}
                 className="bg-white rounded-2xl p-7 lg:p-10 border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all group cursor-default"
               >
+                <div className="text-2xl mb-3">{item.icon}</div>
                 <div className="w-10 h-0.5 bg-blue-600 mb-4 group-hover:w-14 transition-all duration-300" />
-                <div className="font-bold text-gray-900 text-base lg:text-lg">{item.label}</div>
-                <div className="text-sm lg:text-base text-gray-500 mt-2">{item.sub}</div>
+                <div className="font-bold text-gray-900 text-sm lg:text-base">{item.label}</div>
               </motion.div>
             ))}
           </div>
@@ -199,10 +266,10 @@ export default function AboutPage() {
               </div>
               <p className="text-blue-200 text-xs font-mono tracking-widest uppercase mb-3">Mission</p>
               <h2 className="text-2xl sm:text-3xl font-black text-white mb-4 leading-tight">
-                Keeping the world's fleets airborne.
+                Keeping the world&apos;s fleets airborne.
               </h2>
               <p className="text-blue-100 leading-relaxed flex-1">
-                To deliver the highest quality parts, fastest service, and most reliable component repair management — 24 hours a day, 7 days a week, 365 days a year.
+                To deliver independent, results-driven technical consultancy and high-quality aviation parts — grounded in regulatory compliance, cost control, and risk mitigation, 24 hours a day, 7 days a week, 365 days a year.
               </p>
             </motion.div>
 
@@ -231,10 +298,10 @@ export default function AboutPage() {
               </div>
               <p className="text-gray-400 text-xs font-mono tracking-widest uppercase mb-3">Vision</p>
               <h2 className="text-2xl sm:text-3xl font-black text-white mb-4 leading-tight">
-                The most trusted global aviation partner.
+                The most trusted global aviation technical partner.
               </h2>
               <p className="text-gray-400 leading-relaxed flex-1">
-                Recognized for uncompromising standards, depth of expertise, and commitment to keeping every aircraft operational and every mission ready.
+                Recognized for uncompromising standards, deep regulatory expertise, and a commitment to keeping every aircraft operational, every mission ready, and every asset protected.
               </p>
             </motion.div>
           </div>
@@ -279,8 +346,54 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── TIMELINE ── */}
+      {/* ── WHY ENGAGE US ── */}
       <section className="py-20 px-4 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-16"
+          >
+            <p className="text-blue-600 font-mono text-xs lg:text-sm tracking-widest uppercase mb-3">The Difference</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900">Why Engage This Consultancy</h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {[
+              { point: '25+ years of airline & MRO experience', detail: 'Battle-tested expertise across every facet of commercial and military aviation operations.' },
+              { point: 'Deep Power Plant, CAMO & Leasing expertise', detail: 'Specialist knowledge in engines, APUs, continuing airworthiness, and asset lifecycle management.' },
+              { point: 'Strong regulatory alignment', detail: 'ICAO / EASA / FAA / Middle East authorities — we navigate the full regulatory landscape.' },
+              { point: 'Practical & risk-focused approach', detail: 'Actionable recommendations grounded in real-world operational and financial constraints.' },
+              { point: 'Independent & confidential', detail: 'No conflicts of interest. Pure advisory — your goals, your outcomes.' },
+              { point: 'On-demand, cost-effective', detail: 'Expert-level support when you need it, without long-term overhead commitments.' },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.07 }}
+                className="bg-gray-50 rounded-2xl p-6 border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all"
+              >
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <h3 className="font-bold text-gray-900 text-sm lg:text-base">{item.point}</h3>
+                </div>
+                <p className="text-gray-500 text-sm leading-relaxed pl-8">{item.detail}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── TIMELINE ── */}
+      <section className="py-20 px-4 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -335,10 +448,10 @@ export default function AboutPage() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
             <p className="text-blue-400 font-mono text-xs tracking-widest uppercase mb-4">Get In Touch</p>
             <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-white mb-6 leading-tight">
-              Let's Keep Your<br />Fleet Flying
+              Let&apos;s Keep Your<br />Fleet Flying
             </h2>
             <p className="text-gray-400 text-lg mb-10">
-              Join 1,500+ operators worldwide who trust Technology Wave for their parts and MRO needs.
+              Independent technical consultancy from professionals who have been there — across airlines, MROs, CAMO, and Power Plant environments.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link href="/contact">
