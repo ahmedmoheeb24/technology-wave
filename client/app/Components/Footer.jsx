@@ -1,5 +1,6 @@
 "use client"
 import React from 'react'
+import Link from 'next/link'
 
 const Footer = () => {
   return (
@@ -22,35 +23,38 @@ const Footer = () => {
             <h4 className='text-lg font-semibold mb-4 font-Ovo'>Quick Links</h4>
             <ul className='space-y-2 text-sm'>
               <li>
-                <a href="#about" className='text-white hover:text-sky-400 transition-colors'>About Us</a>
+                <Link href="/#about" className='text-white hover:text-sky-400 transition-colors'>About Us</Link>
               </li>
               <li>
-                <a href="#services" className='text-white hover:text-sky-400 transition-colors'>Services</a>
+                <Link href="/#services" className='text-white hover:text-sky-400 transition-colors'>Services</Link>
               </li>
               <li>
-                <a href="#work" className='text-white hover:text-sky-400 transition-colors'>Products</a>
+                <Link href="/#work" className='text-white hover:text-sky-400 transition-colors'>Products</Link>
               </li>
               <li>
-                <a href="#contact" className='text-white hover:text-sky-400 transition-colors'>Contact</a>
+                <Link href="/#contact" className='text-white hover:text-sky-400 transition-colors'>Contact</Link>
               </li>
             </ul>
           </div>
 
-          {/* Customer Service */}
+          {/* Customer Service - Updated with your folder paths */}
           <div>
             <h4 className='text-lg font-semibold mb-4 font-Ovo'>Customer Service</h4>
             <ul className='space-y-2 text-sm'>
               <li>
-                <a href="#" className='text-white hover:text-sky-400 transition-colors'>Shipping Info</a>
+                <Link href="/shippinginfo" className='text-white hover:text-sky-400 transition-colors'>
+                  Shipping Info
+                </Link>
               </li>
               <li>
-                <a href="#" className='text-white hover:text-sky-400 transition-colors'>Returns</a>
+                <Link href="/returnpolicy" className='text-white hover:text-sky-400 transition-colors'>
+                  Returns
+                </Link>
               </li>
               <li>
-                <a href="#" className='text-white hover:text-sky-400 transition-colors'>FAQ</a>
-              </li>
-              <li>
-                <a href="#" className='text-white hover:text-sky-400 transition-colors'>Terms & Conditions</a>
+                <Link href="/termsandconditions" className='text-white hover:text-sky-400 transition-colors'>
+                  Terms & Conditions
+                </Link>
               </li>
             </ul>
           </div>
@@ -88,7 +92,7 @@ const Footer = () => {
             
             {/* Copyright */}
             <p className='text-sm text-white'>
-              © 2025 Technology Wave. All rights reserved.
+              © 2026 Technology Wave. All rights reserved.
             </p>
 
             {/* Social Links */}
