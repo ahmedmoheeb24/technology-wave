@@ -3,326 +3,72 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
-import { FiCode, FiLayout, FiCloud, FiShoppingCart, FiTrendingUp, FiShield, FiArrowLeft, FiCheck, FiClock, FiUsers, FiAward } from 'react-icons/fi'
+import { FiTarget, FiEye, FiUsers, FiHeart, FiZap, FiShield, FiDownload } from 'react-icons/fi'
+import { assets } from '@/assets/assets'
 
-// Base URL for your uploaded assets
-const ASSET_URL = "https://api.technology-wave.com/uploads";
+export default function AboutPage() {
+  const stats = [
+    { value: '1,500+', label: 'Global Clients' },
+    { value: 'ASA-100', label: 'Accredited' },
+    { value: '25+', label: 'Years Experience' }, // Updated to 25+ years [cite: 6, 89]
+    { value: '7/24/365', label: 'AOG Support' }
+  ]
 
-const services = [
-  {
-    slug: 'commercial-aviation',
-    icon: FiTrendingUp,
-    title: 'Commercial Aviation',
-    description: 'Keeping your fleet in the air',
-    longDescription: 'Technology Wave is a fully accredited aviation parts supplier maintaining the highest industry standards. We have met the stringent requirements of the Aviation Suppliers Association Quality System ASA-100 accreditation, satisfying the FAA Advisory Circular 00-56B, ISO 9001:2015 and AS9120B quality standards. Our obsession with high standards have qualified us as an approved supplier to leading airlines, MRO facilities, and OEM authorized service centers worldwide.\n\nOur highly experienced team members offer AOG 7/24/365 service to our customers around the globe. They rely on our ability to provide solutions that ensure parts are delivered to the right location, at the right price, at the right time–allowing their aircraft to keep earning revenue.',
-    // UPDATED: Filenames are now lowercase with hyphens to match the server rename
-    images: [`${ASSET_URL}/commercial-aviation-1.jfif`, `${ASSET_URL}/commercial-aviation-2.jfif`],
-    sections: [
-      { heading: 'Inventory Solutions', body: 'For customers seeking solutions for their surplus or excess inventory, we provide options based on current supply and demand conditions to help them decide if surplus consignment or outright sale makes the best economic sense. With Technology Wave, you have a trusted partner that provides informed options and expert advice to help you with key decisions.' },
-      { heading: 'Narrow and Wide-Body Aircraft', body: "Technology Wave provides parts support for narrow and wide-body aircraft to the world's airlines, aircraft owners and operators, corporate aviation, leasing firms, fixed base operators, and maintenance facilities. Our comprehensive parts support includes the Boeing 777, 767, 757, 737, and the Airbus 340, 330, 320, and 310." },
-      { heading: 'Regional and Corporate Aircraft', body: 'Technology Wave supports customers operating regional turbo-props and commuter twin jets. We specialize in supplying parts to airlines and operators of the Bombardier Dash 8 series turbo-prop and CRJ series twin jet. These customers are supported by our 24/7 technical support and customer service.' }
-    ],
-    features: ['Fleet Management Solutions', 'Aircraft Leasing & Sales', 'Route Optimization', 'Fuel Management Systems', 'Passenger Safety Compliance', 'Operational Efficiency Consulting', 'Crew Training Programs', 'Regulatory Compliance Support'],
-    benefits: ['Reduce operational costs by up to 25%', 'Maximize aircraft utilization and profitability', 'Ensure complete regulatory compliance', 'Access to global aviation expertise'],
-    technologies: ['Boeing 777', 'Boeing 767', 'Boeing 757', 'Boeing 737', 'Airbus A340', 'Airbus A330', 'Airbus A320', 'Airbus A310', 'Bombardier Dash 8', 'CRJ Series'],
-    color: 'from-blue-600 to-sky-500',
-    price: 'Custom Quote',
-    timeline: 'Ongoing Partnership'
-  },
-  {
-    slug: 'military-division',
-    icon: FiShield,
-    title: 'Military Division',
-    description: 'Proud to serve those who serve',
-    longDescription: 'Technology Wave has a proud heritage of service, dating from our founding in 2001. We started our military division in 2010, to provide parts and service support for the Lockheed Martin C-130 transport. We have since expanded our services to support fighter jets and other key aircraft, as we have grown into a world-class military aviation parts supplier.\n\nTechnology Wave offers military aircraft parts and MRO support to customers across the globe. We provide 24/7/365 personal contact support for AOG/MICAP grounding issues. We maintain substantial inventory levels of critical rotables and components, along with standard used components and consumables.',
-    // UPDATED: Filenames are now lowercase with hyphens
-    images: [`${ASSET_URL}/military-division-1.jfif`, `${ASSET_URL}/military-division-2.jfif`],
-    sections: [
-      { heading: 'C-130 Transport', body: 'The Lockheed C-130 Hercules is a versatile four-engine turboprop military transport aircraft. Still in production after 60 years, the "Herc" offers unsurpassed versatility, performance and mission-effectiveness. Technology Wave provides consignment and inventory management for these aircraft using our worldwide network of C-130 operators, along with contract maintenance, repair, overhaul, and modification programs.' },
-      { heading: 'F-16 Fighter', body: 'The F-16 Fighting Falcon is a single-engine multirole fighter aircraft originally developed by General Dynamics (now Lockheed Martin). More than 4,500 F-16s have been built since 1976. Due to the high demand of allied air forces in key regions, we have focused our parts supply services on the F-16A/C variants.' },
-      { heading: 'T56 Engine', body: 'The Allison T56 is a single shaft, modular design military turboprop engine, originally developed for the Lockheed C-130 transport and now manufactured by Rolls-Royce. With more than 18,000 engines produced since 1954, Technology Wave provides complete parts supply and repair/overhaul management services for the T56.' }
-    ],
-    features: ['Military Aircraft Modifications', 'Defense Systems Integration', 'Tactical Aviation Support', 'Secure Communications', 'Mission Planning Systems', 'Training & Simulation', 'Special Mission Aircraft', 'Counter-Measure Systems'],
-    benefits: ['Enhanced mission capability and effectiveness', 'State-of-the-art defense technology integration', 'Secure and reliable communication systems', 'Proven track record with military clients'],
-    technologies: ['C-130 Hercules', 'F-16 Fighting Falcon', 'Boeing F-15', 'Boeing F-18', 'Northrop F-5', 'Sikorsky UH-60', 'Bell 212/412'],
-    color: 'from-slate-700 to-slate-500',
-    price: 'Custom Quote',
-    timeline: 'Project-Based'
-  },
-  {
-    slug: 'helicopters',
-    icon: FiCloud,
-    title: 'Helicopters',
-    description: 'The parts you need where you need them',
-    longDescription: 'Technology Wave provides rotary-wing aircraft spare parts and component repair and overhaul management to ensure mission readiness for both domestic and international operators. Our large variety of helicopter components includes hardware, airframe, engine, rotables, consumables, tools, and fasteners. We supply parts from all condition codes and can work on an exchange basis when appropriate.\n\nWe ensure customers get the parts needed where they are needed. When choosing Technology Wave for your helicopter support, you have access to our vast network of approved vendors and service providers who assist us in accomplishing all of your requirements.',
-    // UPDATED: Filenames are now lowercase with hyphens
-    images: [`${ASSET_URL}/helicopters-1.jfif`, `${ASSET_URL}/helicopters-2.jfif`],
-    sections: [],
-    features: ['Helicopter Sales & Leasing', 'Maintenance Programs', 'Avionics Upgrades', 'Interior Refurbishment', 'Performance Enhancements', 'Emergency Services Support', 'VIP Configurations', 'EMS/Air Ambulance Solutions'],
-    benefits: ['Extended service life and reliability', 'Customized configurations for specific missions', 'Comprehensive support programs', 'Expert technical assistance 24/7'],
-    technologies: ['Bell 412', 'Sikorsky UH-60', 'Sikorsky S-70', 'Sikorsky S-92', 'Boeing CH-47', 'Leonardo AW139', 'Airbus H145'],
-    color: 'from-emerald-600 to-teal-500',
-    price: 'Custom Quote',
-    timeline: 'Varies by Service'
-  },
-  {
-    slug: 'maintenance-repair-overhaul',
-    icon: FiCode,
-    title: 'Maintenance, Repair and Overhaul',
-    description: 'Component repair and overhaul',
-    longDescription: "Technology Wave covers the entire spectrum of ATA chapters in managing Maintenance, Repair and Overhaul (MRO) components through long-standing partnerships with reputable FAA 145 and EASA 145 approved repair stations. All shops we partner with have undergone Technology Wave's full inspection criteria and have established industry credentials.\n\nConsider us an extension of your organization that is dedicated to your reputation and success, and is always in tune with your customer's needs. We ensure quality workmanship, competitive turnaround times, and full warranty for components under our management.",
-    // UPDATED: Filenames are now lowercase with hyphens
-    images: [`${ASSET_URL}/aircraft-maintenance-1.jfif`, `${ASSET_URL}/aircraft-maintenance-2.jfif`],
-    sections: [],
-    features: ['Hydraulic actuators, valves & landing gears', 'Fuel pumps & engine accessories', 'Auxiliary power units (APU)', 'Propellers & related components', 'Avionics & cockpit instrumentation', 'Flight controls & structural parts', 'Wheels, tires, brakes & brake pads', 'Engine fan blades, vanes & QEC accessories', 'Oxygen systems & safety equipment', 'Line replaceable units (LRUs)'],
-    benefits: ['Minimize aircraft downtime', 'Extend component and aircraft life', 'Ensure regulatory compliance', 'Reduce long-term maintenance costs'],
-    technologies: ['FAA 145 Approved Stations', 'EASA 145 Approved Stations', 'All ATA Chapters', 'Rotables', 'Expendables', 'Avionics'],
-    color: 'from-orange-600 to-amber-500',
-    price: 'Custom Quote',
-    timeline: '2-12 weeks'
-  },
-  {
-    slug: 'end-of-life-aircraft-solutions',
-    icon: FiLayout,
-    title: 'End-of-Life Aircraft Solutions',
-    description: 'New revenue opportunity for retired or end-of-life aircraft',
-    longDescription: 'Technology Wave provides owners the option to sell or consign their end-of-life or retired aircraft asset to us. We are experienced in all aspects of aircraft teardown. This includes identifying the acquisition, planning the disassembly, selecting the parts to harvest, project oversight, recycling the hull, refurbishing and storing parts, marketing, sales, and collecting the proceeds.\n\nWith a ready network of markets and customers with a high demand for parts, our asset management team can tailor a partnership program to meet the needs of owners, hedge fund managers, private equity funds, and institutional investors–and provide the best return on your retired asset.',
-    // UPDATED: Filenames are now lowercase with hyphens
-    images: [`${ASSET_URL}/aircraft-solutions-1.jfif`, `${ASSET_URL}/aircraft-solutions-2.jfif`],
-    sections: [],
-    features: ['Aircraft Dismantling', 'Parts Harvesting & Certification', 'Material Recycling', 'Environmental Compliance', 'Asset Value Recovery', 'Documentation Services', 'Hazardous Material Disposal', 'Scrap Metal Processing'],
-    benefits: ['Maximize residual aircraft value', 'Environmentally responsible disposal', 'Full regulatory compliance', 'Revenue generation from parts and materials'],
-    technologies: ['All Commercial Aircraft', 'Regional Aircraft', 'Business Jets', 'Cargo Aircraft'],
-    color: 'from-blue-600 to-sky-600',
-    price: 'Custom Quote',
-    timeline: '3-6 months'
-  },
-  {
-    slug: 'tagged-parts-available',
-    icon: FiShoppingCart,
-    title: 'Tagged Parts Available',
-    description: 'Material and Recycling',
-    longDescription: 'Royal Aero maintains a large inventory of material across all engine types to satisfy customer demand. The material is acquired from the acquisition and teardown of whole engines to the piece part level or, as required, from our suppliers.\n\nRoyal Aero are proud to consider themselves a "recycling" company, helping the aviation industry get the most out of their sunset fleets, via the USM market, for as long as possible, avoiding the production of new material at the expense of the environment.',
-    // UPDATED: Filenames are now lowercase with hyphens
-    images: [`${ASSET_URL}/aircraft-parts-1.jfif`, `${ASSET_URL}/aircraft-parts-2.jfif`],
-    sections: [],
-    features: ['Certified Parts Inventory', 'Full Traceability & Documentation', 'Quality Assurance', 'Fast Global Shipping', 'Competitive Pricing', 'Exchange Programs', 'AOG Priority Service', 'Warranty Support'],
-    benefits: ['Reduce aircraft downtime with fast delivery', 'Save costs with competitive pricing', 'Ensure quality with certified parts', 'Access global inventory network'],
-    technologies: ['Engines', 'Landing Gear', 'Avionics', 'APU', 'Hydraulics', 'Electrical Components'],
-    color: 'from-red-600 to-rose-500',
-    price: 'View Inventory',
-    timeline: '24-72 hours delivery'
-  }
-]
+  const values = [
+    { icon: FiTarget, title: 'Quality', description: 'ASA-100, ISO 9001:2015, and AS9120B certifications reflect our obsession with delivering the highest quality parts and services.', color: 'from-blue-500 to-cyan-500' },
+    { icon: FiHeart, title: 'Client-Centric', description: 'Your mission readiness is our priority. We build lasting partnerships by understanding your operational goals and consistently exceeding expectations.', color: 'from-violet-500 to-purple-600' },
+    { icon: FiShield, title: 'Integrity', description: 'Trusted approved supplier to leading airlines, military forces, and OEM authorized service centers worldwide.', color: 'from-orange-500 to-red-500' },
+    { icon: FiZap, title: 'Responsiveness', description: 'AOG situations demand immediate action. Round-the-clock support to ensure parts reach the right location at the right time.', color: 'from-teal-500 to-green-500' }
+  ]
 
-export default function ServiceDetailPage() {
+  const timeline = [
+    { year: '2001', title: 'Founded', description: 'Technology Wave was established with a mission to become a world-class aviation parts supplier, serving leading airlines and operators.' },
+    { year: '2005', title: 'Commercial Expansion', description: 'Grew our commercial aviation portfolio to support narrow and wide-body aircraft across Airbus, Boeing, Bombardier, and Embraer platforms.' },
+    { year: '2010', title: 'Military Division Launched', description: 'Established our dedicated military division to provide parts and MRO support for the Lockheed Martin C-130 transport, serving air forces worldwide.' },
+    { year: '2013', title: 'ASA-100 Accreditation', description: 'Earned the Aviation Suppliers Association Quality System ASA-100 accreditation, satisfying FAA Advisory Circular 00-56B.' },
+    { year: '2018', title: 'Global Network', description: 'Expanded our international network of sales representatives and approved vendors, enabling 7/24/365 service coverage across all major markets.' },
+    { year: '2024', title: 'Industry Recognition', description: 'Continued significant growth while earning industry awards as a leading provider of aviation parts and component repair management services.' }
+  ]
 
-  const params = useParams()
-  const service = services.find(s => s.slug === params.slug)
-
-  if (!service) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Service Not Found</h1>
-          <Link href="/services">
-            <button className="text-blue-600 hover:text-blue-700 font-semibold">← Back to Services</button>
-          </Link>
-        </div>
-      </div>
-    )
-  }
-
-  const IconComponent = service.icon
+  const specialties = [
+    { label: 'Airbus', sub: 'A320, A330, A340, A350' },
+    { label: 'Boeing', sub: '737, 757, 767, 777, 787' },
+    { label: 'Bombardier', sub: 'Dash 8, CRJ Series' },
+    { label: 'Embraer', sub: 'Regional & Commercial' },
+    { label: 'C-130 Hercules', sub: 'Lockheed Martin' },
+    { label: 'F-16 Fighting Falcon', sub: 'Lockheed Martin' },
+    { label: 'F-15 / F-18', sub: 'McDonnell Douglas' },
+    { label: 'UH-60 / CH-47', sub: 'Military Helicopters' },
+  ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+    <div className="min-h-screen bg-white">
 
-      {/* Hero Image Banner */}
-      <div className="relative h-72 sm:h-96 w-full overflow-hidden">
-        {/* UPDATED: Changed to standard <img> to solve preload/optimization mismatch */}
-        <img
-          src={service.images[0]}
-          alt={service.title}
-          className="w-full h-full object-cover"
-          loading="eager" 
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/70" />
+      {/* ── HERO ── */}
+      <section className="relative h-[75vh] min-h-[520px] overflow-hidden">
+        {assets.about.aircraft && (
+          <Image
+            src={assets.about.aircraft}
+            alt="Aviation Hero"
+            fill
+            unoptimized
+            className="object-cover object-center"
+            priority
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
 
-        {/* Back button over image */}
-        <div className="absolute top-6 left-4 sm:left-8 z-10">
-          <Link href="/services">
-            <button className="flex items-center gap-2 text-white bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors px-4 py-2 rounded-full text-sm font-medium">
-              <FiArrowLeft className="w-4 h-4" />
-              Back to Services
-            </button>
-          </Link>
-        </div>
-
-        {/* Title overlay on image */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10">
-          <div className={`inline-flex p-3 rounded-2xl bg-gradient-to-r ${service.color} mb-4 shadow-lg`}>
-            <IconComponent className="w-7 h-7 text-white" />
-          </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">
-            {service.title}
-          </h1>
-          <p className="text-white/80 text-lg italic">{service.description}</p>
-        </div>
-      </div>
-
-      <section className="px-4 py-12">
-        <div className="max-w-7xl mx-auto">
-
-          {/* Stats row */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-14 -mt-8 relative z-10"
-          >
-            {[
-              { icon: FiClock, value: service.timeline, label: 'Typical Timeline', color: 'text-blue-600' },
-              { icon: FiUsers, value: '1,500+', label: 'Global Clients', color: 'text-purple-600' },
-              { icon: FiAward, value: '99.8%', label: 'Safety Rating', color: 'text-orange-600' },
-            ].map((stat, i) => (
-              <div key={i} className="bg-white rounded-2xl p-6 text-center shadow-lg border border-gray-100">
-                <stat.icon className={`w-10 h-10 mx-auto mb-3 ${stat.color}`} />
-                <div className="text-2xl font-bold text-gray-900 mb-1 leading-tight">{stat.value}</div>
-                <p className="text-gray-500 text-sm">{stat.label}</p>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* Overview + 4:5 Image on right */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-14">
-
-            {/* Left: Overview text + quote card stacked */}
-            <div className="lg:col-span-2 flex flex-col gap-8">
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="space-y-4"
-              >
-                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Overview</h2>
-                {service.longDescription.split('\n\n').map((para, i) => (
-                  <p key={i} className="text-gray-600 leading-relaxed text-base">{para}</p>
-                ))}
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
-                <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 max-w-sm">
-                  <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">Investment</div>
-                  <div className="text-3xl font-bold text-gray-900 mb-6">{service.price}</div>
-                  <Link href="/contact">
-                    <button className={`w-full py-3.5 bg-gradient-to-r ${service.color} text-white rounded-xl font-bold text-base hover:shadow-xl transition-all hover:scale-105`}>
-                      Request Quote
-                    </button>
-                  </Link>
-                  <div className="mt-5 pt-5 border-t border-gray-100 text-center">
-                    <p className="text-xs text-gray-400">AOG 7/24/365 Support Available</p>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-
-            {/* Right: 4:5 portrait image */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.25 }}
-              className="lg:col-span-1"
-            >
-            <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-xl sticky top-24">
-              {/* UPDATED: Changed to standard <img> */}
-              <img
-                src={service.images[1]}
-                alt={`${service.title} detail`}
-                className="w-full h-full object-cover"
-              />
-              <div className={`absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent`} />
-            </div>
-            </motion.div>
-          </div>
-
-          {/* Sub-sections */}
-          {service.sections && service.sections.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="mb-14"
-            >
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8">Featured Specialties</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {service.sections.map((section, index) => (
-                  <div key={index} className="bg-white rounded-2xl p-7 shadow-md border border-gray-100">
-                    <div className={`w-10 h-1 rounded-full bg-gradient-to-r ${service.color} mb-4`} />
-                    <h3 className="text-lg font-bold text-gray-900 mb-3">{section.heading}</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">{section.body}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-
-          {/* Features & Benefits */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-14">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.35 }}
-            >
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Key Features</h2>
-              <ul className="space-y-3">
-                {service.features.map((feature, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <div className={`flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-r ${service.color} flex items-center justify-center mt-0.5`}>
-                      <FiCheck className="w-3 h-3 text-white" />
-                    </div>
-                    <span className="text-gray-700">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Benefits</h2>
-              <div className="space-y-3">
-                {service.benefits.map((benefit, index) => (
-                  <div key={index} className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-start gap-4">
-                    <div className={`flex-shrink-0 w-9 h-9 rounded-xl bg-gradient-to-r ${service.color} flex items-center justify-center`}>
-                      <FiCheck className="w-4 h-4 text-white" />
-                    </div>
-                    <p className="text-gray-700 leading-snug">{benefit}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Aircraft & Equipment */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.45 }}
-            className="mb-14"
-          >
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 text-center">Aircraft & Equipment</h2>
-            <div className="flex flex-wrap gap-3 justify-center">
-              {service.technologies.map((tech, index) => (
-                <div key={index} className="px-5 py-2.5 bg-white rounded-full shadow-md text-gray-700 text-sm font-semibold border border-gray-100">
-                  {tech}
+        <div className="absolute bottom-0 left-0 right-0 px-6 sm:px-10 lg:px-16 pb-10 lg:pb-16">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+            <p className="text-blue-400 font-mono text-xs sm:text-sm tracking-widest uppercase mb-3">— Since 2001</p>
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-white leading-none mb-8 tracking-tight">
+              About<br /><span className="text-blue-400">Technology Wave</span>
+            </h1>
+            <div className="flex flex-wrap gap-8 sm:gap-12">
+              {stats.map((s, i) => (
+                <div key={i}>
+                  <div className="text-2xl sm:text-3xl font-black text-white leading-none">{s.value}</div>
+                  <div className="text-white/50 text-xs mt-1 uppercase tracking-wide">{s.label}</div>
                 </div>
               ))}
             </div>
@@ -330,26 +76,285 @@ export default function ServiceDetailPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className={`py-20 px-4 bg-gradient-to-r ${service.color}`}>
-        <div className="max-w-4xl mx-auto text-center">
+      {/* ── WHO WE ARE ── */}
+      <section className="bg-gray-950">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2">
+          
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="px-8 sm:px-12 lg:px-16 py-16 lg:py-24 flex flex-col justify-center order-2 lg:order-1"
+          >
+            <p className="text-blue-400 font-mono text-xs tracking-widest uppercase mb-4">Who We Are</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-8 leading-tight">
+              Expert Technical Consultancy & Asset Advisory.
+            </h2>
+            <div className="space-y-4 text-gray-400 text-base leading-relaxed">
+              <p>
+                Our team comprises senior aviation professionals with over 25 years of experience across airline operations, MRO environments, Power Plant engineering, and CAMO services[cite: 6, 89]. We provide structured Technical Organization and Asset Advisory consultancy to Aircraft Operators, MROs, Lessors, and Investors on an as-needed basis[cite: 7, 10].
+              </p>
+              <p>
+                Our consultancy philosophy is grounded in regulatory compliance, operational practicality, cost control, and risk mitigation[cite: 8, 92]. We excel in providing independent, results-driven services aligned with international authority frameworks, including ICAO, EASA, FAA, GCAA, and GACA[cite: 8, 91, 93].
+              </p>
+              <p>
+                Beyond advisory, we remain a leading provider of aviation parts and component repair management[cite: 80]. Whether you require end-to-end technical support or high-quality airframe and engine parts, Technology Wave delivers the expertise needed to keep your fleet airborne[cite: 10, 80].
+              </p>
+            </div>
+            
+            <div className="flex flex-wrap gap-2 mt-8">
+              {['ICAO', 'EASA', 'FAA', 'GCAA', 'GACA', 'ASA-100'].map((cert) => (
+                <span key={cert} className="text-xs font-bold text-blue-400 border border-blue-400/30 bg-blue-400/10 px-3 py-1.5 rounded-full">
+                  {cert}
+                </span>
+              ))}
+            </div>
+
+            {/* DOWNLOAD BUTTON */}
+          <div className="mt-8">
+            <a
+              // Replace 'https://api.technology-wave.com' with your actual Backend API URL
+              href="https://api.technology-wave.com/assets/certificate.pdf" 
+              download="Technology_Wave_Certificate.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white text-sm font-bold rounded-2xl transition-all hover:scale-[1.02] shadow-xl shadow-blue-900/30 group"
+            >
+              <FiDownload className="w-5 h-5 group-hover:translate-y-0.5 transition-transform" />
+              <span>Download Incorporation Certificate</span>
+            </a>
+          </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="relative min-h-[360px] lg:min-h-0 order-1 lg:order-2"
+          >
+            {assets.about.part && (
+              <Image
+                src={assets.about.part}
+                alt="Aviation parts"
+                fill
+                unoptimized
+                className="object-cover"
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-r from-gray-950/40 to-transparent lg:bg-gradient-to-l" />
+            <div className="absolute bottom-6 right-6 bg-black/60 backdrop-blur-md border border-white/10 rounded-2xl p-4 text-white">
+              <div className="text-2xl font-black mb-0.5">1,500+</div>
+              <div className="text-xs text-white/60">Customers in 60+ countries</div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── PLATFORM SPECIALTIES ── */}
+      <section className="bg-gray-50 py-20 px-4">
+        <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">Ready to Get Started?</h2>
-            <p className="text-lg text-white/90 mb-8">Contact us today to discuss your aviation needs</p>
+            <div>
+              <p className="text-blue-600 font-mono text-xs sm:text-sm tracking-widest uppercase mb-2">Aircraft Coverage</p>
+              <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black text-gray-900">Platform Specialties</h2>
+            </div>
+            <p className="text-gray-500 text-sm lg:text-base max-w-xs">Parts support across commercial, regional, and military platforms.</p>
+          </motion.div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
+            {specialties.map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                className="bg-white rounded-2xl p-7 lg:p-10 border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all group cursor-default"
+              >
+                <div className="w-10 h-0.5 bg-blue-600 mb-4 group-hover:w-14 transition-all duration-300" />
+                <div className="font-bold text-gray-900 text-base lg:text-lg">{item.label}</div>
+                <div className="text-sm lg:text-base text-gray-500 mt-2">{item.sub}</div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── MISSION & VISION ── */}
+      <section className="py-20 px-4 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-stretch">
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="lg:col-span-2 bg-blue-600 rounded-3xl p-8 sm:p-10 flex flex-col"
+            >
+              <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center mb-6">
+                <FiTarget className="w-6 h-6 text-white" />
+              </div>
+              <p className="text-blue-200 text-xs font-mono tracking-widest uppercase mb-3">Mission</p>
+              <h2 className="text-2xl sm:text-3xl font-black text-white mb-4 leading-tight">
+                Keeping the world&apos;s fleets airborne.
+              </h2>
+              <p className="text-blue-100 leading-relaxed flex-1">
+                To deliver the highest quality parts, fastest service, and independent technical consultancy — grounded in regulatory compliance and risk mitigation[cite: 8, 80, 92].
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="lg:col-span-1 relative min-h-[280px] rounded-3xl overflow-hidden shadow-2xl"
+            >
+              {assets.about.aircraft && (
+                <Image src={assets.about.aircraft} alt="Aircraft View" fill unoptimized className="object-cover" />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30" />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="lg:col-span-2 bg-gray-950 rounded-3xl p-8 sm:p-10 flex flex-col"
+            >
+              <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-6">
+                <FiEye className="w-6 h-6 text-white" />
+              </div>
+              <p className="text-gray-400 text-xs font-mono tracking-widest uppercase mb-3">Vision</p>
+              <h2 className="text-2xl sm:text-3xl font-black text-white mb-4 leading-tight">
+                The most trusted global aviation partner.
+              </h2>
+              <p className="text-gray-400 leading-relaxed flex-1">
+                Recognized for uncompromising standards, results-driven consultancy, and a commitment to keeping every aircraft operational and every mission ready[cite: 93].
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CORE VALUES ── */}
+      <section className="py-24 px-4 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-16"
+          >
+            <p className="text-blue-600 font-mono text-xs lg:text-sm tracking-widest uppercase mb-3">What Drives Us</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900">Core Values</h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {values.map((value, index) => {
+              const IconComponent = value.icon
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  className="group bg-white rounded-3xl p-8 lg:p-12 border border-gray-100 hover:border-blue-200 hover:shadow-xl transition-all duration-300"
+                >
+                  <div className={`w-14 h-14 lg:w-20 lg:h-20 rounded-2xl bg-gradient-to-r ${value.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    <IconComponent className="w-7 h-7 lg:w-10 lg:h-10 text-white" />
+                  </div>
+                  <h3 className="text-xl lg:text-2xl font-black text-gray-900 mb-4">{value.title}</h3>
+                  <p className="text-gray-500 text-sm lg:text-base leading-relaxed">{value.description}</p>
+                </motion.div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── TIMELINE ── */}
+      <section className="py-20 px-4 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-16"
+          >
+            <p className="text-blue-600 font-mono text-xs lg:text-sm tracking-widest uppercase mb-3">Two Decades</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900">Our Journey</h2>
+          </motion.div>
+
+          <div className="relative">
+            <div className="absolute left-[1.125rem] lg:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-200 via-blue-500 to-blue-200 lg:-translate-x-px" />
+
+            <div className="space-y-8">
+              {timeline.map((item, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.07 }}
+                  className={`relative flex items-center gap-0 ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}
+                >
+                  <div className="absolute left-[1.125rem] lg:left-1/2 -translate-x-1/2 w-4 h-4 bg-blue-600 rounded-full border-[3px] border-white shadow-md z-10 ring-4 ring-blue-100" />
+
+                  <div className={`ml-12 lg:ml-0 w-full lg:w-[calc(50%-2rem)] ${index % 2 === 0 ? 'lg:pr-12' : 'lg:pl-12'}`}>
+                    <div className="bg-white border border-gray-100 rounded-2xl p-6 lg:p-8 hover:shadow-lg hover:border-blue-200 transition-all">
+                      <span className="text-blue-600 font-black text-xl lg:text-3xl">{item.year}</span>
+                      <h3 className="font-black text-gray-900 text-base lg:text-xl mt-1 mb-2">{item.title}</h3>
+                      <p className="text-gray-500 text-sm lg:text-base leading-relaxed">{item.description}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section className="relative overflow-hidden bg-gray-950 py-24 px-4">
+        <div className="absolute inset-0 opacity-15">
+          {assets.about.part && (
+            <Image src={assets.about.part} alt="Background Part" fill unoptimized className="object-cover" />
+          )}
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/50 to-gray-950/80" />
+
+        <div className="relative z-10 max-w-3xl mx-auto text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+            <p className="text-blue-400 font-mono text-xs tracking-widest uppercase mb-4">Get In Touch</p>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-white mb-6 leading-tight">
+              Let&apos;s Keep Your<br />Fleet Flying
+            </h2>
+            <p className="text-gray-400 text-lg mb-10">
+              Join 1,500+ operators worldwide who trust Technology Wave for their technical consultancy and aviation parts needs.
+            </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link href="/contact">
-                <button className="px-8 py-4 bg-white text-gray-900 rounded-full font-bold text-lg hover:bg-gray-100 transition-all hover:scale-105 shadow-xl">
+                <button className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold text-base rounded-full transition-all hover:scale-105 shadow-xl shadow-blue-900/30">
                   Contact Us
                 </button>
               </Link>
               <Link href="/services">
-                <button className="px-8 py-4 bg-transparent border-2 border-white text-white rounded-full font-bold text-lg hover:bg-white hover:text-gray-900 transition-all hover:scale-105">
-                  View All Services
+                <button className="px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-base rounded-full transition-all hover:scale-105 backdrop-blur-sm">
+                  Our Services
                 </button>
               </Link>
             </div>
