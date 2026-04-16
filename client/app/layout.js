@@ -23,12 +23,15 @@ export const metadata = {
   },
   description: "Global supplier of commercial and military aviation parts, specializing in C-130, Airbus, and Boeing platforms.",
   manifest: "/manifest.json",
-  icons: {
-    icon: [
-      { url: "/favicon-32x32.png?v=2", sizes: "32x32", type: "image/png" },
-      { url: "/favicon-16x16.png?v=2", sizes: "16x16", type: "image/png" },
-      { url: "/favicon.ico?v=2", sizes: "any" },
-    ],
+      icons: {
+        icon: [
+          { url: "/favicon.ico?v=2" }, // The ?v=2 kills the old cache
+          { url: "/favicon-32x32.png?v=2", sizes: "32x32", type: "image/png" },
+        ],
+        apple: [
+          { url: "/apple-touch-icon.png?v=2" },
+        ],
+    
     apple: [
       { url: "/apple-touch-icon.png?v=2", sizes: "180x180", type: "image/png" }
     ],
