@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FiTarget, FiEye, FiUsers, FiHeart, FiZap, FiShield } from 'react-icons/fi'
+import { FiTarget, FiEye, FiUsers, FiHeart, FiZap, FiShield, FiDownload } from 'react-icons/fi'
 import { assets } from '@/assets/assets'
 
 export default function AboutPage() {
@@ -96,12 +96,25 @@ export default function AboutPage() {
               <p>We find practical solutions for your excess and surplus inventories, and are experts at acquiring retired aircraft for dismantling and harvesting parts. We excel in providing customers with the highest quality parts, best value, fastest delivery, and solutions for hard to find parts and repair requirements.</p>
               <p>Our customers include the world's leading airlines, air forces, and MRO centers. We provide airframe and engine parts and component repair management services for the entire spectrum of ATA chapters.</p>
             </div>
+            
             <div className="flex flex-wrap gap-2 mt-8">
               {['ASA-100', 'ISO 9001:2015', 'AS9120B', 'FAA AC 00-56B'].map((cert) => (
                 <span key={cert} className="text-xs font-bold text-blue-400 border border-blue-400/30 bg-blue-400/10 px-3 py-1.5 rounded-full">
                   {cert}
                 </span>
               ))}
+            </div>
+
+            {/* DOWNLOAD BUTTON */}
+            <div className="mt-8">
+              <a
+                href="/assets/Certificate of Incorporation (Technology Wave Ltd).pdf" 
+                download="Certificate of Incorporation (Technology Wave Ltd).pdf"
+                className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white text-sm font-bold rounded-2xl transition-all hover:scale-[1.02] shadow-xl shadow-blue-900/30 group"
+              >
+                <FiDownload className="w-5 h-5 group-hover:translate-y-0.5 transition-transform" />
+                <span>Download Incorporation Certificate</span>
+              </a>
             </div>
           </motion.div>
 
