@@ -8,20 +8,24 @@ from app.core.config import settings
 from app.core.database import init_db
 from app.api import auth, products, services, hero_banners, about, orders
 
-# Define the physical path where your PDF and assets live
-# Based on your server structure: /var/www/fastapi-app/technology-wave/server/assets
+# Define physical paths on the server
+# Path: /var/www/fastapi-app/technology-wave/server/
 script_dir = os.path.dirname(os.path.abspath(__file__))
-ASSETS_PATH = os.path.join(script_dir, "assets")
 
-# Ensure the directory exists
+# Assets folder for the Incorporation Certificate and other static files
+ASSETS_PATH = os.path.join(script_dir, "assets")
 os.makedirs(ASSETS_PATH, exist_ok=True)
+
+# Uploads folder for product and service images
+UPLOADS_PATH = os.path.join(script_dir, "uploads")
+os.makedirs(UPLOADS_PATH, exist_ok=True)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup
+    # Startup: Initialize database connection
     await init_db()
     yield
-    # Shutdown
+    # Shutdown: Clean up resources if necessary
     pass
 
 app = FastAPI(
@@ -31,6 +35,7 @@ app = FastAPI(
 )
 
 # CORS Configuration
+# Ensure settings.ALLOWED_ORIGINS includes your frontend domain
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.ALLOWED_ORIGINS.split(","),
@@ -39,17 +44,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# --- STATIC FILE MOUNTING ---
+
 # 1. Mount /assets for the Download Button
-# This matches the frontend link: /assets/Certificate of Incorporation...
+# Frontend URL: /assets/certificate.pdf
 app.mount("/assets", StaticFiles(directory=ASSETS_PATH), name="assets")
 
-# 2. Keep /uploads if your product images or other files use that prefix
-# Pointing to the 'uploads' folder seen in your directory listing
-UPLOADS_PATH = os.path.join(script_dir, "uploads")
-os.makedirs(UPLOADS_PATH, exist_ok=True)
+# 2. Mount /uploads for dynamic content (images, etc.)
+# Frontend URL: /uploads/image-name.jpg
 app.mount("/uploads", StaticFiles(directory=UPLOADS_PATH), name="uploads")
 
-# Include routers
+# --- API ROUTERS ---
+
 app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(products.router, prefix="/api/products", tags=["Products"])
 app.include_router(services.router, prefix="/api/services", tags=["Services"])
@@ -60,7 +66,7 @@ app.include_router(orders.router, prefix="/api/orders", tags=["Orders"])
 @app.get("/")
 async def root():
     return {
-        "message": "Store Admin API",
+        "message": "Technology Wave API",
         "version": "1.0.0",
         "docs": "/docs"
     }
@@ -71,4 +77,5 @@ async def health_check():
 
 if __name__ == "__main__":
     import uvicorn
+    # Using 'main:app' assumes this file is named main.py
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

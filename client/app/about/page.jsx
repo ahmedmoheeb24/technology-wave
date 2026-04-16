@@ -106,16 +106,19 @@ export default function AboutPage() {
             </div>
 
             {/* DOWNLOAD BUTTON */}
-            <div className="mt-8">
-              <a
-                href="/assets/Certificate of Incorporation (Technology Wave Ltd).pdf" 
-                download="Certificate of Incorporation (Technology Wave Ltd).pdf"
-                className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white text-sm font-bold rounded-2xl transition-all hover:scale-[1.02] shadow-xl shadow-blue-900/30 group"
-              >
-                <FiDownload className="w-5 h-5 group-hover:translate-y-0.5 transition-transform" />
-                <span>Download Incorporation Certificate</span>
-              </a>
-            </div>
+          <div className="mt-8">
+            <a
+              // Replace 'https://api.technology-wave.com' with your actual Backend API URL
+              href="https://api.technology-wave.com/assets/certificate.pdf" 
+              download="Technology_Wave_Certificate.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white text-sm font-bold rounded-2xl transition-all hover:scale-[1.02] shadow-xl shadow-blue-900/30 group"
+            >
+              <FiDownload className="w-5 h-5 group-hover:translate-y-0.5 transition-transform" />
+              <span>Download Incorporation Certificate</span>
+            </a>
+          </div>
           </motion.div>
 
           <motion.div
