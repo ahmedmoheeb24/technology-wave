@@ -8,10 +8,12 @@ from app.core.config import settings
 from app.core.database import init_db
 from app.api import auth, products, services, hero_banners, about, orders
 
-# Ensure the physical path exists on your server
-# If settings.UPLOAD_DIR is already "/server/assets", this works.
-# Otherwise, you can explicitly set it here:
-ASSETS_PATH = "/server/assets"
+# Define the physical path where your PDF and assets live
+# Based on your server structure: /var/www/fastapi-app/technology-wave/server/assets
+script_dir = os.path.dirname(os.path.abspath(__file__))
+ASSETS_PATH = os.path.join(script_dir, "assets")
+
+# Ensure the directory exists
 os.makedirs(ASSETS_PATH, exist_ok=True)
 
 @asynccontextmanager
@@ -28,8 +30,7 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Updated CORS Configuration
-# It is vital that "https://technology-wave.com" is in your settings.ALLOWED_ORIGINS
+# CORS Configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.ALLOWED_ORIGINS.split(","),
@@ -38,9 +39,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount static files for uploads
-# We use "/uploads" as the URL path, but point it to the physical "/server/assets" folder
-app.mount("/uploads", StaticFiles(directory=ASSETS_PATH), name="uploads")
+# 1. Mount /assets for the Download Button
+# This matches the frontend link: /assets/Certificate of Incorporation...
+app.mount("/assets", StaticFiles(directory=ASSETS_PATH), name="assets")
+
+# 2. Keep /uploads if your product images or other files use that prefix
+# Pointing to the 'uploads' folder seen in your directory listing
+UPLOADS_PATH = os.path.join(script_dir, "uploads")
+os.makedirs(UPLOADS_PATH, exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=UPLOADS_PATH), name="uploads")
 
 # Include routers
 app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
@@ -64,5 +71,4 @@ async def health_check():
 
 if __name__ == "__main__":
     import uvicorn
-    # Using 'main:app' assumes this file is named main.py
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
