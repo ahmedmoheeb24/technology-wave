@@ -161,15 +161,15 @@ export default function AboutPage() {
             <div className="mt-8 space-y-2">
               <div className="flex items-center gap-2 text-gray-400 text-sm">
                 <FiMapPin className="text-blue-400 flex-shrink-0" />
-                <span>Karachi, Pakistan (International Assignments Available)</span>
+                <span>53 Northfield Park UB3 4NU London</span>
               </div>
               <div className="flex items-center gap-2 text-gray-400 text-sm">
                 <FiMail className="text-blue-400 flex-shrink-0" />
-                <span>company email@gmail.com</span>
+                <span>info@technology-wave.com</span>
               </div>
               <div className="flex items-center gap-2 text-gray-400 text-sm">
                 <FiPhone className="text-blue-400 flex-shrink-0" />
-                <span>+92 company contact number</span>
+                <span>+447488321411</span>
               </div>
             </div>
 
