@@ -1,10 +1,8 @@
-"use client"
+'use client'
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import api from '@/lib/api'
 import Link from 'next/link'
-
-const ASSET_URL = "https://api.technology-wave.com/uploads"
 
 // Aviation-specific categories matching the portfolio
 const CATEGORIES = [
@@ -57,43 +55,49 @@ const ProductsPage = () => {
   })
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white font-outfit">
 
-      {/* ── HERO ── */}
-      <section className="relative h-[55vh] min-h-[400px] overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${ASSET_URL}/aircraft-parts-1.jfif)` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10" />
+      {/* ── HEADER SECTION (Matching Services Design) ── */}
+      <section className="pt-32 pb-16 px-6 sm:px-10 lg:px-16">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.6 }}
+          >
+            {/* Center Badge */}
+            <div className="inline-block px-4 py-1.5 mb-6 bg-blue-600 rounded-full">
+              <span className="text-white text-[10px] font-bold uppercase tracking-[0.2em]">
+                What We Offer
+              </span>
+            </div>
 
-        <div className="absolute bottom-0 left-0 right-0 px-6 sm:px-10 lg:px-16 pb-10 lg:pb-16">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-            <p className="text-blue-400 font-mono text-xs sm:text-sm tracking-widest uppercase mb-3">
-              — Tagged & Traceable
-            </p>
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-white leading-none mb-4 tracking-tight">
-              Parts<br /><span className="text-blue-400">Inventory</span>
+            {/* Main Heading */}
+            <h1 className="text-5xl md:text-7xl font-black text-gray-900 mb-8 tracking-tight">
+              Parts <span className="text-blue-600">Inventory</span>
             </h1>
-            <p className="text-white/60 text-base sm:text-lg max-w-xl">
-              Certified, traceable aviation parts and components — ready for immediate dispatch.
+
+            {/* Description */}
+            <p className="text-gray-500 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
+              Certified, traceable aviation parts and components — supporting organizations 
+              through immediate dispatch, validation, and global logistics operations.
             </p>
           </motion.div>
         </div>
       </section>
 
       {/* ── FILTER BAR ── */}
-      <section className="sticky top-0 z-30 bg-white border-b border-gray-100 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+      <section className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
 
             {/* Category Pills */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap justify-center gap-2">
               {CATEGORIES.map((cat) => (
                 <button
                   key={cat.value}
                   onClick={() => setSelectedCategory(cat.value)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 ${
+                  className={`px-5 py-2 rounded-full text-xs font-bold tracking-wide transition-all duration-300 ${
                     selectedCategory === cat.value
                       ? 'bg-blue-600 text-white shadow-lg shadow-blue-200'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -105,19 +109,19 @@ const ProductsPage = () => {
             </div>
 
             {/* Search */}
-            <div className="relative w-full sm:w-64 flex-shrink-0">
+            <div className="relative w-full md:w-72">
               <svg
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
                 fill="none" stroke="currentColor" viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1116.65 2a7.5 7.5 0 010 14.65z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1116.65 2a7.5 7.5 0 010 14.65z" />
               </svg>
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search parts..."
-                className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-11 pr-5 py-3 text-sm border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
           </div>
@@ -153,7 +157,7 @@ const ProductsPage = () => {
             </div>
           )}
 
-          {/* Empty */}
+          {/* Empty State */}
           {!loading && filteredProducts.length === 0 && (
             <div className="text-center py-24">
               <div className="text-6xl mb-4">📦</div>
@@ -196,7 +200,6 @@ const ProductsPage = () => {
                       transition={{ duration: 0.35, delay: index * 0.04 }}
                       className="group relative"
                     >
-                      {/* Glow on hover */}
                       <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-sky-500 rounded-3xl opacity-0 group-hover:opacity-100 blur transition-all duration-500" />
 
                       <Link href={`/products/${product.slug || product.id}`} className="block h-full">
@@ -216,14 +219,12 @@ const ProductsPage = () => {
                               </div>
                             )}
 
-                            {/* Category badge */}
                             <div className="absolute top-3 left-3">
                               <span className="text-xs font-bold text-white bg-blue-600 px-2.5 py-1 rounded-full">
                                 {product.category || 'Part'}
                               </span>
                             </div>
 
-                            {/* Hover overlay */}
                             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                               <span className="bg-white text-gray-900 px-5 py-2 rounded-full font-bold text-sm">
                                 View Part
@@ -274,11 +275,6 @@ const ProductsPage = () => {
               <Link href="/contact">
                 <button className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-full transition-all hover:scale-105 shadow-xl shadow-blue-900/30">
                   Submit an RFQ
-                </button>
-              </Link>
-              <Link href="/services">
-                <button className="px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold rounded-full transition-all hover:scale-105 backdrop-blur-sm">
-                  Our Services
                 </button>
               </Link>
             </div>
