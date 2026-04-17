@@ -91,7 +91,6 @@ const services = [
 ]
 
 export default function ServicesHomepage() {
-  // Fixed: Removed TypeScript type annotation which causes build errors in .jsx files
   const [hoveredIndex, setHoveredIndex] = useState(null)
 
   return (
@@ -135,17 +134,17 @@ export default function ServicesHomepage() {
                 transition={{ delay: 0.1 * index }}
                 onHoverStart={() => setHoveredIndex(index)}
                 onHoverEnd={() => setHoveredIndex(null)}
-                className="relative group"
+                className="relative group h-full"
               >
                 {/* Glow Effect */}
                 <div className={`absolute -inset-0.5 bg-gradient-to-r ${service.color} rounded-3xl opacity-0 group-hover:opacity-100 blur transition-all duration-500`} />
 
                 {/* Card */}
-                <Link href={`/services/${service.slug}`}>
-                  <div className="relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 h-full cursor-pointer">
+                <Link href={`/services/${service.slug}`} className="block h-full">
+                  <div className="relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 h-full cursor-pointer flex flex-col">
 
                     {/* Icon */}
-                    <div className={`w-12 h-12 rounded-2xl bg-gradient-to-r ${service.color} flex items-center justify-center mb-5`}>
+                    <div className={`w-12 h-12 rounded-2xl bg-gradient-to-r ${service.color} flex items-center justify-center mb-5 flex-shrink-0`}>
                       <IconComponent className="w-6 h-6 text-white" />
                     </div>
 
@@ -155,8 +154,8 @@ export default function ServicesHomepage() {
                     {/* Description */}
                     <p className="text-gray-600 mb-6 text-sm">{service.description}</p>
 
-                    {/* Features */}
-                    <ul className="space-y-2 mb-6">
+                    {/* Features - flex-grow pushes the button down */}
+                    <ul className="space-y-2 mb-8 flex-grow">
                       {service.features.map((feature, i) => (
                         <motion.li
                           key={i}
@@ -174,8 +173,8 @@ export default function ServicesHomepage() {
                       ))}
                     </ul>
 
-                    {/* CTA Button */}
-                    <div className={`w-full py-3 rounded-xl bg-gradient-to-r ${service.color} text-white font-bold text-center hover:shadow-lg transform hover:scale-105 transition-all duration-300`}>
+                    {/* CTA Button - Now always at bottom */}
+                    <div className={`w-full py-3 rounded-xl bg-gradient-to-r ${service.color} text-white font-bold text-center hover:shadow-lg transform hover:scale-105 transition-all duration-300 mt-auto`}>
                       Learn More
                     </div>
 
