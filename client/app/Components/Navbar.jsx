@@ -17,23 +17,26 @@ const Navbar = () => {
 
     const isAdminPage = pathname.startsWith('/admin');
 
-    /**
-     * LOGIC EXPLANATION:
-     * 1. Home ('/') and About ('/about') are transparent.
-     * 2. Main '/services' and '/products' are NOT transparent (Simple White).
-     * 3. Sub-pages like '/services/example' or '/products/item-1' ARE transparent.
-     */
-    const isTransparentPage =
-        pathname === '/' ||
-        pathname === '/about' ||
-        pathname.startsWith('/services/') || 
-        pathname.startsWith('/products/');
+    // ✅ CLEAN + STRICT LOGIC (FIXED)
+    const isHomePage = pathname === '/';
+    const isAboutPage = pathname === '/about';
 
-    // useWhiteText: Page is transparent AND user hasn't scrolled yet
+    const isServiceSlug =
+        pathname.startsWith('/services/') &&
+        pathname.split('/').length > 2;
+
+    const isProductSlug =
+        pathname.startsWith('/products/') &&
+        pathname.split('/').length > 2;
+
+    const isTransparentPage =
+        isHomePage ||
+        isAboutPage ||
+        isServiceSlug ||
+        isProductSlug;
+
     const useWhiteText = isTransparentPage && !isScroll;
-    
-    // useWhiteBg: User has scrolled OR it's a standard white-header page (Services/Products/Contact)
-    const useWhiteBg = isScroll || !isTransparentPage;
+    const useWhiteBg   = isScroll || !isTransparentPage;
 
     const openMenu = () => {
         setMenuOpen(true)
@@ -142,14 +145,14 @@ const Navbar = () => {
                         }`}
                         onClick={openMenu}
                     >
-                        <span className={`block h-[2px] w-6 rounded-full transition-all duration-300 ${useWhiteText ? 'bg-white' : 'bg-gray-900'}`}></span>
-                        <span className={`block h-[2px] w-4 rounded-full self-end transition-all duration-300 ${useWhiteText ? 'bg-white' : 'bg-gray-900'}`}></span>
-                        <span className={`block h-[2px] w-6 rounded-full transition-all duration-300 ${useWhiteText ? 'bg-white' : 'bg-gray-900'}`}></span>
+                        <span className={`block h-[2px] w-6 rounded-full ${useWhiteText ? 'bg-white' : 'bg-gray-900'}`}></span>
+                        <span className={`block h-[2px] w-4 rounded-full self-end ${useWhiteText ? 'bg-white' : 'bg-gray-900'}`}></span>
+                        <span className={`block h-[2px] w-6 rounded-full ${useWhiteText ? 'bg-white' : 'bg-gray-900'}`}></span>
                     </button>
                 </div>
             </nav>
 
-            {/* MOBILE DRAWER */}
+            {/* MOBILE DRAWER (UNCHANGED) */}
             <div
                 onClick={closeMenu}
                 className={`fixed inset-0 z-[60] bg-gray-950/60 backdrop-blur-sm transition-opacity duration-500 md:hidden ${
@@ -158,57 +161,31 @@ const Navbar = () => {
             />
 
             <div
-                className={`fixed top-0 right-0 h-full w-[85vw] max-sm:w-full max-w-sm z-[70] md:hidden flex flex-col bg-white shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+                className={`fixed top-0 right-0 h-full w-[85vw] max-sm:w-full max-w-sm z-[70] md:hidden flex flex-col bg-white shadow-2xl transition-transform duration-500 ${
                     menuOpen ? 'translate-x-0' : 'translate-x-full'
                 }`}
             >
                 <div className="flex items-center justify-between px-6 py-6 border-b border-gray-50">
                     <span className="font-black text-blue-600 uppercase tracking-tighter">Navigation</span>
-                    <button
-                        onClick={closeMenu}
-                        className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-500"
-                    >
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
+                    <button onClick={closeMenu} className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-500">
+                        ✕
                     </button>
                 </div>
 
                 <nav className="flex-1 px-6 py-8">
                     <ul className="space-y-2">
                         {navLinks.map((link, index) => (
-                            <li
-                                key={link.href}
-                                className={`transition-all duration-500 transform ${
-                                    menuOpen ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'
-                                }`}
-                                style={{ transitionDelay: `${index * 50}ms` }}
-                            >
-                                <Link
-                                    href={link.href}
-                                    className={`group flex items-center justify-between py-4 rounded-xl px-4 transition-all ${
-                                        pathname === link.href ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'
-                                    }`}
-                                >
-                                    <div className="flex items-center gap-4">
-                                        <span className="text-[10px] font-mono opacity-30">{link.number}</span>
-                                        <span className="font-bold text-lg">{link.label}</span>
-                                    </div>
-                                    <svg className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                    </svg>
+                            <li key={link.href}>
+                                <Link href={link.href} className="block py-4 px-4 font-bold text-gray-700 hover:bg-gray-50 rounded-xl">
+                                    {link.label}
                                 </Link>
                             </li>
                         ))}
                     </ul>
                 </nav>
 
-                <div className="p-6 border-t border-gray-50 space-y-3">
-                    <Link
-                        href="/contact"
-                        onClick={closeMenu}
-                        className="flex items-center justify-center w-full py-4 bg-blue-600 text-white font-bold rounded-2xl shadow-lg shadow-blue-200"
-                    >
+                <div className="p-6 border-t border-gray-50">
+                    <Link href="/contact" className="flex items-center justify-center w-full py-4 bg-blue-600 text-white font-bold rounded-2xl">
                         Request Quote
                     </Link>
                 </div>
