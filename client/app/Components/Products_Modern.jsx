@@ -76,10 +76,11 @@ export default function ProductsModern() {
             </span>
           </div>
           <h2 className="text-5xl md:text-7xl font-black text-gray-900 mb-6 tracking-tight">
-            Featured <span className="text-blue-600">Parts</span>
+            Parts <span className="text-blue-600">Inventory</span>
           </h2>
           <p className="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
-            Discover our curated collection of certified, traceable aviation components available for immediate dispatch.
+            Certified, traceable aviation parts and components — supporting organizations 
+              through immediate dispatch, validation, and global logistics operations.
           </p>
         </motion.div>
 
