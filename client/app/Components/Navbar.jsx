@@ -17,15 +17,23 @@ const Navbar = () => {
 
     const isAdminPage = pathname.startsWith('/admin');
 
-    // Updated logic: Transparent only on Home, About, or sub-pages (slugs)
+    /**
+     * LOGIC EXPLANATION:
+     * 1. Home ('/') and About ('/about') are transparent.
+     * 2. Main '/services' and '/products' are NOT transparent (Simple White).
+     * 3. Sub-pages like '/services/example' or '/products/item-1' ARE transparent.
+     */
     const isTransparentPage =
         pathname === '/' ||
         pathname === '/about' ||
-        (pathname.startsWith('/services/') && pathname !== '/services') || 
-        (pathname.startsWith('/products/') && pathname !== '/products');      
+        pathname.startsWith('/services/') || 
+        pathname.startsWith('/products/');
 
+    // useWhiteText: Page is transparent AND user hasn't scrolled yet
     const useWhiteText = isTransparentPage && !isScroll;
-    const useWhiteBg   = isScroll || !isTransparentPage;
+    
+    // useWhiteBg: User has scrolled OR it's a standard white-header page (Services/Products/Contact)
+    const useWhiteBg = isScroll || !isTransparentPage;
 
     const openMenu = () => {
         setMenuOpen(true)
@@ -54,10 +62,10 @@ const Navbar = () => {
 
     const navLinks = [
         { href: "/",         label: "Home",     number: "01" },
-        { href: "/about",   label: "About",    number: "02" },
-        { href: "/services",label: "Services", number: "03" },
-        { href: "/products",label: "Products", number: "04" },
-        { href: "/contact", label: "Contact",  number: "05" },
+        { href: "/about",    label: "About",    number: "02" },
+        { href: "/services", label: "Services", number: "03" },
+        { href: "/products", label: "Products", number: "04" },
+        { href: "/contact",  label: "Contact",  number: "05" },
     ];
 
     return (
