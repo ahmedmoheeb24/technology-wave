@@ -1,5 +1,7 @@
 "use client"
 
+export const runtime = 'edge';
+
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import Link from 'next/link'

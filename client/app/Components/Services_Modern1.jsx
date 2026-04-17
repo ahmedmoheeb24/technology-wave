@@ -1,5 +1,7 @@
 "use client"
 
+export const runtime = 'edge';
+
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import Link from 'next/link'
@@ -89,7 +91,8 @@ const services = [
 ]
 
 export default function ServicesHomepage() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  // Fixed: Removed TypeScript type annotation which causes build errors in .jsx files
+  const [hoveredIndex, setHoveredIndex] = useState(null)
 
   return (
     <section className="relative py-24 md:py-32 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
@@ -172,9 +175,9 @@ export default function ServicesHomepage() {
                     </ul>
 
                     {/* CTA Button */}
-                    <button className={`w-full py-3 rounded-xl bg-gradient-to-r ${service.color} text-white font-bold hover:shadow-lg transform hover:scale-105 transition-all duration-300`}>
+                    <div className={`w-full py-3 rounded-xl bg-gradient-to-r ${service.color} text-white font-bold text-center hover:shadow-lg transform hover:scale-105 transition-all duration-300`}>
                       Learn More
-                    </button>
+                    </div>
 
                     {/* Corner Accent */}
                     <div className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-br ${service.color} opacity-10 rounded-tr-3xl rounded-bl-3xl transition-all duration-300 ${hoveredIndex === index ? 'scale-150' : 'scale-100'}`} />

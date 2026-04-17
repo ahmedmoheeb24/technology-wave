@@ -1,4 +1,8 @@
-'use client'
+'use client';
+
+// Ensures compatibility with Cloudflare Edge and helps debug prerendering errors
+export const runtime = 'edge';
+
 import Navbar from "./Components/Navbar";
 import Hero_Modern3 from "./Components/Hero_Modern3";
 import About_Modern3 from "./Components/About_Modern3";
@@ -17,7 +21,7 @@ export default function Home() {
 
       {/* Main Content Sections - Modern Designs (No Waves!) */}
       <main>
-        {/* About Section - Modern Design 3 (Timeline Journey without Expertise) */}
+        {/* About Section - Modern Design 3 (Timeline Journey) */}
         <About_Modern3 />
         
         {/* Services Section - Modern Design 1 (Interactive Grid) */}
@@ -25,6 +29,7 @@ export default function Home() {
         
         {/* Products Section - E-Commerce with Categories (Blue Theme) */}
         <Products_Modern />
+        
         <Contact />
       </main>
 
