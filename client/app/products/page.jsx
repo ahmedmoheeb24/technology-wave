@@ -86,27 +86,29 @@ const ProductsPage = () => {
         </div>
       </section>
 
-      {/* ── FILTER BAR ── */}
+     {/* ── FILTER BAR ── */}
       <section className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Centering the entire container */}
+          <div className="flex flex-col items-center justify-center w-full">
 
-            {/* Category Pills */}
-            <div className="flex flex-wrap justify-center gap-2">
+            {/* Category Pills - Increased size and gap */}
+            <div className="flex flex-wrap justify-center gap-3">
               {CATEGORIES.map((cat) => (
                 <button
                   key={cat.value}
                   onClick={() => setSelectedCategory(cat.value)}
-                  className={`px-5 py-2 rounded-full text-xs font-bold tracking-wide transition-all duration-300 ${
+                  className={`px-8 py-3.5 rounded-full text-sm font-bold tracking-wide transition-all duration-300 ${
                     selectedCategory === cat.value
-                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-200'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      ? 'bg-blue-600 text-white shadow-xl shadow-blue-200 scale-105'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:scale-105'
                   }`}
                 >
                   {cat.label}
                 </button>
               ))}
             </div>
+            
           </div>
         </div>
       </section>
