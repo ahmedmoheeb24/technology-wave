@@ -15,10 +15,16 @@ const Navbar = () => {
 
     const isAdminPage = pathname.startsWith('/admin');
 
-    // State logic for styling
-    const isHomePage = pathname === '/';
-    const useWhiteText = isHomePage && !isScroll;
-    const useWhiteBg = isScroll || !isHomePage; 
+    // Pages that start with a full-bleed hero image → navbar should be
+    // transparent with white text until the user scrolls past 50 px.
+    const isTransparentPage =
+        pathname === '/' ||
+        pathname === '/about' ||
+        pathname.startsWith('/services/') ||   // ServiceDetailClient pages
+        pathname.startsWith('/products/');      // ProductDetailClient pages
+
+    const useWhiteText = isTransparentPage && !isScroll;
+    const useWhiteBg   = isScroll || !isTransparentPage;
 
     const openMenu = () => {
         setMenuOpen(true)
@@ -46,25 +52,25 @@ const Navbar = () => {
     if (isAdminPage) return null;
 
     const navLinks = [
-        { href: "/", label: "Home", number: "01" },
-        { href: "/about", label: "About", number: "02" },
-        { href: "/services", label: "Services", number: "03" },
-        { href: "/products", label: "Products", number: "04" },
-        { href: "/contact", label: "Contact", number: "05" },
+        { href: "/",        label: "Home",     number: "01" },
+        { href: "/about",   label: "About",    number: "02" },
+        { href: "/services",label: "Services", number: "03" },
+        { href: "/products",label: "Products", number: "04" },
+        { href: "/contact", label: "Contact",  number: "05" },
     ];
 
     return (
         <>
             <nav className={`w-full fixed px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between z-50 transition-all duration-300 ${useWhiteBg ? 'bg-white shadow-md' : 'bg-transparent'}`}>
 
-                {/* Logo Section - Logo stays original, text changes color */}
+                {/* Logo */}
                 <Link href="/" className='flex items-center gap-2 sm:gap-3 group'>
                     <div className="relative h-8 w-8 sm:h-10 sm:w-10 shrink-0">
                         <Image
                             src={assets.logo}
                             alt='Technology Wave Logo'
                             fill
-                            className="object-contain" 
+                            className="object-contain"
                             priority
                         />
                     </div>
@@ -94,7 +100,7 @@ const Navbar = () => {
 
                 {/* Right Actions */}
                 <div className='flex items-center gap-2 lg:gap-4'>
-                    {/* Cart Button */}
+                    {/* Cart */}
                     <button
                         onClick={toggleCart}
                         className={`relative p-2.5 rounded-full transition-all duration-300 active:scale-90 ${
