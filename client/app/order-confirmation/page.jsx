@@ -1,5 +1,8 @@
 "use client"
 
+// Ensures compatibility with Cloudflare/Edge deployment and prevents prerender issues
+export const runtime = 'edge';
+
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'

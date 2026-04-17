@@ -1,5 +1,7 @@
 "use client"
 
+export const runtime = 'edge';
+
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -15,13 +17,11 @@ const Navbar = () => {
 
     const isAdminPage = pathname.startsWith('/admin');
 
-    // Pages that start with a full-bleed hero image → navbar should be
-    // transparent with white text until the user scrolls past 50 px.
     const isTransparentPage =
         pathname === '/' ||
         pathname === '/about' ||
-        pathname.startsWith('/services/') ||   // ServiceDetailClient pages
-        pathname.startsWith('/products/');      // ProductDetailClient pages
+        pathname.startsWith('/services/') ||   
+        pathname.startsWith('/products/');      
 
     const useWhiteText = isTransparentPage && !isScroll;
     const useWhiteBg   = isScroll || !isTransparentPage;
@@ -100,7 +100,6 @@ const Navbar = () => {
 
                 {/* Right Actions */}
                 <div className='flex items-center gap-2 lg:gap-4'>
-                    {/* Cart */}
                     <button
                         onClick={toggleCart}
                         className={`relative p-2.5 rounded-full transition-all duration-300 active:scale-90 ${
@@ -119,7 +118,6 @@ const Navbar = () => {
                         )}
                     </button>
 
-                    {/* Contact CTA */}
                     <Link href="/contact"
                         className={`hidden lg:flex items-center gap-2 px-6 py-2.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-lg active:scale-95 ${
                             useWhiteText
@@ -129,7 +127,6 @@ const Navbar = () => {
                         Contact Us
                     </Link>
 
-                    {/* Mobile Menu Trigger */}
                     <button
                         className={`flex md:hidden flex-col justify-center items-center w-10 h-10 rounded-xl transition-all gap-[5px] ${
                             useWhiteText ? 'hover:bg-white/10' : 'hover:bg-gray-100'
@@ -143,7 +140,7 @@ const Navbar = () => {
                 </div>
             </nav>
 
-            {/* ── MOBILE DRAWER ── */}
+            {/* MOBILE DRAWER */}
             <div
                 onClick={closeMenu}
                 className={`fixed inset-0 z-[60] bg-gray-950/60 backdrop-blur-sm transition-opacity duration-500 md:hidden ${
