@@ -1,292 +1,293 @@
 "use client"
-import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import api from '@/lib/api'
+
+import { useState } from 'react'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 
 const ASSET_URL = "https://api.technology-wave.com/uploads"
 
-// Aviation-specific categories matching the portfolio
-const CATEGORIES = [
-  { label: 'All', value: 'All' },
-  { label: 'Airframe Parts', value: 'Airframe' },
-  { label: 'Engine & APU', value: 'Engine' },
-  { label: 'Avionics', value: 'Avionics' },
-  { label: 'Hydraulics', value: 'Hydraulics' },
-  { label: 'Landing Gear', value: 'Landing Gear' },
-  { label: 'Rotables', value: 'Rotables' },
-  { label: 'Consumables', value: 'Consumables' },
-  { label: 'Tools & GSE', value: 'Tools' },
+const categories = [
+  'All',
+  'Airframe Parts',
+  'Engine & APU',
+  'Avionics',
+  'Hydraulics',
+  'Landing Gear',
+  'Rotables',
+  'Consumables',
+  'Tools & GSE'
 ]
 
-const ProductsPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState('All')
-  const [allProducts, setAllProducts] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [searchQuery, setSearchQuery] = useState('')
+// Example products — replace with your real data / props
+const products = [
+  {
+    id: 1,
+    title: 'CFM56-5B Fan Blade',
+    partNumber: 'CFM-FB-5B-001',
+    category: 'Engine & APU',
+    condition: 'Serviceable',
+    traceability: 'Back-to-Birth',
+    certifications: ['FAA 8130-3', 'EASA Form 1'],
+    image: `${ASSET_URL}/aircraft-maintenance-1.jfif`,
+    color: 'from-orange-600 to-amber-500',
+    stock: 'In Stock',
+  },
+  {
+    id: 2,
+    title: 'Hydraulic Actuator – Aileron',
+    partNumber: 'HYD-ACT-AIL-220',
+    category: 'Hydraulics',
+    condition: 'Overhauled',
+    traceability: 'Full',
+    certifications: ['EASA Form 1'],
+    image: `${ASSET_URL}/aircraft-parts-1.jfif`,
+    color: 'from-blue-600 to-sky-500',
+    stock: 'In Stock',
+  },
+  {
+    id: 3,
+    title: 'Landing Gear Actuator',
+    partNumber: 'LG-ACT-B737-004',
+    category: 'Landing Gear',
+    condition: 'New',
+    traceability: 'OEM Trace',
+    certifications: ['FAA 8130-3', 'EASA Form 1'],
+    image: `${ASSET_URL}/aircraft-parts-2.jfif`,
+    color: 'from-slate-700 to-slate-500',
+    stock: 'Limited',
+  },
+  {
+    id: 4,
+    title: 'Avionics Control Unit – FMS',
+    partNumber: 'AV-FMS-CTL-110',
+    category: 'Avionics',
+    condition: 'Serviceable',
+    traceability: 'Full',
+    certifications: ['EASA Form 1'],
+    image: `${ASSET_URL}/commercial-aviation-1.jfif`,
+    color: 'from-teal-600 to-green-500',
+    stock: 'In Stock',
+  },
+  {
+    id: 5,
+    title: 'Wheel & Brake Assembly',
+    partNumber: 'WB-ASY-B320-007',
+    category: 'Airframe Parts',
+    condition: 'Overhauled',
+    traceability: 'Full',
+    certifications: ['FAA 8130-3'],
+    image: `${ASSET_URL}/aircraft-maintenance-2.jfif`,
+    color: 'from-violet-600 to-purple-500',
+    stock: 'In Stock',
+  },
+  {
+    id: 6,
+    title: 'APU – Honeywell GTCP131-9',
+    partNumber: 'APU-HW-131-9-003',
+    category: 'Engine & APU',
+    condition: 'Serviceable',
+    traceability: 'Back-to-Birth',
+    certifications: ['EASA Form 1', 'FAA 8130-3'],
+    image: `${ASSET_URL}/commercial-aviation-2.jfif`,
+    color: 'from-red-600 to-rose-500',
+    stock: 'Available',
+  }
+]
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        setLoading(true)
-        const data = await api.getProducts()
-        if (data && data.length > 0) {
-          setAllProducts(data)
-        } else {
-          setAllProducts([])
-        }
-      } catch (error) {
-        setAllProducts([])
-      } finally {
-        setLoading(false)
-      }
-    }
-    loadProducts()
-  }, [])
+const conditionColor = {
+  'New': 'bg-emerald-100 text-emerald-700',
+  'Serviceable': 'bg-blue-100 text-blue-700',
+  'Overhauled': 'bg-amber-100 text-amber-700',
+}
 
-  const filteredProducts = allProducts.filter((product) => {
-    const matchesCategory =
-      selectedCategory === 'All' ||
-      product.category?.toLowerCase() === selectedCategory.toLowerCase()
-    const matchesSearch =
-      searchQuery === '' ||
-      product.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.product_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.category?.toLowerCase().includes(searchQuery.toLowerCase())
-    return matchesCategory && matchesSearch
+const stockColor = {
+  'In Stock': 'text-emerald-600',
+  'Limited': 'text-amber-500',
+  'Available': 'text-blue-600',
+}
+
+export default function ProductsPage() {
+  const [activeCategory, setActiveCategory] = useState('All')
+  const [search, setSearch] = useState('')
+
+  const filtered = products.filter(p => {
+    const matchCat = activeCategory === 'All' || p.category === activeCategory
+    const matchSearch = p.title.toLowerCase().includes(search.toLowerCase()) ||
+      p.partNumber.toLowerCase().includes(search.toLowerCase())
+    return matchCat && matchSearch
   })
 
   return (
-    <div className="min-h-screen bg-white">
+    <section className="relative py-24 md:py-32 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
 
-      {/* ── HERO ── */}
-      <section className="relative h-[55vh] min-h-[400px] overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${ASSET_URL}/aircraft-parts-1.jfif)` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10" />
+        {/* ── Header (mirrors Services page) ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <span className="inline-block px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-800 text-white text-sm font-bold rounded-full mb-6">
+            TAGGED &amp; TRACEABLE
+          </span>
+          <h2 className="text-5xl md:text-7xl font-black text-gray-900 mb-6">
+            Parts Inventory
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Certified, traceable aviation parts and components — ready for immediate dispatch across all ATA chapters.
+          </p>
+        </motion.div>
 
-        <div className="absolute bottom-0 left-0 right-0 px-6 sm:px-10 lg:px-16 pb-10 lg:pb-16">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-            <p className="text-blue-400 font-mono text-xs sm:text-sm tracking-widest uppercase mb-3">
-              — Tagged & Traceable
-            </p>
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-white leading-none mb-4 tracking-tight">
-              Parts<br /><span className="text-blue-400">Inventory</span>
-            </h1>
-            <p className="text-white/60 text-base sm:text-lg max-w-xl">
-              Certified, traceable aviation parts and components — ready for immediate dispatch.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── FILTER BAR ── */}
-      <section className="sticky top-0 z-30 bg-white border-b border-gray-100 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-
-            {/* Category Pills */}
-            <div className="flex flex-wrap gap-2">
-              {CATEGORIES.map((cat) => (
-                <button
-                  key={cat.value}
-                  onClick={() => setSelectedCategory(cat.value)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 ${
-                    selectedCategory === cat.value
-                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-200'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  {cat.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Search */}
-            <div className="relative w-full sm:w-64 flex-shrink-0">
-              <svg
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
-                fill="none" stroke="currentColor" viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1116.65 2a7.5 7.5 0 010 14.65z" />
-              </svg>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search parts..."
-                className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── PRODUCTS GRID ── */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-
-          {/* Count */}
-          <div className="flex items-center justify-between mb-10">
-            <div>
-              <p className="text-blue-600 font-mono text-xs tracking-widest uppercase mb-1">Available Stock</p>
-              <h2 className="text-2xl sm:text-3xl font-black text-gray-900">
-                {filteredProducts.length} {filteredProducts.length === 1 ? 'Part' : 'Parts'} Found
-              </h2>
-            </div>
-            {selectedCategory !== 'All' && (
+        {/* ── Filters + Search ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1 }}
+          className="flex flex-col md:flex-row items-center justify-between gap-5 mb-12"
+        >
+          {/* Category pills */}
+          <div className="flex flex-wrap gap-3 justify-center md:justify-start">
+            {categories.map(cat => (
               <button
-                onClick={() => { setSelectedCategory('All'); setSearchQuery('') }}
-                className="text-xs text-blue-600 font-bold underline underline-offset-2 hover:text-blue-800 transition-colors"
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 border-2 ${
+                  activeCategory === cat
+                    ? 'bg-gradient-to-r from-blue-600 to-blue-800 text-white border-transparent shadow-lg scale-105'
+                    : 'bg-white text-gray-600 border-gray-200 hover:border-blue-400 hover:text-blue-600'
+                }`}
               >
-                Clear filter
+                {cat}
               </button>
-            )}
+            ))}
           </div>
 
-          {/* Loading */}
-          {loading && (
-            <div className="flex items-center justify-center py-24">
-              <div className="w-10 h-10 rounded-full border-4 border-blue-600 border-t-transparent animate-spin" />
-            </div>
-          )}
+          {/* Search */}
+          <div className="relative w-full md:w-72 flex-shrink-0">
+            <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+            </svg>
+            <input
+              type="text"
+              placeholder="Search parts..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 rounded-full border-2 border-gray-200 focus:border-blue-500 focus:outline-none text-sm font-medium text-gray-700 bg-white shadow-sm transition-colors"
+            />
+          </div>
+        </motion.div>
 
-          {/* Empty */}
-          {!loading && filteredProducts.length === 0 && (
-            <div className="text-center py-24">
-              <div className="text-6xl mb-4">📦</div>
-              <h3 className="text-2xl font-black text-gray-900 mb-2">No Parts Found</h3>
-              <p className="text-gray-500 mb-6">
-                {searchQuery
-                  ? `No results for "${searchQuery}"`
-                  : `No parts in the "${selectedCategory}" category yet.`}
-              </p>
-              <button
-                onClick={() => { setSelectedCategory('All'); setSearchQuery('') }}
-                className="px-6 py-3 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition-colors"
-              >
-                View All Parts
-              </button>
-            </div>
-          )}
+        {/* ── Result count ── */}
+        <motion.p
+          key={filtered.length}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-8"
+        >
+          AVAILABLE STOCK &nbsp;·&nbsp; {filtered.length} Part{filtered.length !== 1 ? 's' : ''} Found
+        </motion.p>
 
-          {/* Grid */}
-          {!loading && filteredProducts.length > 0 && (
+        {/* ── Product Grid ── */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filtered.map((product, index) => (
             <motion.div
-              layout
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+              key={product.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.08 * index }}
+              className="relative group h-full"
             >
-              <AnimatePresence>
-                {filteredProducts.map((product, index) => {
-                  const imageUrl = api.getImageUrl(product.image)
-                  const hasImage = imageUrl && (imageUrl.startsWith('data:') || imageUrl.startsWith('http'))
-                  const name = product.product_name || product.title || 'Aviation Part'
-                  const price = product.product_price || product.price
-                  const priceStr = price ? (String(price).startsWith('$') ? price : `$${price}`) : 'RFQ'
+              {/* Glow */}
+              <div className={`absolute -inset-0.5 bg-gradient-to-r ${product.color} rounded-3xl opacity-0 group-hover:opacity-100 blur transition-all duration-500`} />
 
-                  return (
-                    <motion.div
-                      key={product.id}
-                      layout
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{ duration: 0.35, delay: index * 0.04 }}
-                      className="group relative"
-                    >
-                      {/* Glow on hover */}
-                      <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-sky-500 rounded-3xl opacity-0 group-hover:opacity-100 blur transition-all duration-500" />
+              <div className="relative bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col w-full h-full cursor-pointer">
 
-                      <Link href={`/products/${product.slug || product.id}`} className="block h-full">
-                        <div className="relative bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl border border-gray-100 transition-all duration-300 flex flex-col h-full">
+                {/* Image */}
+                <div className="relative w-full h-52 overflow-hidden flex-shrink-0">
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                    className="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  <div className={`absolute bottom-3 left-4 inline-block px-3 py-1 rounded-full bg-gradient-to-r ${product.color} text-white text-xs font-bold`}>
+                    {product.category}
+                  </div>
+                  <div className={`absolute top-3 right-4 text-xs font-bold ${stockColor[product.stock]}`}>
+                    ● {product.stock}
+                  </div>
+                </div>
 
-                          {/* Image */}
-                          <div className="relative h-56 bg-gray-100 overflow-hidden flex-shrink-0">
-                            {hasImage ? (
-                              <div
-                                className="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
-                                style={{ backgroundImage: `url(${imageUrl})` }}
-                              />
-                            ) : (
-                              <div className="w-full h-full flex flex-col items-center justify-center text-gray-300">
-                                <span className="text-5xl">⚙️</span>
-                                <span className="text-xs mt-2 uppercase tracking-widest font-mono">No Image</span>
-                              </div>
-                            )}
+                {/* Body */}
+                <div className="p-8 flex flex-col flex-1">
+                  {/* Icon */}
+                  <div className={`w-12 h-12 rounded-2xl bg-gradient-to-r ${product.color} flex items-center justify-center mb-4`}>
+                    <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z" />
+                    </svg>
+                  </div>
 
-                            {/* Category badge */}
-                            <div className="absolute top-3 left-3">
-                              <span className="text-xs font-bold text-white bg-blue-600 px-2.5 py-1 rounded-full">
-                                {product.category || 'Part'}
-                              </span>
-                            </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-1">{product.title}</h3>
+                  <p className="text-xs font-mono text-gray-400 mb-4">P/N: {product.partNumber}</p>
 
-                            {/* Hover overlay */}
-                            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                              <span className="bg-white text-gray-900 px-5 py-2 rounded-full font-bold text-sm">
-                                View Part
-                              </span>
-                            </div>
-                          </div>
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2 mb-5">
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold ${conditionColor[product.condition]}`}>
+                      {product.condition}
+                    </span>
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-600">
+                      {product.traceability}
+                    </span>
+                  </div>
 
-                          {/* Info */}
-                          <div className="p-5 flex flex-col flex-1">
-                            <div className="w-8 h-0.5 bg-blue-600 mb-3" />
-                            <h3 className="font-black text-gray-900 text-base leading-snug mb-3 line-clamp-2">
-                              {name}
-                            </h3>
+                  {/* Certifications */}
+                  <ul className="space-y-2 mb-6 flex-1">
+                    {product.certifications.map((cert, i) => (
+                      <li key={i} className="flex items-center text-sm text-gray-600">
+                        <svg className="w-5 h-5 mr-2 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        {cert}
+                      </li>
+                    ))}
+                  </ul>
 
-                            <div className="flex items-center justify-between mt-auto pt-3 border-t border-gray-100">
-                              <span className="text-xl font-black text-blue-600">{priceStr}</span>
-                              <div className="w-9 h-9 bg-blue-600 group-hover:bg-blue-700 rounded-full flex items-center justify-center transition-colors">
-                                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-                                </svg>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-                    </motion.div>
-                  )
-                })}
-              </AnimatePresence>
+                  {/* CTA */}
+                  <button className={`w-full py-3 rounded-xl bg-gradient-to-r ${product.color} text-white font-bold hover:shadow-lg transform hover:scale-105 transition-all duration-300 mt-auto`}>
+                    Request Quote
+                  </button>
+                </div>
+              </div>
             </motion.div>
-          )}
+          ))}
         </div>
-      </section>
 
-      {/* ── CTA ── */}
-      <section className="relative overflow-hidden bg-gray-950 py-20 px-4 mt-8">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/50 to-gray-950/80" />
-        <div className="relative z-10 max-w-3xl mx-auto text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-            <p className="text-blue-400 font-mono text-xs tracking-widest uppercase mb-4">Can't Find What You Need?</p>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-5 leading-tight">
-              We Source Hard-to-Find Parts
-            </h2>
-            <p className="text-gray-400 text-base mb-8">
-              AOG or critical requirement? Our team is available 7/24/365 to locate and validate parts for your fleet.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/contact">
-                <button className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-full transition-all hover:scale-105 shadow-xl shadow-blue-900/30">
-                  Submit an RFQ
-                </button>
-              </Link>
-              <Link href="/services">
-                <button className="px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold rounded-full transition-all hover:scale-105 backdrop-blur-sm">
-                  Our Services
-                </button>
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-    </div>
+        {filtered.length === 0 && (
+          <div className="text-center py-20 text-gray-400">
+            <p className="text-2xl font-bold mb-2">No parts found</p>
+            <p className="text-sm">Try adjusting your filters or search query.</p>
+          </div>
+        )}
+
+        {/* ── Bottom CTA ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mt-16"
+        >
+          <p className="text-xl text-gray-600 mb-6">Can't find the part you need?</p>
+          <Link href="/contact">
+            <button className="px-10 py-5 bg-gradient-to-r from-blue-600 to-blue-800 text-white font-bold text-lg rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300">
+              Submit an AOG / Parts Request
+            </button>
+          </Link>
+        </motion.div>
+
+      </div>
+    </section>
   )
 }
-
-export default ProductsPage
