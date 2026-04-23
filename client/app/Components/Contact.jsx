@@ -72,10 +72,14 @@ const Contact = () => {
                   <div>
                     <h3 className='font-bold text-lg mb-2'>Email Us</h3>
                     <div className='space-y-1'>
-                      <a href="mailto:Zeeshan@technology-wave.uk" className='block text-gray-600 hover:text-blue-600 transition-colors text-sm'>Zeeshan@technology-wave.uk</a>
-                      <a href="mailto:Shahzad@technology-wave.uk" className='block text-gray-600 hover:text-blue-600 transition-colors text-sm'>Shahzad@technology-wave.uk</a>
-                      <a href="mailto:Alex@technology-wave.uk" className='block text-gray-600 hover:text-blue-600 transition-colors text-sm'>Alex@technology-wave.uk</a>
-                      <a href="mailto:info@technology-wave.uk" className='block text-gray-600 hover:text-blue-600 transition-colors text-sm'>info@technology-wave.uk</a>
+                      {/* <a href="mailto:Zeeshan@technology-wave.uk" className='block text-gray-600 hover:text-blue-600 transition-colors text-sm'>Zeeshan@technology-wave.uk</a> */}
+                      <span className='block text-gray-600 text-sm'>Zeeshan@technology-wave.uk</span>
+                      {/* <a href="mailto:Shahzad@technology-wave.uk" className='block text-gray-600 hover:text-blue-600 transition-colors text-sm'>Shahzad@technology-wave.uk</a> */}
+                      <span className='block text-gray-600 text-sm'>Shahzad@technology-wave.uk</span>
+                      {/* <a href="mailto:Alex@technology-wave.uk" className='block text-gray-600 hover:text-blue-600 transition-colors text-sm'>Alex@technology-wave.uk</a> */}
+                      <span className='block text-gray-600 text-sm'>Alex@technology-wave.uk</span>
+                      {/* <a href="mailto:info@technology-wave.uk" className='block text-gray-600 hover:text-blue-600 transition-colors text-sm'>info@technology-wave.uk</a> */}
+                      <span className='block text-gray-600 text-sm'>info@technology-wave.uk</span>
                     </div>
                   </div>
                 </div>
