@@ -246,11 +246,11 @@ export default function HeroModern3() {
           </div>
 
           {/* Social Links — desktop only */}
-          <div className="hidden md:flex gap-6 text-white/60 text-sm">
+          {/* <div className="hidden md:flex gap-6 text-white/60 text-sm">
             <a href="#" className="hover:text-white transition-colors">LinkedIn</a>
             <a href="#" className="hover:text-white transition-colors">Twitter</a>
             <a href="#" className="hover:text-white transition-colors">Instagram</a>
-          </div>
+          </div> */}
 
           {/* Mobile: empty spacer to keep progress bar centered */}
           <div className="flex md:hidden w-[88px]" />

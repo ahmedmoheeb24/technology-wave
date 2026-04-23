@@ -66,7 +66,7 @@ const Navbar = () => {
         { href: "/about",    label: "About",    number: "02" },
         { href: "/services", label: "Services", number: "03" },
         { href: "/products", label: "Products", number: "04" },
-        { href: "/contact",  label: "Contact",  number: "05" },
+        // { href: "/contact",  label: "Contact",  number: "05" },
     ];
 
     return (
@@ -128,14 +128,14 @@ const Navbar = () => {
                         )}
                     </button>
 
-                    <Link href="/contact"
+                    {/* <Link href="/contact"
                         className={`hidden lg:flex items-center gap-2 px-6 py-2.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-lg active:scale-95 ${
                             useWhiteText
                                 ? 'bg-white text-blue-600 hover:bg-blue-50'
                                 : 'bg-blue-600 text-white hover:bg-blue-700'
                         }`}>
                         Contact Us
-                    </Link>
+                    </Link> */}
 
                     <button
                         className={`flex md:hidden flex-col justify-center items-center w-10 h-10 rounded-xl transition-all gap-[5px] ${
@@ -204,7 +204,7 @@ const Navbar = () => {
                     </ul>
                 </nav>
 
-                <div className="p-6 border-t border-gray-50 space-y-3">
+                {/* <div className="p-6 border-t border-gray-50 space-y-3">
                     <Link
                         href="/contact"
                         onClick={closeMenu}
@@ -212,7 +212,7 @@ const Navbar = () => {
                     >
                         Request Quote
                     </Link>
-                </div>
+                </div> */}
             </div>
         </>
     )
